@@ -1,0 +1,51 @@
+#recipe-modal {
+  background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+  display: none; /* Hidden by default */
+  height: 100%; /* Full height */
+  left: 0;
+  overflow: auto; /* Enable scroll if needed */
+  padding-top: 100px;
+  position: fixed; /* Stay in place */
+  top: 0;
+  width: 100%; /* Full width */
+  z-index: 1; /* Sit on top */
+}
+#recipe-form {
+  background-color: #B6E6F9;
+  margin: 0 auto;
+  max-width: 700px;
+  padding: 20px;
+  width: 60%;
+}
+/* Add Animation - Zoom in the Modal */
+#recipe-form {
+  -webkit-animation-duration: 0.6s;
+  -webkit-animation-name: zoom;
+  animation-duration: 0.6s;
+  animation-name: zoom;
+}
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  transition: 0.3s;
+}
+.close:hover,
+.close:focus {
+  color: #bbb;
+  cursor: pointer;
+  text-decoration: none;
+}

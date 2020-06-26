@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Capstone</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style-userpage.css">
+    <script src="../javascript/RecipeModal.js"></script>
+  </head>
+  <body>
+    <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+    <div id="recipe-modal">
+      <span onclick="closeModal()" class="close">&times;</span>
+      <form id="recipe-form" method="POST" action="/new-recipe">
+        <label for="recipeName">Recipe Name:</label><br>
+        <input type="text" id="recipeName" name="recipeName">
+        <br><br>
+        <label for="tags">Tags:<br><i>Each tag should be separated by a comma.</i></label><br>
+        <input type="text" id="tags" name="tags">
+        <br><br>
+        <label for="ingredients">Ingredients:<br><i>Each ingredient should be on its own line.</i></label><br>
+        <textarea id="ingredients" name="ingredients" rows="4" cols="30"></textarea><br>
+        <br><br>
+        <label for="steps">Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
+        <textarea id="steps" name="steps" rows="4" cols="50"></textarea>
+        <br><br>
+        <label for="privacy">Choose a privacy setting:</label>
+        <select id="privacy" name="privacy">
+          <option value="private">private</option>
+          <!-- <option value="public">public</option> -->
+        </select>
+        <br><br>
+        <button id="cancel-btn" onclick="closeModal()">Close</button>
+        <input type="submit" id="submit-btn" value="Create Recipe">
+      </form>
+      <div id="caption"></div>
+    </div>
+  </body>
+</html>
