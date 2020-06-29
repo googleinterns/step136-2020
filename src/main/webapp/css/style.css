@@ -1,3 +1,12 @@
 body {
-  margin: 0 0;
+  margin: 0;
+  padding: 0;
+}
+.content {
+  max-width: 1000px;
+  width: 80%;
+  margin: 0 auto;
+}
+.center {
+  text-align: center;
 }
