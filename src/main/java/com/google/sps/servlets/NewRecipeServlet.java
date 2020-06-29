@@ -28,9 +28,18 @@ public class NewRecipeServlet extends HttpServlet {
     List<String> steps = new ArrayList<String>(Arrays.asList(stepsResponse.split("\n", 0)));
 
     tags.removeAll(Arrays.asList("", null));
-    ingredients.removeAll(Arrays.asList("", null));
-    steps.removeAll(Arrays.asList("", null));
+    ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
+    steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
+    for (String tag : tags) {
+      tag.trim();
+    }
+    for (String ingredient : ingredients) {
+      ingredient.trim();
+    }
+    for (String step : steps) {
+      step.trim();
+    }
 
     // Entity recipeEntity = new Entity("PrivateRecipe");
     // recipeEntity.setProperty("recipeName", recipeName);
