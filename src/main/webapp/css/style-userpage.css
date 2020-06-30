@@ -4,7 +4,7 @@
   height: 100%; /* Full height */
   left: 0;
   overflow: auto; /* Enable scroll if needed */
-  padding-top: 100px;
+  padding-top: 8vh;
   position: fixed; /* Stay in place */
   top: 0;
   width: 100%; /* Full width */
@@ -15,7 +15,7 @@
   border-radius: 25px;
   margin: 0 auto;
   max-width: 500px;
-  padding: 10px 30px 30px;
+  padding: 5px 30px 30px;
   width: 60%;
 }
 textarea {
