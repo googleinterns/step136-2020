@@ -6,6 +6,8 @@ body {
   max-width: 1000px;
   width: 80%;
   margin: 0 auto;
+  min-width: 300px;
+  padding: 0 20px 20px;
 }
 .center {
   text-align: center;

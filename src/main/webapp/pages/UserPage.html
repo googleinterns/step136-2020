@@ -36,7 +36,7 @@
             <input type="text" id="tags" name="tags">
             <br><br>
             <label for="ingredients" required>Ingredients:<br><i>Each ingredient should be on its own line.</i></label><br>
-            <textarea id="ingredients" name="ingredients" rows="4"></textarea><br>
+            <textarea id="ingredients" name="ingredients" rows="4"></textarea>
             <br><br>
             <label for="steps" required>Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
             <textarea id="steps" name="steps" rows="4"></textarea>
@@ -47,7 +47,9 @@
             <!-- <option value="public">public</option> -->
             </select>
             <br><br>
-            <input type="file"  accept="image/*" name="image" id="file" style="display: none;">
+            <label for="image">Upload an image</label>
+            <input type="file"  accept="image/*" name="image" id="image">
+            <br><br>
             <button id="cancel-btn" onclick="closeModal()">Close</button>
             <input type="submit" id="submit-btn" value="Create Recipe">
           </form>
