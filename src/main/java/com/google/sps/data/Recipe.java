@@ -18,7 +18,7 @@ public class Recipe {
   private ArrayList<String> steps;
   private int popularity;
 
-  public Recipe(String recipeName, ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps){
+  public Recipe(String recipeName, ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps) {
     this.recipeName = recipeName;
     this.tags = tags;
     this.ingredients = ingredients;
@@ -26,7 +26,7 @@ public class Recipe {
     popularity = 0;
   }
 
-  public void setImageUrl (String imageUrl) {
+  public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
   }
 
