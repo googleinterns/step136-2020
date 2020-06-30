@@ -33,6 +33,7 @@ public class Recipe {
   public void setID(long id) {
     this.id = id;
   }
+  
   public void setAuthorID(long id) {
     authorID = id;
   }
@@ -40,8 +41,8 @@ public class Recipe {
   public void increasePopularity() {
     popularity++;
   }
+  
   public void decreasePopularity() {
     popularity--;
   }
-
 }
