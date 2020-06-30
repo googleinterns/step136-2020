@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
+  // redirects to logout page, then returns to index.html.
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -31,10 +32,6 @@ public class LogoutServlet extends HttpServlet {
     String redirectUrl = "/index.html";
     String logoutUrl = userService.createLogoutURL(redirectUrl);
 
-    System.out.println("logoutUrl: " + logoutUrl);
-
     response.sendRedirect(logoutUrl);
-
-    System.out.println("logging out");
   }
 }

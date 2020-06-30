@@ -1,21 +1,25 @@
-// To be called before any request that requires user logged in.
-// Action: if user not logged in, directs to login page, else does nothing.
-// Args: Optional string argument provides url location after login, otherwise login redirects to caller url.
-function confirmUser(redirectUrl) {
+
+// To be called before any request that requires user be logged in.
+// Action: if user not logged in, redirects to login page
+// then redirects to redirectUrl regardless.
+// Args: String url redirectUrl defaults to the page function was called form.
+function confirmUserAndRedirect(redirectUrl) {
     if (!redirectUrl) {
         redirectUrl = window.location.href;
     }
 
     fetch(`/login?redirectUrl=${redirectUrl}`).then(response => response.json()).then(loginJson => {
         if (loginJson["isUserLoggedIn"]) {
+            window.location.href = redirectUrl;
             return;
         }
-        console.log(loginJson);
+
         let loginPageUrl = loginJson["loginPageUrl"];
         window.location.href = loginPageUrl;
     });
 }
 
+// Action: requests logout, returns to index.html
 function logout() {
     fetch("/logout");
 }
