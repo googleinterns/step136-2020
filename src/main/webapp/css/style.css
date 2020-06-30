@@ -2,13 +2,14 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .content {
-  max-width: 1000px;
-  width: 80%;
   margin: 0 auto;
+  max-width: 1000px;
   min-width: 300px;
   padding: 0 20px 20px;
-}
+  width: 80%;
+
 .center {
   text-align: center;
 }
