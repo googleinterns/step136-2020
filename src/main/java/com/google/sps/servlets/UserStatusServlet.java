@@ -27,26 +27,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.sps.util.UserHelper;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/user-status")
+public class UserStatusServlet extends HttpServlet {
 
-    // Request: param redirectUrl for after login is finished
-    // Response: if not logged in, redirects to login page -> redirectUrl,
-    //           otherwise redirects to redirectUrl.
+    // Response: returns some user information JSON from the current user's sign-in API profile.
+    // Data: "isUserLoggedIn" : boolean
     @Override
     public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
         UserService userService = UserServiceFactory.getUserService();
-        String redirectUrl = request.getParameter("redirectUrl");
-        if (!userService.isUserLoggedIn()) {
-            String loginPageUrl = userService.createLoginURL(redirectUrl);
-            System.out.println(loginPageUrl);
-            response.encodeRedirectUrl(loginPageUrl);
-            response.sendRedirect(loginPageUrl);
-            return;
+
+        JsonObject userInfo = new JsonObject();
+        userInfo.addProperty("isUserLoggedIn", userService.isUserLoggedIn());
+        if (userInfo.get("isUserLoggedIn").getAsBoolean()) {
+            System.out.println("User is logged in");
+            // other properties may be added in the future.
+        } else {
+            System.out.println("User is not logged in");
         }
 
-        System.out.println(redirectUrl);
-        response.sendRedirect(redirectUrl);
-        return;
+        response.getWriter().println(userInfo.toString());
     }
 }

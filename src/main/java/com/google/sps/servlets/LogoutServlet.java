@@ -27,7 +27,6 @@ public class LogoutServlet extends HttpServlet {
   // redirects to logout page, then returns to index.html.
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     UserService userService = UserServiceFactory.getUserService();
     String redirectUrl = "/index.html";
     String logoutUrl = userService.createLogoutURL(redirectUrl);
