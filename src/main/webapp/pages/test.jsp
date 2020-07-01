@@ -2,9 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Test Code</title>
+    <script src="../javascript/RecipeRendering.js"></script>
   </head>
-  <body>
+  <body onload=load()>
       <%@ include file="../components/topbar.jsp"%>
       <div id="content">
         

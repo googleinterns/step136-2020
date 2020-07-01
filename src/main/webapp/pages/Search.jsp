@@ -5,8 +5,8 @@
     <title>Search Results</title>
   </head>
   <body>
-      <%@ include file="topbar.jsp"%>
-      <div class="content">
+      <%@ include file="../components/topbar.jsp"%>
+      <div id="content">
         <p>Hello World!</p>
       </div>
   </body>
