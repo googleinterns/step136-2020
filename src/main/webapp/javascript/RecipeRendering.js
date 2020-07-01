@@ -7,7 +7,6 @@
  * data on the recipe page.
  */
 createRecipeCard = (divId, recipeInfo) => {
-    console.log(divId);
     let docDiv = document.getElementById(divId);
 
     // Creates the recipeDiv container and sets the class name
