@@ -52,6 +52,6 @@ public class NewRecipeServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);
 
-    response.sendRedirect("/pages/UserPage.jsp");
+    response.sendRedirect("/pages/UserPage.html");
   }
 }
