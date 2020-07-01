@@ -17,7 +17,16 @@ function userLoggedIn() {
   });
 }
 
-// Action: requests logout, returns to index.html
-function logout() {
-  fetch("/logout");
+// Action: requests logout .
+// Args: optional string "redirectUrl" determines location after logout.
+//       defaults to index.html.
+
+function logout(redirectUrl) {
+  if (!redirectUrl) {
+      redirectUrl = "/index.html";
+  }
+
+  fetch(`/logout?redirectUrl=${redirectUrl}`).then(response => response.json()).then(json => {
+    window.location.replace(json.logoutLink);
+  });
 }
