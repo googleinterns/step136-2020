@@ -4,8 +4,6 @@
 // redirects to redirectUrl regardless.
 // Args: String url redirectUrl defaults to the page function was called form.
 function confirmUserAndRedirect(redirectUrl) {
-    userLoggedIn();
-    console.log("after login -> " + redirectUrl);
     if (!redirectUrl) {
         redirectUrl = window.location.href;
     }
