@@ -39,13 +39,10 @@ public class LoginServlet extends HttpServlet {
         String redirectUrl = request.getParameter("redirectUrl");
         if (!userService.isUserLoggedIn()) {
             String loginPageUrl = userService.createLoginURL(redirectUrl);
-            System.out.println(loginPageUrl);
-            response.encodeRedirectUrl(loginPageUrl);
             response.sendRedirect(loginPageUrl);
             return;
         }
 
-        System.out.println(redirectUrl);
         response.sendRedirect(redirectUrl);
         return;
     }
