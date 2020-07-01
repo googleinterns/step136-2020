@@ -24,28 +24,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.sps.util.UserHelper;
 
 @WebServlet("/user-status")
 public class UserStatusServlet extends HttpServlet {
 
-    // Response: returns some user information JSON from the current user's sign-in API profile.
-    // Data: "isUserLoggedIn" : boolean
-    @Override
-    public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        UserService userService = UserServiceFactory.getUserService();
+  // Response: returns some user information JSON from the current user's sign-in API profile.
+  // Data: "isUserLoggedIn" : boolean
+  @Override
+  public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    UserService userService = UserServiceFactory.getUserService();
 
-        JsonObject userInfo = new JsonObject();
-        userInfo.addProperty("isUserLoggedIn", userService.isUserLoggedIn());
-        if (userInfo.get("isUserLoggedIn").getAsBoolean()) {
-            System.out.println("User is logged in");
-            // other properties may be added in the future.
-        } else {
-            System.out.println("User is not logged in");
-        }
-
-        response.getWriter().println(userInfo.toString());
+    JsonObject userInfo = new JsonObject();
+    userInfo.addProperty("isUserLoggedIn", userService.isUserLoggedIn());
+    if (userInfo.get("isUserLoggedIn").getAsBoolean()) {
+        System.out.println("User is logged in");
+        // other properties may be added in the future.
+    } else {
+        System.out.println("User is not logged in");
     }
+
+    response.getWriter().println(userInfo.toString());
+  }
 }

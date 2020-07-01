@@ -24,26 +24,25 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.sps.util.UserHelper;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    // Request: param redirectUrl for after login is finished
-    // Response: if not logged in, redirects to login page -> redirectUrl,
-    //           otherwise redirects to redirectUrl.
-    @Override
-    public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserService userService = UserServiceFactory.getUserService();
-        String redirectUrl = request.getParameter("redirectUrl");
-        if (!userService.isUserLoggedIn()) {
-            String loginPageUrl = userService.createLoginURL(redirectUrl);
-            response.sendRedirect(loginPageUrl);
-            return;
-        }
-
-        response.sendRedirect(redirectUrl);
+  // Request: param redirectUrl for after login is finished
+  // Response: if not logged in, redirects to login page -> redirectUrl,
+  //           otherwise redirects to redirectUrl.
+  @Override
+  public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    String redirectUrl = request.getParameter("redirectUrl");
+    if (!userService.isUserLoggedIn()) {
+        String loginPageUrl = userService.createLoginURL(redirectUrl);
+        response.sendRedirect(loginPageUrl);
         return;
     }
+
+    response.sendRedirect(redirectUrl);
+    return;
+  }
 }
