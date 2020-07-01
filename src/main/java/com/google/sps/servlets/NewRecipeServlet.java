@@ -22,11 +22,13 @@ public class NewRecipeServlet extends HttpServlet {
     String ingredientsResponse = request.getParameter("ingredients");
     String stepsResponse = request.getParameter("steps");
     String privacy = request.getParameter("privacy");
-
+    
+    // splits the String responses from the form by commas/newlines and makes the resulting arrays into Lists
     List<String> tags = new ArrayList<String>(Arrays.asList(tagsResponse.split(",", 0)));
     List<String> ingredients = new ArrayList<String>(Arrays.asList(ingredientsResponse.split("\n", 0)));
     List<String> steps = new ArrayList<String>(Arrays.asList(stepsResponse.split("\n", 0)));
 
+    // removes any empty, null, or newline members of the Lists
     tags.removeAll(Arrays.asList("", null));
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
