@@ -21,27 +21,18 @@ public class NewRecipeServlet extends HttpServlet {
     String tagsResponse = request.getParameter("tags");
     String ingredientsResponse = request.getParameter("ingredients");
     String stepsResponse = request.getParameter("steps");
+    // privacy will be used once we give users the option to make their recipes public
     String privacy = request.getParameter("privacy");
     
-    // splits the String responses from the form by commas/newlines and makes the resulting arrays into Lists
-    List<String> tags = new ArrayList<String>(Arrays.asList(tagsResponse.split(",", 0)));
-    List<String> ingredients = new ArrayList<String>(Arrays.asList(ingredientsResponse.split("\n", 0)));
-    List<String> steps = new ArrayList<String>(Arrays.asList(stepsResponse.split("\n", 0)));
+    // splits the String responses from the form by commas/newlines, trims each member of array, and makes the resulting arrays into Lists
+    List<String> tags = new ArrayList<String>(Arrays.asList(Arrays.stream(tagsResponse.split(",")).map(String::trim).toArray(String[]::new)));
+    List<String> ingredients = new ArrayList<String>(Arrays.asList(Arrays.stream(ingredientsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
+    List<String> steps = new ArrayList<String>(Arrays.asList(Arrays.stream(stepsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
 
     // removes any empty, null, or newline members of the Lists
     tags.removeAll(Arrays.asList("", null));
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
-
-    for (String tag : tags) {
-      tag.trim();
-    }
-    for (String ingredient : ingredients) {
-      ingredient.trim();
-    }
-    for (String step : steps) {
-      step.trim();
-    }
 
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("recipeName", recipeName);
