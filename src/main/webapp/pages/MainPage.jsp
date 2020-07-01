@@ -6,6 +6,8 @@
   </head>
   <body>
       <%@ include file="topbar.jsp"%>
-      <p> testing the default page</p>
+      <div class="content">
+        
+      </div>
   </body>
 </html>

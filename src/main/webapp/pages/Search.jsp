@@ -6,6 +6,8 @@
   </head>
   <body>
       <%@ include file="topbar.jsp"%>
-      <p>Hello World!</p>
+      <div class="content">
+        <p>Hello World!</p>
+      </div>
   </body>
 </html>
