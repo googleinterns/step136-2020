@@ -14,6 +14,11 @@ createRecipeCard = (divId, recipeInfo) => {
     let recipeDiv = document.createElement("div");
     recipeDiv.setAttribute("class", "recipe-card");
 
+    /**
+     * Creates the html content to include in the recipe card div.
+     * This approach was preferred to conserve space vs using 
+     * document.createElement and other methods 
+     */
     let htmlString =
         createElement(recipeInfo["name"], "p", "class=\"recipe-card-name\"") +
         createElement(recipeInfo["description"], "p", "class=\"recipe-card-description\"");
@@ -22,10 +27,19 @@ createRecipeCard = (divId, recipeInfo) => {
     docDiv.appendChild(recipeDiv);
 }
 
+/**
+ * Takes an object which can be represented as a string or a string, an html
+ * tag, and the html tag options, to create the html text. Returns the resulting
+ * text.
+ */
 createElement = (object, htmlTag, tagOptions) => {
     return "<" + htmlTag + " " + tagOptions + ">" + object + "</" + htmlTag + ">";
 }
 
+/**
+ * Method used for testing, currently used in test.jsp
+ * Use this to experiment with any loading functionality.
+ */
 load = () => {
     createRecipeCard("content", {"name":"test", "description":"this is a test"});
     return;
