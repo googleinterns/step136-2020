@@ -1,6 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 650px;
 }
 
 .content {
@@ -13,4 +14,8 @@ body {
 
 .center {
   text-align: center;
+}
+
+#greeting-container {
+  margin-top: 20px;
 }
