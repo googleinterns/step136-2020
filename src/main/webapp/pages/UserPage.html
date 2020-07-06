@@ -9,6 +9,7 @@
   </head>
   <body>
     <div id="content">
+      <h1 class="center">My Page</h1>
       <!-- Planner content -->
       <div>
         <h2>Planner</h2>
@@ -23,10 +24,12 @@
       </div>
       <!-- User Recipes content -->
       <div>
-        <h2>My Recipes</h2>
-        <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+        <div id="header">
+          <h2>My Recipes</h2>
+          <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+        </div>
         <div id="recipe-modal">
-        <span onclick="closeModal()" class="close">&times;</span>
+          <span onclick="closeModal()" class="close">&times;</span>
           <form id="recipe-form" method="POST" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
             <label for="recipeName" required>Recipe Name:</label><br>

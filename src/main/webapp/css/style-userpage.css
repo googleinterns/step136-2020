@@ -1,3 +1,10 @@
+#header {
+  align-items: center;
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+}
+
 #recipe-modal {
   background-color: rgba(0,0,0,0.7); 
   display: none; 
@@ -31,9 +38,12 @@ textarea {
   justify-content: center;
 }
 
+button {
+  padding: 5px 10px;
+}
+
 .modal-btn {
   margin: 0 20px;
-  padding: 5px 10px;
 }
 
 /* Add Animation - Zoom in the Modal */
