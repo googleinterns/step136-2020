@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet responsible for deleting recipes. */
 @WebServlet("/delete-recipe")
-public class DeleteTaskServlet extends HttpServlet {
+public class DeleteRecipeServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
