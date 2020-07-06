@@ -7,7 +7,7 @@ import java.util.List;
 public class Recipe {
   private long id;
   private String recipeName;
-  private long authorID;
+  private String authorID;
   // image is not implemented yet
   private String imageUrl;
   private String description;
@@ -17,18 +17,7 @@ public class Recipe {
   private int popularity;
 
   public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
-  ArrayList<String> ingredients, ArrayList<String> steps) {
-    this.id = id;
-    this.recipeName = recipeName;
-    this.description = description;
-    this.tags = tags;
-    this.ingredients = ingredients;
-    this.steps = steps;
-    popularity = 0;
-  }
-
-  public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
-  ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
+      ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
     this.id = id;
     this.recipeName = recipeName;
     this.tags = tags;
@@ -45,7 +34,7 @@ public class Recipe {
     this.id = id;
   }
   
-  public void setAuthorID(long id) {
+  public void setAuthorID(String id) {
     authorID = id;
   }
 
