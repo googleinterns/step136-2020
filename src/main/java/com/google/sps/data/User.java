@@ -5,7 +5,7 @@ import java.util.List;
 
 // Class representing a User
 public class User {
-  private long id;
+  private String id;
   private String email;
   private String username;
   private ArrayList<Long> planner;
@@ -14,7 +14,7 @@ public class User {
   // shopping list will not be implented until after MVP
   private ArrayList<String> shoppingList;
 
-  public User(long id, String email, String username) {
+  public User(String id, String email, String username) {
     this.id = id;
     this.email = email;
     this.username = username;
@@ -23,7 +23,7 @@ public class User {
     userRecipes = new ArrayList<Long>();
   }
 
-  public User(long id, String email, String username, ArrayList<Long> planner, ArrayList<Long> cookbook, ArrayList<Long> userRecipes) {
+  public User(String id, String email, String username, ArrayList<Long> planner, ArrayList<Long> cookbook, ArrayList<Long> userRecipes) {
     this.id = id;
     this.email = email;
     this.username = username;
@@ -32,12 +32,12 @@ public class User {
     this.userRecipes = userRecipes;
   }
 
-  public void setID(long id) {
+  public void setID(String id) {
     this.id = id;
   }
 
-  public boolean equalIDs(long id) {
-    if (this.id == id) {
+  public boolean equalIDs(String id) {
+    if (this.id.equals(id)) {
       return true;
     }
     return false;
