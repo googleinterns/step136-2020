@@ -33,7 +33,7 @@ public class UserStatusServlet extends HttpServlet {
   // Response: returns some user information JSON from the current user's sign-in API profile.
   // Data: "isUserLoggedIn" : boolean
   @Override
-  public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
 
     JsonObject userInfo = new JsonObject();
