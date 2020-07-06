@@ -19,6 +19,7 @@ public class DeleteRecipeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long id = Long.parseLong(request.getParameter("id"));
 
+    // PrivateRecipes are the user uploaded recipes so only PrivateRecipes can be deleted (right now)
     Key taskEntityKey = KeyFactory.createKey("PrivateRecipe", id);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.delete(taskEntityKey);
