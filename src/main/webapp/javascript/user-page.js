@@ -11,6 +11,6 @@ function closeModal() {
 // Input is a Recipe
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
-  params.append('id', recipe.id);
-  fetch('/delete-recipe', {method: 'POST', body: params});
+  params.append("id", recipe.id);
+  fetch("/delete-recipe", {method: "POST", body: params});
 }
