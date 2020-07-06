@@ -21,6 +21,7 @@ public class Recipe {
     this.id = id;
     this.recipeName = recipeName;
     this.tags = tags;
+    this.description = description;
     this.ingredients = ingredients;
     this.steps = steps;
     this.popularity = popularity;
