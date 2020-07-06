@@ -19,8 +19,12 @@ createRecipeCard = (divId, recipeInfo) => {
      * document.createElement and other methods 
      */
     let htmlString =
-        createElement(recipeInfo["name"], "p", "class=\"recipe-card-name\"") +
-        createElement(recipeInfo["description"], "p", "class=\"recipe-card-description\"");
+        createElement(
+            removeHTML(recipeInfo["name"]),
+            "p", "class=\"recipe-card-name\"") +
+        createElement(
+            removeHTML(recipeInfo["description"]),
+            "p", "class=\"recipe-card-description\"");
 
     recipeDiv.innerHTML = htmlString;
     docDiv.appendChild(recipeDiv);
@@ -36,10 +40,11 @@ createElement = (object, htmlTag, tagOptions) => {
 }
 
 /**
- * Method used for testing, currently used in test.jsp
- * Use this to experiment with any loading functionality.
+ * Takes a string and replaces any HTML tags with the html entity name, preventing
+ * HTML injection while reducing the work done.
  */
-load = () => {
-    createRecipeCard("content", {"name":"test", "description":"this is a test"});
-    return;
+removeHTML = (str) => {
+    let replaced = str.replace(/\</g, "&lt");
+    replaced = replaced.replace(/\>/g, "&gt");
+    return replaced;
 }
