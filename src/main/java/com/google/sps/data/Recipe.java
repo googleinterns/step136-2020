@@ -8,18 +8,18 @@ public class Recipe {
   private long id;
   private String recipeName;
   private long authorID;
-  // image is not implemented yet
-  private String imageUrl;
+  private String imageBlobKey;
   private String description;
   private ArrayList<String> tags;
   private ArrayList<String> ingredients;
   private ArrayList<String> steps;
   private int popularity;
 
-  public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
+  public Recipe(long id, String recipeName, String imageBlobKey, String description, ArrayList<String> tags, 
   ArrayList<String> ingredients, ArrayList<String> steps) {
     this.id = id;
     this.recipeName = recipeName;
+    this.imageBlobKey = imageBlobKey;
     this.description = description;
     this.tags = tags;
     this.ingredients = ingredients;
@@ -35,10 +35,6 @@ public class Recipe {
     this.ingredients = ingredients;
     this.steps = steps;
     this.popularity = popularity;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
   }
 
   public void setID(long id) {

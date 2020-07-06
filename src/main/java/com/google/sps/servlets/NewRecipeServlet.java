@@ -44,31 +44,29 @@ public class NewRecipeServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    BlobKey blobkey = blobKeys.get(0); 
-    System.out.println(blobkey.getKeyString());
+    BlobKey blobkey = null; 
+
+    // blobKeys exists and is not empty so there exists a blobkey to get
+    if (blobKeys != null && !blobKeys.isEmpty()) {
+      blobkey = blobKeys.get(0);
+    } 
 
     // User submitted form without selecting a file (live server)
     BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
     if (blobInfo.getSize() == 0) {
       blobstoreService.delete(blobkey);
-      blobkey = null;
     } 
 
-    // User submitted form without selecting a file, so we can't get a URL. (dev server)
-    if (blobKeys != null && !blobKeys.isEmpty()) {
-      blobkey = null;
-    } 
+    Entity recipeEntity = new Entity("PrivateRecipe");
+    recipeEntity.setProperty("recipeName", recipeName);
+    recipeEntity.setProperty("tags", tags);
+    recipeEntity.setProperty("description", description);
+    recipeEntity.setProperty("ingredients", ingredients);
+    recipeEntity.setProperty("steps", steps);
+    recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
 
-    // Entity recipeEntity = new Entity("PrivateRecipe");
-    // recipeEntity.setProperty("recipeName", recipeName);
-    // recipeEntity.setProperty("tags", tags);
-    // recipeEntity.setProperty("description", description);
-    // recipeEntity.setProperty("ingredients", ingredients);
-    // recipeEntity.setProperty("steps", steps);
-    // recipeEntity.setProperty("image", blobkey);
-
-    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    // datastore.put(recipeEntity);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.html");
   }
