@@ -23,24 +23,12 @@ public class User {
     userRecipes = new ArrayList<Long>();
   }
 
-  public User(String id, String email, String username, ArrayList<Long> planner, ArrayList<Long> cookbook, ArrayList<Long> userRecipes) {
-    this.id = id;
-    this.email = email;
-    this.username = username;
-    this.cookbook = cookbook;
-    this.planner = planner;
-    this.userRecipes = userRecipes;
-  }
-
   public void setID(String id) {
     this.id = id;
   }
 
   public boolean equalIDs(String id) {
-    if (this.id.equals(id)) {
-      return true;
-    }
-    return false;
+    return this.id.equals(id);
   }
 
   public void addRecipeToPlanner(long id) {
@@ -53,5 +41,17 @@ public class User {
 
   public void addRecipeToUserRecipes(long id) {
     userRecipes.add(id);
+  }
+
+  public void removeRecipeFromPlanner(long id) {
+    planner.remove(new Long(id));
+  }
+
+  public void removeRecipeFromCookbook(long id) {
+    cookbook.remove(new Long (id));
+  }
+
+  public void removeRecipeFromUserRecipes(long id) {
+    userRecipes.remove(new Long (id));
   }
 }
