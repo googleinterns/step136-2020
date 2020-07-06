@@ -1,10 +1,5 @@
 package com.google.sps.servlets;
 
-<<<<<<< HEAD
-// import com.google.appengine.api.datastore.DatastoreService;
-// import com.google.appengine.api.datastore.DatastoreServiceFactory;
-// import com.google.appengine.api.datastore.Entity;
-
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -16,13 +11,6 @@ import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-=======
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Entity;
-import java.io.IOException;
->>>>>>> master
 import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +25,7 @@ public class NewRecipeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String recipeName = request.getParameter("recipeName");
     String tagsResponse = request.getParameter("tags");
+    String description = request.getParameter("description");
     String ingredientsResponse = request.getParameter("ingredients");
     String stepsResponse = request.getParameter("steps");
     // privacy will be used once we give users the option to make their recipes public
@@ -70,16 +59,17 @@ public class NewRecipeServlet extends HttpServlet {
       blobkey = null;
     } 
 
-    Entity recipeEntity = new Entity("PrivateRecipe");
-    recipeEntity.setProperty("recipeName", recipeName);
-    recipeEntity.setProperty("tags", tags);
-    recipeEntity.setProperty("ingredients", ingredients);
-    recipeEntity.setProperty("steps", steps);
-    recipeEntity.setProperty("image", blobkey);
+    // Entity recipeEntity = new Entity("PrivateRecipe");
+    // recipeEntity.setProperty("recipeName", recipeName);
+    // recipeEntity.setProperty("tags", tags);
+    // recipeEntity.setProperty("description", description);
+    // recipeEntity.setProperty("ingredients", ingredients);
+    // recipeEntity.setProperty("steps", steps);
+    // recipeEntity.setProperty("image", blobkey);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(recipeEntity);
+    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // datastore.put(recipeEntity);
 
-    response.sendRedirect("/pages/UserPage.jsp");
+    response.sendRedirect("/pages/UserPage.html");
   }
 }
