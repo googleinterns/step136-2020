@@ -48,10 +48,10 @@ public class User {
   }
 
   public void removeRecipeFromCookbook(long id) {
-    cookbook.remove(new Long (id));
+    cookbook.remove(new Long(id));
   }
 
   public void removeRecipeFromUserRecipes(long id) {
-    userRecipes.remove(new Long (id));
+    userRecipes.remove(new Long(id));
   }
 }
