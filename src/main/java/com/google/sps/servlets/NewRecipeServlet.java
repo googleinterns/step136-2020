@@ -19,6 +19,7 @@ public class NewRecipeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String recipeName = request.getParameter("recipeName");
     String tagsResponse = request.getParameter("tags");
+    String description = request.getParameter("description");
     String ingredientsResponse = request.getParameter("ingredients");
     String stepsResponse = request.getParameter("steps");
     // privacy will be used once we give users the option to make their recipes public
@@ -37,6 +38,7 @@ public class NewRecipeServlet extends HttpServlet {
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("recipeName", recipeName);
     recipeEntity.setProperty("tags", tags);
+    recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
 

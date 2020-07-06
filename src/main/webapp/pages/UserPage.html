@@ -8,7 +8,8 @@
     <script src="../javascript/RecipeModal.js"></script>
   </head>
   <body>
-    <div class="content">
+    <div id="content">
+      <h1 class="center">My Page</h1>
       <!-- Planner content -->
       <div>
         <h2>Planner</h2>
@@ -23,17 +24,22 @@
       </div>
       <!-- User Recipes content -->
       <div>
-        <h2>My Recipes</h2>
-        <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+        <div id="header">
+          <h2>My Recipes</h2>
+          <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+        </div>
         <div id="recipe-modal">
-        <span onclick="closeModal()" class="close">&times;</span>
+          <span onclick="closeModal()" class="close">&times;</span>
           <form id="recipe-form" method="POST" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
             <label for="recipeName" required>Recipe Name:</label><br>
             <input type="text" id="recipeName" name="recipeName">
             <br><br>
-            <label for="tags">Tags:<br><i>Each tag should be separated by a comma.</i></label><br>
+            <label for="tags">Tags:<br><i>Separate each tag with a comma.</i></label><br>
             <input type="text" id="tags" name="tags">
+            <br><br>
+            <label for="description" required>Description:</label><br>
+            <textarea id="description" name="description" rows="2"></textarea>
             <br><br>
             <label for="ingredients" required>Ingredients:<br><i>Each ingredient should be on its own line.</i></label><br>
             <textarea id="ingredients" name="ingredients" rows="4"></textarea>
@@ -51,8 +57,10 @@
             <!-- <label for="image">Upload an image</label>
             <input type="file"  accept="image/*" name="image" id="image">
             <br><br> -->
-            <button id="cancel-btn" onclick="closeModal()">Close</button>
-            <input type="submit" id="submit-btn" value="Create Recipe">
+            <div id="buttons">
+              <button class="modal-btn" id="cancel-btn" onclick="closeModal()">Close</button>
+              <input class="modal-btn" type="submit" id="submit-btn" value="Create Recipe">
+            </div>
           </form>
         </div>
         <div class="recipes">
