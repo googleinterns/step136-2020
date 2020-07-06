@@ -9,8 +9,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
