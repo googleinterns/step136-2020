@@ -43,7 +43,6 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       recipe.setImageBlobKey(blobkey);
       recipes.add(recipe);
     }
-    System.out.println("        RECIPE SIZE    " + recipes.size());
  
     Gson gson = new Gson();
 

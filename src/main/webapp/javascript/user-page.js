@@ -23,11 +23,9 @@ async function loadUserRecipes() {
 }
 
 function createImage(value) {
-  //<a href="servelet_path_here?blobKey">
-  console.log("hewwo");
   const imageElement = document.createElement('img');
   const blobkey = value.imageBlobKey;
-  imageElement.src = "/serve?"+blobkey;
+  imageElement.src = "/serve?blobkey="+blobkey;
   console.log(imageElement);
   return imageElement;
 }
