@@ -15,6 +15,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,13 +25,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-  // redirects to logout page, then returns to index.html.
+  // request: required parameter "redirectUrl" determines location after logout,
+  // response: json property "logoutLink" : String
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
-    String redirectUrl = "/index.html";
-    String logoutUrl = userService.createLogoutURL(redirectUrl);
 
-    response.sendRedirect(logoutUrl);
+    String redirectUrl = request.getParameter("redirectUrl");
+    String logoutUrl = userService.createLogoutURL(redirectUrl);
+    JsonObject responseJson = new JsonObject();
+    responseJson.addProperty("logoutLink", logoutUrl);
+
+    response.getWriter().print(responseJson.toString());
   }
 }

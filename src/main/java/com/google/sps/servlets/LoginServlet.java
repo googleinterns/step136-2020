@@ -30,20 +30,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-  // Request: param redirectUrl for after login is finished
-  // Response: if not logged in, redirects to login page -> redirectUrl,
-  //           otherwise redirects to redirectUrl.
+  // Request: required param redirectUrl for after login is finished
+  // Response: json property "loginLink" : String
   @Override
   public void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
+    response.setContentType("application/json");
     String redirectUrl = request.getParameter("redirectUrl");
-    if (!userService.isUserLoggedIn()) {
-        String loginPageUrl = userService.createLoginURL(redirectUrl);
-        response.sendRedirect(loginPageUrl);
-        return;
-    }
 
-    response.sendRedirect(redirectUrl);
-    return;
+    UserService userService = UserServiceFactory.getUserService();
+    String loginLink = userService.createLoginURL(redirectUrl);
+    
+    JsonObject responseJson = new JsonObject();
+    responseJson.addProperty("loginLink", loginLink);
+    response.getWriter().print(responseJson.toString());
   }
 }
