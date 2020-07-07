@@ -27,11 +27,11 @@ public class Recipe {
     this.popularity = popularity;
   }
 
-  public void setAuthorID(String id) {
+  public void setAuthorId(String id) {
     authorID = id;
   }
 
-  public long getID() {
+  public long getId() {
     return id;
   }
 
