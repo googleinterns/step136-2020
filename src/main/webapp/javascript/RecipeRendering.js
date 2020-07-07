@@ -16,13 +16,13 @@ createRecipeCard = (divId, recipeInfo) => {
     // card. To change how ellements are displayed, change the order in which this
     // list is initilaized
     let allElementsToAdd = [
-        createElement(recipeInfo["name"], "p", {"class": "recipe-card-name"}),
-        createElement(recipeInfo["description"], "p", {"class": "recipe-card-description"}),
+        createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
+        createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
     ];
 
     // Adds all the elements to the recipe card, then appends the recipe card
     // to the div
-    allElementsToAdd.forEach(elem => recipeDiv.childNodes.push(elem));
+    allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
     docDiv.appendChild(recipeDiv);
 }
 
@@ -34,31 +34,15 @@ createRecipeCard = (divId, recipeInfo) => {
  * needed, such as when making a new container div.
  */
 createElement = (htmlTag, object = "", tagOptions = {}) => {
-    // Tries to create an HTML element with the given tag, otherwise throws an object with error info
-    try {
-        let htmlElement = document.createElement(htmlTag.toLowerCase());
-    } catch (error) {
-        throw {
-            "extended message":"Cannot create an html element of type: " + htmlTag.toString() + "\n",
-            "error": error
-        };
-    }
+    // Tries to create an HTML element with the given tag
+    let htmlElement = document.createElement(htmlTag.toLowerCase());
 
     let htmlText = document.createTextNode(object);
     htmlElement.appendChild(htmlText);
 
     // Goes through each option tries to add the attribute to the new HTML element.
-    // If it cannot add the attribute, it throws an object with error info
-    for (opt in tagOptions) {
-        try {
-            htmlElement.setAttribute(opt, tagOptions[opt]);
-        } catch (error) {
-            throw {
-                "extended message": "There was an error trying to set element attibute: " +
-                    opt.toString() + ":"  + tagOptions[opt].toString() + "\n",
-                "error": error
-            };
-        }
+    for (opt in tagOptions) {   
+        htmlElement.setAttribute(opt, tagOptions[opt]); 
     }
     return htmlElement;
 }
