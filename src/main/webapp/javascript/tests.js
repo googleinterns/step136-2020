@@ -5,14 +5,14 @@
  * and inform which test failed specifically.
  */
 runTests = () => {
-    testCommentCard();
+    testRecipeCard();
 }
 
 /**
  * Makes a call to create a recipe card and makes sure the result is what is
  * expected.
  */
-testCommentCard = () => {
+testRecipeCard = () => {
     // The div in the test file for rendering the comment card test results
     const testDiv = "recipe-card-test";
 
