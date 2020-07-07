@@ -34,25 +34,30 @@ createRecipeCard = (divId, recipeInfo) => {
  * needed, such as when making a new container div.
  */
 createElement = (htmlTag, object = "", tagOptions = {}) => {
-    // Tries to create an HTML element with the given tag, otherwise logs the error
+    // Tries to create an HTML element with the given tag, otherwise throws an object with error info
     try {
         let htmlElement = document.createElement(htmlTag.toLowerCase());
     } catch (error) {
-        console.error("Cannot create an html element of type: " + htmlTag.toString() + "\n" + error);
+        throw {
+            "extended message":"Cannot create an html element of type: " + htmlTag.toString() + "\n",
+            "error": error
+        };
     }
 
     let htmlText = document.createTextNode(object);
     htmlElement.appendChild(htmlText);
 
     // Goes through each option tries to add the attribute to the new HTML element.
-    // If it cannot add the attribute, it exits and logs the error
+    // If it cannot add the attribute, it throws an object with error info
     for (opt in tagOptions) {
         try {
             htmlElement.setAttribute(opt, tagOptions[opt]);
         } catch (error) {
-            console.error ("There was an error trying to set element attibute: " +
-                opt.toString() + ":"  + tagOptions[opt].toString() + "\n", error);
-            return;
+            throw {
+                "extended message": "There was an error trying to set element attibute: " +
+                    opt.toString() + ":"  + tagOptions[opt].toString() + "\n",
+                "error": error
+            };
         }
     }
     return htmlElement;
