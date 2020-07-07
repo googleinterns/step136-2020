@@ -20,7 +20,7 @@ function closeModal() {
 }
 
 // Tells the server to delete the recipe.
-// Input is a Recipe
+// Input is a recipe js object
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
