@@ -16,6 +16,7 @@ createRecipeCard = (divId, recipeInfo) => {
     // card. To change how ellements are displayed, change the order in which this
     // list is initilaized
     let allElementsToAdd = [
+        createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
         createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
         createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
     ];
@@ -45,4 +46,14 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
         htmlElement.setAttribute(opt, tagOptions[opt]); 
     }
     return htmlElement;
+}
+
+/**
+ * Takes two objects which represent the recipeName and the blobkey
+ * Returns the reference to the constructed image element. 
+ */
+createImage = (recipeName, blobkey) => {
+  let imageElement = document.createElement('img');
+  imageElement.src = "/serve?blobkey="+blobkey;
+  return imageElement;
 }

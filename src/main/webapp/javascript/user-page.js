@@ -1,25 +1,20 @@
 
 async function loadRecipes() {
-console.log("check 1");
   loadUserRecipes();
 }
 
 async function loadUserRecipes() {
-    console.log("check 2");
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
-  console.log(recipes);
 
   if (Object.keys(recipes)) {
     const recipesElement = document.getElementById('user-recipes');
     recipesElement.innerText = "";
     for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        recipesElement.appendChild(createImage(value));
+        
     }
-    console.log(recipesElement);
   }
-  
 }
 
 function createImage(value) {

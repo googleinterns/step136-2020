@@ -43,6 +43,13 @@ public class NewRecipeServlet extends HttpServlet {
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
+    Entity recipeEntity = new Entity("PrivateRecipe");
+    recipeEntity.setProperty("recipeName", recipeName);
+    recipeEntity.setProperty("tags", tags);
+    recipeEntity.setProperty("description", description);
+    recipeEntity.setProperty("ingredients", ingredients);
+    recipeEntity.setProperty("steps", steps);
+
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
@@ -52,28 +59,19 @@ public class NewRecipeServlet extends HttpServlet {
     BlobKey blobkey = blobKeys.get(0);
     boolean noImage = false;
 
-    // User submitted form without selecting a file
+    // User submitted form without selecting a file, so we can't get a URL. (dev server)
     if (blobKeys == null || blobKeys.isEmpty()) {
-      noImage = true;
+      recipeEntity.setProperty("imageBlobKey", "");
     } else {
       blobkey = blobKeys.get(0);
       BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
+      // User submitted form without selecting a file, so we can't get a URL. (live server)
       if (blobInfo.getSize() == 0) {
-        noImage = true;
         blobstoreService.delete(blobkey);
-      } 
-    }
-
-    Entity recipeEntity = new Entity("PrivateRecipe");
-    recipeEntity.setProperty("recipeName", recipeName);
-    recipeEntity.setProperty("tags", tags);
-    recipeEntity.setProperty("description", description);
-    recipeEntity.setProperty("ingredients", ingredients);
-    recipeEntity.setProperty("steps", steps);
-    if (noImage) {
-      recipeEntity.setProperty("imageBlobKey", "");
-    } else {
-      recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+        recipeEntity.setProperty("imageBlobKey", "");
+      } else {
+        recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+      }
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
