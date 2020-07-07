@@ -5,15 +5,15 @@ import java.util.List;
 
 // Class representing a Recipe
 public class Recipe {
-  private long id;
-  private String recipeName;
-  private String authorID;
-  private String imageBlobKey;
-  private String description;
-  private ArrayList<String> tags;
   private ArrayList<String> ingredients;
   private ArrayList<String> steps;
+  private ArrayList<String> tags;
+  private String authorID;
+  private String description;
+  private String imageBlobKey;
+  private String recipeName;
   private int popularity;
+  private long id;
 
   public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {

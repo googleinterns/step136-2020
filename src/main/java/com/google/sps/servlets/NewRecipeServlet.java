@@ -43,10 +43,12 @@ public class NewRecipeServlet extends HttpServlet {
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
+    // getUploads returns a set of blobs that have been uploaded 
+    // the Map object is a list that associates the names of the upload fields to the blobs they contained
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    // TODO: make sure blobkey exists
+    // TODO: make sure blobkey exists before initializing it
     BlobKey blobkey = blobKeys.get(0);
     boolean noImage = false;
 
