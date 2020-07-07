@@ -13,10 +13,15 @@ public class UserHelper {
     return user.getUserId();
   }
 
-    // returns: String email address of the currently logged-in user.
+  // returns: String email address of the currently logged-in user.
   public static String getEmail() {
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     return user.getEmail();
+  }
+
+  public static boolean isUserLoggedIn() {
+    UserService userService = UserServiceFactory.getUserService();
+    return userService.isUserLoggedIn();
   }
 }
