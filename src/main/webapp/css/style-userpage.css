@@ -1,14 +1,20 @@
+#header {
+  align-items: center;
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+}
+
 #recipe-modal {
-  background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
-  display: none; /* Hidden by default */
-  height: 100%; /* Full height */
+  background-color: rgba(0,0,0,0.7); 
+  display: none; 
+  height: 100%; 
   left: 0;
-  overflow: auto; /* Enable scroll if needed */
-  padding-top: 100px;
-  position: fixed; /* Stay in place */
+  overflow: auto; 
+  position: fixed; 
   top: 0;
-  width: 100%; /* Full width */
-  z-index: 1; /* Sit on top */
+  width: 100%; 
+  z-index: 1; 
 }
 
 #recipe-form {
@@ -16,12 +22,28 @@
   border-radius: 25px;
   margin: 0 auto;
   max-width: 500px;
-  padding: 10px 30px 30px;
+  padding: 1px 30px 30px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   width: 60%;
 }
 
 textarea {
   width: 100%;
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  padding: 5px 10px;
+}
+
+.modal-btn {
+  margin: 0 20px;
 }
 
 /* Add Animation - Zoom in the Modal */
