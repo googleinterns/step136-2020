@@ -24,8 +24,8 @@
   max-width: 500px;
   padding: 1px 30px 30px;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 45%;
+  transform: translateY(-40%);
   width: 60%;
 }
 

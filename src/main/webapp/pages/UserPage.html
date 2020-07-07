@@ -5,7 +5,7 @@
     <title>Capstone</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
-    <script src="../javascript/RecipeModal.js"></script>
+    <script src="../javascript/user-page.js"></script>
   </head>
   <body>
     <div id="content">
@@ -30,7 +30,7 @@
         </div>
         <div id="recipe-modal">
           <span onclick="closeModal()" class="close">&times;</span>
-          <form id="recipe-form" method="POST" action="/new-recipe">
+          <form id="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
             <label for="recipeName" required>Recipe Name:</label><br>
             <input type="text" id="recipeName" name="recipeName">
@@ -47,16 +47,16 @@
             <label for="steps" required>Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
             <textarea id="steps" name="steps" rows="4"></textarea>
             <br><br>
-            <label for="privacy">Choose a privacy setting:</label>
+            <!-- Letting users publish their recipes is for after the MVP -->
+            <!-- <label for="privacy">Choose a privacy setting:</label>
             <select id="privacy" name="privacy">
             <option value="private">private</option>
-            <!-- <option value="public">public</option> -->
+            <option value="public">public</option>
             </select>
-            <br><br>
-            <!-- TODO: implement user ability to upload images -->
-            <!-- <label for="image">Upload an image</label>
-            <input type="file"  accept="image/*" name="image" id="image">
             <br><br> -->
+            <label for="image">Upload an image</label>
+            <input type="file"  accept="image/*" name="image" id="image">
+            <br><br>
             <div id="buttons">
               <button class="modal-btn" id="cancel-btn" onclick="closeModal()">Close</button>
               <input class="modal-btn" type="submit" id="submit-btn" value="Create Recipe">

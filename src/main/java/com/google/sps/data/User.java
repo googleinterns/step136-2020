@@ -5,12 +5,12 @@ import java.util.List;
 
 // Class representing a User
 public class User {
-  private String id;
-  private String email;
-  private String username;
-  private ArrayList<Long> planner;
   private ArrayList<Long> cookbook;
+  private ArrayList<Long> planner;
   private ArrayList<Long> userRecipes;
+  private String email;
+  private String id;
+  private String username;
   // shopping list will not be implented until after MVP
   private ArrayList<String> shoppingList;
 
@@ -23,11 +23,11 @@ public class User {
     userRecipes = new ArrayList<Long>();
   }
 
-  public void setID(String id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public boolean equalIDs(String id) {
+  public boolean equalIds(String id) {
     return this.id.equals(id);
   }
 
