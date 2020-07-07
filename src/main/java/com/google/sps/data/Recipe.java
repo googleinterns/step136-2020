@@ -5,16 +5,15 @@ import java.util.List;
 
 // Class representing a Recipe
 public class Recipe {
-  private long id;
-  private String recipeName;
-  private String authorID;
-  // image is not implemented yet
-  private String imageUrl;
-  private String description;
-  private ArrayList<String> tags;
   private ArrayList<String> ingredients;
   private ArrayList<String> steps;
+  private ArrayList<String> tags;
+  private String authorID;
+  private String description;
+  private String imageBlobKey;
+  private String recipeName;
   private int popularity;
+  private long id;
 
   public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
@@ -27,19 +26,15 @@ public class Recipe {
     this.popularity = popularity;
   }
 
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
+  public void setImageBlobKey(String blobKey) {
+    imageBlobKey = blobKey;
   }
 
-  public void setID(long id) {
-    this.id = id;
-  }
-  
-  public void setAuthorID(String id) {
+  public void setAuthorId(String id) {
     authorID = id;
   }
 
-  public long getID() {
+  public long getId() {
     return id;
   }
 
