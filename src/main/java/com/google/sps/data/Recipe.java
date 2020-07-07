@@ -15,16 +15,19 @@ public class Recipe {
   private ArrayList<String> steps;
   private int popularity;
 
-  public Recipe(long id, String recipeName, String imageBlobKey, String description, ArrayList<String> tags, 
+  public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
     this.id = id;
     this.recipeName = recipeName;
-    this.imageBlobKey = imageBlobKey;
     this.tags = tags;
     this.description = description;
     this.ingredients = ingredients;
     this.steps = steps;
     this.popularity = popularity;
+  }
+
+  public void setImageBlobKey(String blobKey) {
+    imageBlobKey = blobKey;
   }
 
   public void setAuthorId(String id) {
