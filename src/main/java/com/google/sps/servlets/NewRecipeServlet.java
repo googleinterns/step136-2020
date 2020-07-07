@@ -46,18 +46,21 @@ public class NewRecipeServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    BlobKey blobkey = null; 
+    // TODO: make sure blobkey exists
+    BlobKey blobkey = blobKeys.get(0);
+    boolean noImage = false;
 
-    // blobKeys exists and is not empty so there exists a blobkey to get
-    if (blobKeys != null && !blobKeys.isEmpty()) {
+    // User submitted form without selecting a file
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      noImage = true;
+    } else {
       blobkey = blobKeys.get(0);
-    } 
-
-    // User submitted form without selecting a file (live server)
-    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
-    if (blobInfo.getSize() == 0) {
-      blobstoreService.delete(blobkey);
-    } 
+      BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
+      if (blobInfo.getSize() == 0) {
+        noImage = true;
+        blobstoreService.delete(blobkey);
+      } 
+    }
 
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("recipeName", recipeName);
@@ -65,7 +68,11 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
-    recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+    if (noImage) {
+      recipeEntity.setProperty("imageBlobKey", "");
+    } else {
+      recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);

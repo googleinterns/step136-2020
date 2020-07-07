@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="../css/style-userpage.css">
     <script src="../javascript/user-page.js"></script>
   </head>
-  <body>
+  <body onload="loadRecipes()">
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
       <div>
         <h2>Planner</h2>
-        <div class="recipes">
+        <div class="recipes-container">
         </div>
       </div>
       <!-- Cookbook content -->
       <div>
         <h2>Cookbook</h3>
-        <div class="recipes">
+        <div class="recipes-container">
         </div>
       </div>
       <!-- User Recipes content -->
@@ -27,6 +27,10 @@
         <div id="header">
           <h2>My Recipes</h2>
           <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
+        </div>
+        <div class="recipes-container">
+          <div id="user-recipes">
+          </div>
         </div>
         <div id="recipe-modal">
           <span onclick="closeModal()" class="close">&times;</span>
