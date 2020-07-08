@@ -22,10 +22,10 @@ public class ListPrivateRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // this Query seems to need the addSort method to work so rn it's arbitrarily by the recipeName
+    // this Query seems to need the addSort method to work so rn it's arbitrarily by the name
     // it can be changed
     // TODO: filter by author ID
-    Query query = new Query("PrivateRecipe").addSort("recipeName", SortDirection.DESCENDING);
+    Query query = new Query("PrivateRecipe").addSort("name", SortDirection.DESCENDING);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -35,14 +35,14 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     //   TODO: check if logged in user's id == recipe's authorID
     //   String authorID = (String) entity.getProperty("authorID");
       long id = entity.getKey().getId();
-      String recipeName = (String) entity.getProperty("recipeName");
+      String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
       ArrayList<String> tags = (ArrayList<String>) entity.getProperty("tags");
       ArrayList<String> ingredients = (ArrayList<String>) entity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
 
-      Recipe recipe = new Recipe(id, recipeName, blobkey, description, tags, ingredients, steps, 0);
+      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, 0);
       recipes.add(recipe);
     }
  
