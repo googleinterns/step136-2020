@@ -5,7 +5,9 @@
     <title>Home</title>
   </head>
   <body>
-      <%@ include file="topbar.jsp"%>
-      <p> testing the default page</p>
+      <%@ include file="../components/topbar.jsp"%>
+      <div id="content">
+        
+      </div>
   </body>
 </html>

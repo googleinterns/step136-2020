@@ -43,29 +43,34 @@ public class NewRecipeServlet extends HttpServlet {
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
-    BlobKey blobkey = null; 
-
-    // blobKeys exists and is not empty so there exists a blobkey to get
-    if (blobKeys != null && !blobKeys.isEmpty()) {
-      blobkey = blobKeys.get(0);
-    } 
-
-    // User submitted form without selecting a file (live server)
-    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
-    if (blobInfo.getSize() == 0) {
-      blobstoreService.delete(blobkey);
-    } 
-
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("recipeName", recipeName);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
-    recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+
+    // getUploads returns a set of blobs that have been uploaded 
+    // the Map object is a list that associates the names of the upload fields to the blobs they contained
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+    boolean noImage = false;
+
+    // User submitted form without selecting a file, so we can't get a URL. (dev server)
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      recipeEntity.setProperty("imageBlobKey", "");
+    } else {
+      BlobKey blobkey = blobKeys.get(0);
+      BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
+      // User submitted form without selecting a file, so we can't get a URL. (live server)
+      if (blobInfo.getSize() == 0) {
+        blobstoreService.delete(blobkey);
+        recipeEntity.setProperty("imageBlobKey", "");
+      } else {
+        recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+      }
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);

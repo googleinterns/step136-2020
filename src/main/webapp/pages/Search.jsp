@@ -5,7 +5,9 @@
     <title>Search Results</title>
   </head>
   <body>
-      <%@ include file="topbar.jsp"%>
-      <p>Hello World!</p>
+      <%@ include file="../components/topbar.jsp"%>
+      <div id="content">
+        <p>Hello World!</p>
+      </div>
   </body>
 </html>
