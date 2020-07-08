@@ -15,10 +15,11 @@ public class Recipe {
   private int popularity;
   private long id;
 
-  public Recipe(long id, String recipeName, String description, ArrayList<String> tags, 
+  public Recipe(long id, String recipeName, String imageBlobKey, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
     this.id = id;
     this.recipeName = recipeName;
+    this.imageBlobKey = imageBlobKey;
     this.tags = tags;
     this.description = description;
     this.ingredients = ingredients;
@@ -26,10 +27,7 @@ public class Recipe {
     this.popularity = popularity;
   }
 
-  public void setImageBlobKey(String blobKey) {
-    imageBlobKey = blobKey;
-  }
-
+  // haven't implemented yet
   public void setAuthorId(String id) {
     authorID = id;
   }
