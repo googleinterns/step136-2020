@@ -1,4 +1,11 @@
 /**
+ * The function to load the main page and display content properly 
+ */
+mainPageLoad = () => {
+  
+}
+
+/**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
  * recipeInfo is expected to have the following data saved as properties,
