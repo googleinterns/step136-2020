@@ -31,3 +31,25 @@ function logout(redirectUrl) {
     window.location.replace(json.logoutLink);
   });
 }
+
+// sign out with google sign in API
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+        // Disable user options dropdown meny on sign out.
+        const dropdownContent = document.querySelector(".dropdown");
+        dropdown.removeEventListener("mouseover")
+    });
+}
+
+// In case of successfull sign in
+function onSignIn() {
+    console.log("login success");
+    // allows display of user options dropdown menu, only when signed in.
+    const dropdown = document.querySelector(".dropdown");
+    dropdown.addEventListener("mouseover", function() {
+        dropdown.querySelector(".dropdown-content").style.display = "block";
+    });
+    dropdown.addEventListener("mouse")
+}
