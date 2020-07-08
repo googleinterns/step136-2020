@@ -16,7 +16,6 @@ createRecipeCard = (divId, recipeInfo) => {
     // card. To change how ellements are displayed, change the order in which this
     // list is initilaized
     let allElementsToAdd = [
-        createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
         createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
         createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
     ];
