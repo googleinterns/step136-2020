@@ -37,9 +37,11 @@ function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');
-        // Disable user options dropdown meny on sign out.
-        const dropdownContent = document.querySelector(".dropdown");
-        dropdown.removeEventListener("mouseover")
+        // Disable user options dropdown menu on sign out.
+        const dropdown = document.querySelector(".dropdown");
+        dropdown.removeEventListener("mouseover", showDropdown);
+        dropdown.removeEventListener("mouseleave", hideDropdown);
+        dropdown.querySelector(".dropdown-content").style.display = "none";
     });
 }
 
@@ -48,8 +50,16 @@ function onSignIn() {
     console.log("login success");
     // allows display of user options dropdown menu, only when signed in.
     const dropdown = document.querySelector(".dropdown");
-    dropdown.addEventListener("mouseover", function() {
+    dropdown.addEventListener("mouseover", showDropdown = function() {
         dropdown.querySelector(".dropdown-content").style.display = "block";
     });
-    dropdown.addEventListener("mouse")
+    dropdown.addEventListener("mouseleave", hideDropdown = function() {
+        dropdown.querySelector(".dropdown-content").style.display = "none";
+    });
+    // adds current user name to dropdown
+    var auth2 = gapi.auth2.getAuthInstance();
+    const userPageAnchor = document.getElementById("user-page-anchor");
+    let text = auth2.currentUser.get().getBasicProfile().getGivenName() + "'s Page";
+    userPageAnchor.innerText = text;
 }
+
