@@ -32,7 +32,7 @@ createUserRecipeCard = (recipeInfo) => {
     createElement("button", "Edit", {"class": "fa fa-edit"}),
     createElement("button", "Add to Planner", {"class": "add_circle_outline"}),
     createElement("button", "Add to Cookbook", {"class": "add_circle_outline"}),
-    createElement("p", recipeInfo["recipeName"], {"class": "recipe-card-name"}),
+    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
 
