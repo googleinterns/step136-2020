@@ -13,3 +13,13 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+.recipe-card {
+  min-width: 100px;
+  width: 25%;
+}
+.recipe-card-image {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+}
