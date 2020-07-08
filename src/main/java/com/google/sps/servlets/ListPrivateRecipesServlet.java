@@ -24,6 +24,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // this Query seems to need the addSort method to work so rn it's arbitrarily by the recipeName
     // it can be changed
+    // TODO: filter by author ID
     Query query = new Query("PrivateRecipe").addSort("recipeName", SortDirection.DESCENDING);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
