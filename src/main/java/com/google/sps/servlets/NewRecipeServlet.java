@@ -55,15 +55,13 @@ public class NewRecipeServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    // TODO: make sure blobkey exists before initializing it
-    BlobKey blobkey = blobKeys.get(0);
     boolean noImage = false;
 
     // User submitted form without selecting a file, so we can't get a URL. (dev server)
     if (blobKeys == null || blobKeys.isEmpty()) {
       recipeEntity.setProperty("imageBlobKey", "");
     } else {
-      blobkey = blobKeys.get(0);
+      BlobKey blobkey = blobKeys.get(0);
       BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
       // User submitted form without selecting a file, so we can't get a URL. (live server)
       if (blobInfo.getSize() == 0) {
