@@ -22,6 +22,8 @@ public class ListPrivateRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // this Query seems to need the addSort method to work so rn it's arbitrarily by the recipeName
+    // it can be changed
     Query query = new Query("PrivateRecipe").addSort("recipeName", SortDirection.DESCENDING);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -39,8 +41,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> ingredients = (ArrayList<String>) entity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
 
-      Recipe recipe = new Recipe(id, recipeName, description, tags, ingredients, steps, 0);
-      recipe.setImageBlobKey(blobkey);
+      Recipe recipe = new Recipe(id, recipeName, blobkey, description, tags, ingredients, steps, 0);
       recipes.add(recipe);
     }
  
