@@ -1,4 +1,4 @@
-
+// loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
 }
@@ -12,25 +12,18 @@ async function loadUserRecipes() {
     recipesElement.innerText = "";
     for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        
+        // createUserRecipeCard(value)
     }
   }
 }
 
-function createImage(value) {
-  const imageElement = document.createElement('img');
-  const blobkey = value.imageBlobKey;
-  imageElement.src = "/serve?blobkey="+blobkey;
-  console.log(imageElement);
-  return imageElement;
-}
-
-
+// opens the recipe form modal
 function openModal() {
   document.getElementById("recipe-modal").style.display = "block";
   fetchBlobstoreUrl();
 }
 
+// not quite sure what this does; something with blobs
 function fetchBlobstoreUrl() {
   fetch('/blobstore-upload-url')
       .then((response) => {
@@ -42,12 +35,13 @@ function fetchBlobstoreUrl() {
       });
 }
 
+// closes the recipe form modal
 function closeModal() {
   document.getElementById("recipe-modal").style.display = "none";
 }
 
-// Tells the server to delete the recipe.
-// Input is a recipe js object
+// tells the server to delete the recipe.
+// input is a recipe js object
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
