@@ -34,22 +34,7 @@ function initSigninV2() {
   });
 }
 
-/**
- * returns a promise that resolves when user signs in,
- * or rejects if user does not sign in.
- * currently doesn't work because auth2.signin resolves before signin is complete
- * for some reason.
- */
-function confirmUser() {
-  return new Promise((resolve, reject) => {
-      if (!auth2.isSignedIn.get()) {
-          auth2.signIn().then(resolve()).catch(reject());
-      } else {
-          console.log("already done");
-          resolve();
-      }
-  })
-}
+
 
 /**
  * signs our current user from g-signin API.
@@ -89,6 +74,24 @@ function disableUserDropdown() {
   dropdown.querySelector('.dropdown-content').style.display = 'none';
 }
 
+/**
+ * Provides a sign-in popup if user is signed out,
+ * returns a promise when user is signed in.
+ * 
+ */
+function confirmUser() {
+  return new Promise((resolve, reject) => {
+    if (!auth2.isSignedIn.get()) {
+      auth2.signIn().then(resolve).catch(reject);
+    } else {
+      resolve();
+    }
+  })
+}
+
 function userSpecificService() {
-    confirmUser.then(console.log('test ' + auth2.currentUser.get().getBasicProfile().getName()));
+    confirmUser().then((googleUser) => {
+        outputPlace = document.getElementById('test-output');
+        outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
+    });
 }
