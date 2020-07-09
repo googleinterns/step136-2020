@@ -11,14 +11,22 @@ public class Recipe {
   private String authorID;
   private String description;
   private String imageBlobKey;
-  private String recipeName;
+  private String name;
   private int popularity;
   private long id;
 
-  public Recipe(long id, String recipeName, String imageBlobKey, String description, ArrayList<String> tags, 
+  // Recipe constructor for the recipe cards for which less information is needed
+  public Recipe(long id, String name, String imageBlobKey, String description) {
+    this.id = id;
+    this.name = name;
+    this.imageBlobKey = imageBlobKey;
+    this.description = description;
+  }
+  
+  public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
     this.id = id;
-    this.recipeName = recipeName;
+    this.name = name;
     this.imageBlobKey = imageBlobKey;
     this.tags = tags;
     this.description = description;
