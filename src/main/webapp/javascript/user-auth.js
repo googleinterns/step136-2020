@@ -1,5 +1,9 @@
 var auth2;
 
+function getId() {
+    return auth2.currentUser.get().getId();
+}
+
 function onStart() {
   console.log("onstart");
   gapi.load('auth2', initSigninV2);
