@@ -8,10 +8,19 @@ async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
 
+  let recipesDiv = document.getElementById("user-recipes");
+  recipesDiv.innerHTML = "";
+  
+  let size = 0;
   if (Object.keys(recipes)) {
     for (let key of Object.keys(recipes)) {
+        size++;
         let value = recipes[key];
         createUserRecipeCard(value);
+    }
+    if(size == 0){
+        recipesDiv.innerText = "You have not uploaded any recipes yet.";
+        recipesDiv.style.height = "100px";
     }
   }
 }

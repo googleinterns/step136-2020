@@ -14,24 +14,27 @@
   padding: 5px;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 815px) {
   .recipe-card {
-    margin: 1%;
+    width: 36vw;
+  }
+  .recipe-card-image {
+    width: 36vw;
+    height: 36vw;
   }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 580px) {
   .recipe-card {
-    margin: 1.8%;
-    width: 45%;
+    width: 80vw;
+    min-width: 280px;
+  }
+  .recipe-card-image {
+    width: 73vw;
+    height: 73vw;
+    min-width: 280px;
+    min-height: 280px;
   }
 }
-@media screen and (max-width: 500px) {
-  .recipe-card {
-    width: 100%;
-  }
-}
-
-
 
 #recipe-modal {
   background-color: rgba(0,0,0,0.7); 

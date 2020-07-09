@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 #content {
   margin: 0 auto;
   max-width: 1000px;
@@ -17,18 +21,29 @@
 .recipe-card {
   background-color: #F6F7F7;
   border: groove;
-  margin: 1.35%;
-  min-width: 150px;
-  width: 30%;
+  margin: 0.5vw;
+  width: 24vw;
 }
+
 .image-div {
   position: relative;
 }
 .recipe-card-image {
-  width: 100%;
+  width: 24vw;
+  height: 24vw;
   overflow: hidden;
   object-fit: cover;
   /* TODO: make all images squares */
+}
+@media screen and (min-width: 1250px) {
+  .recipe-card {
+    width: 300px;
+    margin: 11px;
+  }
+  .recipe-card-image {
+    width: 300px;
+    height: 300px;
+  }
 }
 .card-button {
   -ms-transform: translate(-50%, -50%);
@@ -54,10 +69,13 @@
   left: 10%;
 }
 .more-left {
-
+  left: 19%;
 }
 .right {
   left: 90%;
+}
+.more-right {
+  left: 78%;
 }
 .top {
   top: 10%;

@@ -28,6 +28,41 @@ createRecipeCard = (divId, recipeInfo) => {
 }
 
 /**
+ * Takes the recipe info of a recipe as a JS object and the div that the recipe
+ * card will be added to. Creates only one recipe card. For the method to work,
+ * recipeInfo is expected to have the following data saved as properties,
+ * regardless of the explicit property name:
+ * a recipe name, a recipe description, and a recipe
+ */
+createUserRecipeCard = (recipeInfo) => {
+  let docDiv = document.getElementById("user-recipes");
+
+  let recipeDiv = createElement("div", "", {"class": "recipe-card"});
+  let imageDiv = createElement("div", "", {"class": "image-div"});
+  let textDiv = createElement("div", "", {"class": "text-div"});
+
+  let elementsToAddToImageDiv = [
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
+    createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
+    createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+    createElement("button", "Planner", {"class": "card-button icon bottom more-left planner-btn"}),
+    createElement("button", "Cookbook", {"class": "card-button icon bottom more-right cookbook-btn"}),
+  ];
+
+  let elementsToAddToTextDiv = [
+    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
+    createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
+  ];
+
+  let allElementsToAdd = [imageDiv, textDiv];
+
+  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
+  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
+  allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
+  docDiv.appendChild(recipeDiv);
+}
+
+/**
  * Takes an object which can be represented as a string or a string, an html
  * tag, and the html tag options stored as an object. Returns the reference to the
  * constructed html element. 
