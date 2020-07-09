@@ -143,3 +143,14 @@ testRecipeCard = () => {
   htmlInjecttionTests();
   return;
 }
+
+/**
+ * Test for confirmUser method in user-auth.js
+ * This function is called onclick of <sign in required service> button in test.jsp
+ */
+function userSpecificService() {
+    confirmUser().then((googleUser) => {
+        outputPlace = document.getElementById('test-output');
+        outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
+    });
+}

@@ -89,9 +89,3 @@ function confirmUser() {
   })
 }
 
-function userSpecificService() {
-    confirmUser().then((googleUser) => {
-        outputPlace = document.getElementById('test-output');
-        outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
-    });
-}

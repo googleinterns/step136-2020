@@ -29,7 +29,9 @@
       </div>
 
       <div id="confirm-user-test">
+        <p><br>preforms a user specific task, that requires waiting for login</p>
         <button onclick="userSpecificService()" id="user-specific-service">sign in required service</button>
+        <p id="test-output"></p>
       </div>
   </body>
 </html>
