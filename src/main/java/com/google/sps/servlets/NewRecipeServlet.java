@@ -46,6 +46,10 @@ public class NewRecipeServlet extends HttpServlet {
     List<String> ingredients = new ArrayList<String>(Arrays.asList(Arrays.stream(ingredientsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
     List<String> steps = new ArrayList<String>(Arrays.asList(Arrays.stream(stepsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
 
+    // trims String responses
+    name.trim();
+    description.trim();
+
     // removes any empty, null, or newline members of the Lists
     tags.removeAll(Arrays.asList("", null));
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
@@ -63,7 +67,6 @@ public class NewRecipeServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    boolean noImage = false;
 
     // user submitted form without selecting a file, so we can't get a URL. (dev server)
     // redirects user back to UserPage
