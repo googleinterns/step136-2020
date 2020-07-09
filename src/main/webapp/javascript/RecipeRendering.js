@@ -46,3 +46,14 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
     }
     return htmlElement;
 }
+
+/**
+ * Takes two objects which represent the name and the blobkey
+ * Returns the reference to the constructed image element. 
+ */
+createImage = (name, blobkey) => {
+  let imageElement = document.createElement('img');
+  imageElement.src = "/serve?blobkey="+blobkey;
+  imageElement.alt = name + " image";
+  return imageElement;
+}
