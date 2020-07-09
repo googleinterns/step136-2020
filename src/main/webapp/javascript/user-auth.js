@@ -17,6 +17,8 @@ function initSigninV2() {
     client_id : '1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com'
   });
 
+  gapi.signin2.render('g-signin-container');
+
   auth2.currentUser.listen(function(newGoogleUser) {
     insertUserInfo(newGoogleUser);
   });
