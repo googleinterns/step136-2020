@@ -41,15 +41,22 @@ createRecipeCard = (divId, recipeInfo) => {
  * needed, such as when making a new container div.
  */
 createElement = (htmlTag, object = "", tagOptions = {}) => {
-    // Tries to create an HTML element with the given tag
+    // Create an HTML element with the given tag
     let htmlElement = document.createElement(htmlTag.toLowerCase());
 
-    let htmlText = document.createTextNode(object);
-    htmlElement.appendChild(htmlText);
+    // If the object parameter is not undefined or an empty string, it 
+    // creates a textnode and adds it to the HTML element
+    if (object !== undefined || object !== "") {
+      let htmlText = document.createTextNode(object);
+      htmlElement.appendChild(htmlText);
+    }
 
-    // Goes through each option tries to add the attribute to the new HTML element.
-    for (opt in tagOptions) {   
-        htmlElement.setAttribute(opt, tagOptions[opt]); 
+    // If the tagOptions object is not undefined or empty, it goes through each 
+    // option and adds the attribute to the new HTML element.
+    if (tagOptions !== undefined || Object.keys(tagOptions).length > 0) {
+      for (opt in tagOptions) {   
+          htmlElement.setAttribute(opt, tagOptions[opt]); 
+      }
     }
     return htmlElement;
 }
