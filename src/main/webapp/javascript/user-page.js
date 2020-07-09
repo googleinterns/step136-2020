@@ -27,11 +27,10 @@ createUserRecipeCard = (recipeInfo) => {
   // list is initilaized
   let allElementsToAdd = [
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
-    createElement("button", "Delete", {"class": "far fa-trash-alt"}),
-    createElement("button", "Edit", {"class": "fa fa-edit"}),
-    createElement("button", "Add to Planner", {"class": "add_circle_outline"}),
-    createElement("button", "Add to Cookbook", {"class": "add_circle_outline"}),
+    createElement("button", "Delete", {"class": "card-button far fa-trash-alt", "id": "delete-btn"}),
+    createElement("button", "Edit", {"class": "card-button fa fa-edit", "id": "edit-btn"}),
+    createElement("button", "Add to Planner", {"class": "card-button add_circle_outline", "id": "planner-btn"}),
+    createElement("button", "Add to Cookbook", {"class": "card-button add_circle_outline", "id": "cookbook-btn"}),
     createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
@@ -39,7 +38,6 @@ createUserRecipeCard = (recipeInfo) => {
   // Adds all the elements to the recipe card, then appends the recipe card
   // to the div
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
-  console.log(recipeDiv);
   docDiv.appendChild(recipeDiv);
 }
 

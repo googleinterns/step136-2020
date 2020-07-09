@@ -15,11 +15,44 @@
 }
 
 .recipe-card {
+  background-color: #F6F7F7;
+  border: groove;
+  margin: 10px;
   min-width: 100px;
   width: 25%;
 }
 .recipe-card-image {
-  width: 100%;
   height: auto;
   max-height: 600px;
+  width: 100%;
 }
+.card-button {
+  -ms-transform: translate(-50%, -50%);
+  /* background-color: #555; */
+  border-radius: 5px;
+  border: none;
+  /* color: white; */
+  cursor: pointer;
+  /* font-size: 16px; */
+  padding: 10px;
+  /* position: absolute; */
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+#delete-btn {
+  left: 15%;
+  top: 20%;
+}
+#edit-btn {
+  left: 65;
+  top: 20%;
+}
+#planner-btn {
+  left: 15%;
+  top: 80%;
+}
+#cookbook-btn {
+  left: 65;
+  top: 80%;
+}
+/* TODO: finish placing planner-btn and cookbook-btn */
