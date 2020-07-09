@@ -19,26 +19,40 @@ async function loadUserRecipes() {
 createUserRecipeCard = (recipeInfo) => {
   let docDiv = document.getElementById("user-recipes");
 
-   // Creates the recipeDiv container and sets the class name
   let recipeDiv = createElement("div", "", {"class": "recipe-card"});
+  let imageDiv = createElement("div", "", {"class": "image-div"});
+  let textDiv = createElement("div", "", {"class": "text-div"});
 
-  // This is the list of all the elements which should be rendered on the recipe
-  // card. To change how ellements are displayed, change the order in which this
-  // list is initilaized
-  let allElementsToAdd = [
+  let elementsToAddToImageDiv = [
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "Delete", {"class": "card-button far fa-trash-alt", "id": "delete-btn"}),
-    createElement("button", "Edit", {"class": "card-button fa fa-edit", "id": "edit-btn"}),
-    createElement("button", "Add to Planner", {"class": "card-button add_circle_outline", "id": "planner-btn"}),
-    createElement("button", "Add to Cookbook", {"class": "card-button add_circle_outline", "id": "cookbook-btn"}),
+    createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
+    createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+    createElement("button", "Planner", {"class": "card-button bottom more-left planner-btn"}),
+    createElement("button", "Cookbook", {"class": "card-button bottom more-right cookbook-btn"}),
+  ];
+
+  let elementsToAddToTextDiv = [
     createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
 
+  let allElementsToAdd = [imageDiv, textDiv];
+
   // Adds all the elements to the recipe card, then appends the recipe card
   // to the div
+  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
+  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
+
+  let plannerButtons = document.getElementsByClassName("planner-btn");
+  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
+  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
+  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
+  for (let i = 0; i < plannerButtons.length; i++) {
+    cookbookButtons[i].appendChild(add1);
+    plannerButtons[i].appendChild(add2);
+  }
 }
 
 
