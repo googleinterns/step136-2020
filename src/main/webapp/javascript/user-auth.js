@@ -82,3 +82,7 @@ function disableUserDropdown() {
   dropdown.removeEventListener('mouseleave', hideDropdown);
   dropdown.querySelector('.dropdown-content').style.display = 'none';
 }
+
+function userSpecificService() {
+    confirmUser.then(console.log('test ' + auth2.currentUser.get().getBasicProfile().getName()));
+}
