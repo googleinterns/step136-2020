@@ -7,12 +7,29 @@ async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
 
+  let recipesDiv = document.getElementById("user-recipes");
+  recipesDiv.innerHTML = "";
+  
   if (Object.keys(recipes)) {
-    const recipesElement = document.getElementById('user-recipes');
-    recipesElement.innerText = "";
-    for (let key of Object.keys(recipes)) {
+    if(Object.keys(recipes).length == 0){
+      recipesDiv.innerText = "You have not uploaded any recipes yet.";
+      recipesDiv.style.height = "100px";
+    }
+    else {
+      for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        // createUserRecipeCard(value)
+        createRecipeCard("user-recipes", value);
+
+        // since these cards are the user recipe cards, they need edit/delete buttons
+        let elementsToAddToImageDiv = [
+          createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
+          createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+        ];
+        let imageDivs = document.getElementsByClassName("image-div");
+        for (let i = 0; i < imageDivs.length; i++) {
+          elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
+        }
+      }
     }
   }
 }

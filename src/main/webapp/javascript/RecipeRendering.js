@@ -3,27 +3,41 @@
  * card will be added to. Creates only one recipe card. For the method to work,
  * recipeInfo is expected to have the following data saved as properties,
  * regardless of the explicit property name:
- * a recipe name, recipe tags,  recipe description, and recipe ID to access more
- * data on the recipe page.
+ * a recipe name, a recipe description, and a recipe
  */
-createRecipeCard = (divId, recipeInfo) => {
-    let docDiv = document.getElementById(divId);
+createRecipeCard = (divID, recipeInfo) => {
+  let docDiv = document.getElementById(divID);
 
-    // Creates the recipeDiv container and sets the class name
-    let recipeDiv = createElement("div", "", {"class": "recipe-card"});
+  let recipeDiv = createElement("div", "", {"class": "recipe-card"});
+  let imageDiv = createElement("div", "", {"class": "image-div"});
+  let textDiv = createElement("div", "", {"class": "text-div"});
 
-    // This is the list of all the elements which should be rendered on the recipe
-    // card. To change how ellements are displayed, change the order in which this
-    // list is initilaized
-    let allElementsToAdd = [
-        createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
-        createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
-    ];
+  let elementsToAddToImageDiv = [
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
+    createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
+    createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
+  ];
+  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
 
-    // Adds all the elements to the recipe card, then appends the recipe card
-    // to the div
-    allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
-    docDiv.appendChild(recipeDiv);
+  let elementsToAddToTextDiv = [
+    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
+    createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
+  ];
+  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
+
+  let allElementsToAdd = [imageDiv, textDiv];
+  allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
+  docDiv.appendChild(recipeDiv);
+
+  let plannerButtons = document.getElementsByClassName("planner-btn");
+  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
+  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
+  for (let i = 0; i < plannerButtons.length; i++) {
+    cookbookButtons[i].appendChild(add1);
+    plannerButtons[i].appendChild(add2);
+  }
 }
 
 /**

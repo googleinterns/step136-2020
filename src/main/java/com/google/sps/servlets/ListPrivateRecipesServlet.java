@@ -38,11 +38,8 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
-      ArrayList<String> tags = (ArrayList<String>) entity.getProperty("tags");
-      ArrayList<String> ingredients = (ArrayList<String>) entity.getProperty("ingredients");
-      ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
 
-      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, 0);
+      Recipe recipe = new Recipe(id, name, blobkey, description);
       recipes.add(recipe);
     }
  
