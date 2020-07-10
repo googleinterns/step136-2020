@@ -75,11 +75,9 @@ textarea {
   justify-content: center;
 }
 
-button {
-  padding: 5px 10px;
-}
-
 .modal-btn {
+  border-radius: 5px;
+  border-width: thin;
   margin: 0 20px;
 }
 
@@ -101,7 +99,6 @@ button {
     to {transform:scale(1)}
 }
 
-/* The Close Button */
 .close {
   color: #f1f1f1;
   font-size: 40px;

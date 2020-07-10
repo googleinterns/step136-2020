@@ -18,7 +18,7 @@ async function loadUserRecipes() {
         let value = recipes[key];
         createUserRecipeCard(value);
     }
-    if(size == 0){
+    if(Object.keys(recipes).length == 0){
         recipesDiv.innerText = "You have not uploaded any recipes yet.";
         recipesDiv.style.height = "100px";
     }
@@ -58,6 +58,7 @@ createUserRecipeCard = (recipeInfo) => {
   let cookbookButtons = document.getElementsByClassName("cookbook-btn");
   const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
   const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
   for (let i = 0; i < plannerButtons.length; i++) {
     cookbookButtons[i].appendChild(add1);
     plannerButtons[i].appendChild(add2);

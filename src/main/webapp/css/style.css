@@ -14,6 +14,12 @@ body {
   text-align: center;
 }
 
+button {
+  border-radius: 5px;
+  border-width: thin;
+  padding: 5px 10px;
+}
+
 #greeting-container {
   margin-top: 20px;
 }
