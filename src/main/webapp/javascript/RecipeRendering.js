@@ -34,7 +34,7 @@ createRecipeCard = (divId, recipeInfo) => {
  * regardless of the explicit property name:
  * a recipe name, a recipe description, and a recipe
  */
-createUserRecipeCard = (divID, recipeInfo) => {
+createRecipeCard = (divID, recipeInfo) => {
   let docDiv = document.getElementById(divId);
 
   let recipeDiv = createElement("div", "", {"class": "recipe-card"});
