@@ -24,7 +24,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // this Query seems to need the addSort method to work so rn it's arbitrarily by the name
     // it can be changed
-    // TODO: filter query by author id
+    // TODO: filter by author ID
     Query query = new Query("PrivateRecipe").addSort("name", SortDirection.DESCENDING);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -32,6 +32,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
  
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+    //   TODO: check if logged in user's id == recipe's authorID
     //   String authorID = (String) entity.getProperty("authorID");
       long id = entity.getKey().getId();
       String name = (String) entity.getProperty("name");

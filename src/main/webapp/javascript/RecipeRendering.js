@@ -1,4 +1,3 @@
-
 /**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
@@ -69,7 +68,6 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
 createImage = (name, blobkey) => {
   let imageElement = document.createElement('img');
   imageElement.src = "/serve?blobkey="+blobkey;
-  imageElement.className = "recipe-card-image";
   imageElement.alt = name + " image";
   return imageElement;
 }
