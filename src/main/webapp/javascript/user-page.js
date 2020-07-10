@@ -15,6 +15,8 @@ async function loadUserRecipes() {
     for (let key of Object.keys(recipes)) {
       let value = recipes[key];
       createRecipeCard("user-recipes", value);
+
+      // since these cards are the user recipe cards, they need edit/delete buttons
       let elementsToAddToImageDiv = [
         createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
         createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),

@@ -46,18 +46,15 @@ createRecipeCard = (divID, recipeInfo) => {
     createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
     createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
   ];
+  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
 
   let elementsToAddToTextDiv = [
     createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
+  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
 
   let allElementsToAdd = [imageDiv, textDiv];
-
-  // Adds all the elements to the recipe card, then appends the recipe card
-  // to the div
-  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
-  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
 
