@@ -38,7 +38,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
 
-      Recipe recipe = new Recipe(id,  name,  blobkey,  description);
+      Recipe recipe = new Recipe(id, name, blobkey, description);
       recipes.add(recipe);
     }
  
