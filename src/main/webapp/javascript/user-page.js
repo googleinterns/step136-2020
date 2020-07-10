@@ -13,8 +13,7 @@ async function loadUserRecipes() {
   
   if (Object.keys(recipes)) {
     if(Object.keys(recipes).length == 0){
-        recipesDiv.innerText = "You have not uploaded any recipes yet.";
-        recipesDiv.style.height = "100px";
+        noRecipes("user-recipes", "You have not uploaded any recipes yet.");
         return;
     }
     for (let key of Object.keys(recipes)) {
@@ -37,14 +36,29 @@ async function loadUserRecipes() {
     const recipeCards = document.getElementsByClassName('recipe-card');
     // // there are as many delete buttons as there are recipe cards
     for (let i = 0; i < deleteButtons.length; i++) {
+      let recipe = recipes[i];
+      let recipeCard = recipeCards[i];
       deleteButtons[i].addEventListener('click', () => {
-        confirm("You have clicked the delete button");
-        deleteRecipe(recipes[i]);
-        // Remove the recipe from the DOM.
-        recipeCards[i].remove();
+        const deleteConfirmed = confirm("Are you sure you want to delete the " 
+        +recipe.name+" recipe?\nThis action cannot be undone!");
+        if (deleteConfirmed) {
+          deleteRecipe(recipe);
+          // Remove the recipe from the DOM.
+          recipeCard.remove();
+        }
       });
     }
+    if (recipeCards.length == 0) {
+     noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+    }
   }
+}
+
+// takes in div id and message
+noRecipes = (divID, message) => {
+  let recipesDiv = document.getElementById(divID);
+  recipesDiv.innerText = message;
+  recipesDiv.style.height = "100px";
 }
 
 // opens the recipe form modal
