@@ -62,7 +62,7 @@ function signOut() {
  * @param {GoogleUser} current user to provide profile info.
  */
 function insertUserInfo(googleUser) {
-  // Insert user name into user-page anchor
+  // Insert user name into user-page anchor.
   let text = googleUser.getBasicProfile().getGivenName() + '\'s Page';
   const userPageAnchor = document.getElementById('user-page-anchor');
   userPageAnchor.innerText = text;
