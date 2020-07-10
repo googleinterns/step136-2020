@@ -7,7 +7,7 @@
  * a recipe name, recipe tags,  recipe description, and recipe ID to access more
  * data on the recipe page.
  */
-createRecipeCard = (divId, recipeInfo) => {
+createRecipeCardTest = (divId, recipeInfo) => {
     let docDiv = document.getElementById(divId);
 
     // Creates the recipeDiv container and sets the class name
@@ -35,7 +35,7 @@ createRecipeCard = (divId, recipeInfo) => {
  * a recipe name, a recipe description, and a recipe
  */
 createRecipeCard = (divID, recipeInfo) => {
-  let docDiv = document.getElementById(divId);
+  let docDiv = document.getElementById(divID);
 
   let recipeDiv = createElement("div", "", {"class": "recipe-card"});
   let imageDiv = createElement("div", "", {"class": "image-div"});
