@@ -5,28 +5,21 @@
     <title>Capstone</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="../javascript/user-page.js"></script>
-    <script src="../javascript/RecipeRendering.js"></script>
-    <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body onload="loadRecipes()">
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
       <div>
-        <div id="header">
-          <h2>Planner</h2>
-        </div>
-        <div class="recipes-container" id="planner-recipes">
+        <h2>Planner</h2>
+        <div class="recipes-container">
         </div>
       </div>
       <!-- Cookbook content -->
       <div>
-        <div id="header">
-          <h2>Cookbook</h3>
-        </div>
-        <div class="recipes-container" id="cookbook-recipes">
+        <h2>Cookbook</h3>
+        <div class="recipes-container">
         </div>
       </div>
       <!-- User Recipes content -->
@@ -35,7 +28,9 @@
           <h2>My Recipes</h2>
           <button id="openModal" type="button" onClick="openModal()">Add Recipe</button>
         </div>
-        <div class="recipes-container" id="user-recipes">
+        <div class="recipes-container">
+          <div id="user-recipes">
+          </div>
         </div>
         <div id="recipe-modal">
           <span onclick="closeModal()" class="close">&times;</span>

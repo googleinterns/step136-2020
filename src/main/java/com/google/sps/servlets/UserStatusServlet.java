@@ -39,7 +39,7 @@ public class UserStatusServlet extends HttpServlet {
     JsonObject userInfo = new JsonObject();
     userInfo.addProperty("isUserLoggedIn", UserHelper.isUserLoggedIn());
     if (UserHelper.isUserLoggedIn()) {
-        System.out.println("Return user profile info");
+        System.out.println("User is logged in");
         // other properties may be added in the future.
     }
 
