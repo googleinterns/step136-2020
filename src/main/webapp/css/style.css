@@ -22,30 +22,30 @@ body {
   background-color: #F6F7F7;
   border: groove;
   margin: 0.76vw;
+  width: 24vw;
   /* border-radius: 25px; */
   /* TODO: figure out how to round the recipe card
   while keeping the picture pretty */
-  width: 24vw;
 }
 
 .image-div {
   position: relative;
 }
 .recipe-card-image {
-  width: 24vw;
   height: 24vw;
-  overflow: hidden;
   object-fit: cover;
+  overflow: hidden;
+  width: 24vw;
   /* border-radius: 10px; */
 }
 @media screen and (min-width: 1250px) {
   .recipe-card {
-    width: 300px;
     margin: 11px;
+    width: 300px;
   }
   .recipe-card-image {
-    width: 300px;
     height: 300px;
+    width: 300px;
   }
 }
 .card-button {
