@@ -18,7 +18,7 @@
         <div id="header">
           <h2>Planner</h2>
         </div>
-        <div class="recipes-container curve" id="planner-recipes">
+        <div class="recipes-container" id="planner-recipes">
         </div>
       </div>
       <!-- Cookbook content -->
@@ -26,7 +26,7 @@
         <div id="header">
           <h2>Cookbook</h2>
         </div>
-        <div class="recipes-container curve" id="cookbook-recipes">
+        <div class="recipes-container" id="cookbook-recipes">
         </div>
       </div>
       <!-- User Recipes content -->
@@ -39,7 +39,7 @@
         </div>
         <div id="recipe-modal">
           <span onclick="closeModal()" class="close">&times;</span>
-          <form id="recipe-form" class="curve" method="POST" enctype="multipart/form-data" action="/new-recipe">
+          <form id="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="name" name="name">

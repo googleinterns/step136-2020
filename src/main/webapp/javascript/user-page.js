@@ -1,4 +1,3 @@
-
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
