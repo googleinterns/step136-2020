@@ -6,6 +6,8 @@
   </head>
   <body>
       <%@ include file="../components/topbar.jsp"%>
+      <div id="extended search">
+      </div>
       <div id="content">
         <p>Hello World!</p>
       </div>
