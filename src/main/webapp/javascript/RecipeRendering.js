@@ -34,17 +34,17 @@ createRecipeCard = (divId, recipeInfo) => {
  * regardless of the explicit property name:
  * a recipe name, a recipe description, and a recipe
  */
-createRecipeCard = (recipeInfo) => {
-  let docDiv = document.getElementById("user-recipes");
+createUserRecipeCard = (divID, recipeInfo) => {
+  let docDiv = document.getElementById(divId);
 
-  let recipeDiv = createElement("div", "", {"class": "recipe-card  curve"});
+  let recipeDiv = createElement("div", "", {"class": "recipe-card"});
   let imageDiv = createElement("div", "", {"class": "image-div"});
   let textDiv = createElement("div", "", {"class": "text-div"});
 
   let elementsToAddToImageDiv = [
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
-    createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+    createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
+    createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
   ];
 
   let elementsToAddToTextDiv = [
@@ -54,10 +54,22 @@ createRecipeCard = (recipeInfo) => {
 
   let allElementsToAdd = [imageDiv, textDiv];
 
+  // Adds all the elements to the recipe card, then appends the recipe card
+  // to the div
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
   elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
+
+  let plannerButtons = document.getElementsByClassName("planner-btn");
+  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
+  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
+  for (let i = 0; i < plannerButtons.length; i++) {
+    cookbookButtons[i].appendChild(add1);
+    plannerButtons[i].appendChild(add2);
+  }
 }
 
 /**
