@@ -76,7 +76,8 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
  */
 createImage = (name, blobkey) => {
   let imageElement = document.createElement('img');
-  imageElement.src = "/serve?blobkey="+blobkey;
   imageElement.alt = name + " image";
+  imageElement.className = "recipe-card-image";
+  imageElement.src = "/serve?blobkey="+blobkey;
   return imageElement;
 }
