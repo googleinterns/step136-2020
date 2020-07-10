@@ -44,7 +44,7 @@ function initSigninV2() {
 }
 
 /**
- * Signs our current user from g-signin API.
+ * Signs out current user from g-signin API.
  */
 function signOut() {
   auth2.signOut();
