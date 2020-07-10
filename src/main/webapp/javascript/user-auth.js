@@ -1,9 +1,14 @@
 var auth2;
 
 function getId() {
-    return auth2.currentUser.get().getId();
+  return auth2.currentUser.get().getId();
 }
 
+/**
+ * loads the auth2 library for the g-signin API, and then initializes
+ * the googleAuth object.
+ * passed as jquery parameter, executed by API script.
+ */
 function onStart() {
   console.log("onstart");
   gapi.load('auth2', initSigninV2);
@@ -41,7 +46,7 @@ function initSigninV2() {
  */
 function signOut() {
   auth2.signOut().then(function () {
-      console.log('User signed out.');
+    console.log('User signed out.');
   });
 }
 
