@@ -64,8 +64,17 @@ createRecipeCard = (divID, recipeInfo) => {
   const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
   // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
   for (let i = 0; i < plannerButtons.length; i++) {
-    cookbookButtons[i].appendChild(add1);
-    plannerButtons[i].appendChild(add2);
+    // adds the plus  to planner/cookbook buttons
+    plannerButtons[i].appendChild(add1);
+    cookbookButtons[i].appendChild(add2);
+
+    // where the functionality for planner/cookbook buttons will go
+    plannerButtons[i].addEventListener('click', () => {
+      alert("You have clicked the add to planner button");
+    });
+    cookbookButtons[i].addEventListener('click', () => {
+      alert("You have clicked the add to cookbook button");
+    });
   }
 }
 

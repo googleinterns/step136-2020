@@ -12,6 +12,11 @@ async function loadUserRecipes() {
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
+    if(Object.keys(recipes).length == 0){
+        recipesDiv.innerText = "You have not uploaded any recipes yet.";
+        recipesDiv.style.height = "100px";
+        return;
+    }
     for (let key of Object.keys(recipes)) {
       let value = recipes[key];
       createRecipeCard("user-recipes", value);
@@ -26,9 +31,18 @@ async function loadUserRecipes() {
         elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
       }
     }
-    if(Object.keys(recipes).length == 0){
-        recipesDiv.innerText = "You have not uploaded any recipes yet.";
-        recipesDiv.style.height = "100px";
+
+    // // functionality of delete button
+    const deleteButtons = document.getElementsByClassName('fa-trash-alt');
+    const recipeCards = document.getElementsByClassName('recipe-card');
+    // // there are as many delete buttons as there are recipe cards
+    for (let i = 0; i < deleteButtons.length; i++) {
+      deleteButtons[i].addEventListener('click', () => {
+        confirm("You have clicked the delete button");
+        deleteRecipe(recipes[i]);
+        // Remove the recipe from the DOM.
+        recipeCards[i].remove();
+      });
     }
   }
 }
