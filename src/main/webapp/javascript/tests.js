@@ -149,8 +149,8 @@ testRecipeCard = () => {
  * This function is called onclick of <sign in required service> button in test.jsp
  */
 function userSpecificService() {
-    confirmUser().then((googleUser) => {
-        outputPlace = document.getElementById('test-output');
-        outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
-    });
+  confirmUser().then((googleUser) => {
+    outputPlace = document.getElementById('test-output');
+    outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
+  });
 }
