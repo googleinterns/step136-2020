@@ -13,43 +13,44 @@ async function loadUserRecipes() {
   
   if (Object.keys(recipes)) {
     if(Object.keys(recipes).length == 0){
-        noRecipes("user-recipes", "You have not uploaded any recipes yet.");
-        return;
+      noRecipes("user-recipes", "You have not uploaded any recipes yet.");
     }
-    for (let key of Object.keys(recipes)) {
-      let value = recipes[key];
-      createRecipeCard("user-recipes", value);
+    else {
+      for (let key of Object.keys(recipes)) {
+        let value = recipes[key];
+        createRecipeCard("user-recipes", value);
 
-      // since these cards are the user recipe cards, they need edit/delete buttons
-      let elementsToAddToImageDiv = [
-        createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
-        createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
-      ];
-      let imageDivs = document.getElementsByClassName("image-div");
-      for (let i = 0; i < imageDivs.length; i++) {
-        elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
-      }
-    }
-
-    // // functionality of delete button
-    const deleteButtons = document.getElementsByClassName('fa-trash-alt');
-    const recipeCards = document.getElementsByClassName('recipe-card');
-    // // there are as many delete buttons as there are recipe cards
-    for (let i = 0; i < deleteButtons.length; i++) {
-      let recipe = recipes[i];
-      let recipeCard = recipeCards[i];
-      deleteButtons[i].addEventListener('click', () => {
-        const deleteConfirmed = confirm("Are you sure you want to delete the " 
-        +recipe.name+" recipe?\nThis action cannot be undone!");
-        if (deleteConfirmed) {
-          deleteRecipe(recipe);
-          // Remove the recipe from the DOM.
-          recipeCard.remove();
+        // since these cards are the user recipe cards, they need edit/delete buttons
+        let elementsToAddToImageDiv = [
+          createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
+          createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+        ];
+        let imageDivs = document.getElementsByClassName("image-div");
+        for (let i = 0; i < imageDivs.length; i++) {
+          elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
         }
-      });
-    }
-    if (recipeCards.length == 0) {
-     noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+      }
+
+      // functionality of delete button
+      const deleteButtons = document.getElementsByClassName('fa-trash-alt');
+      const recipeCards = document.getElementsByClassName('recipe-card');
+      // there are as many delete buttons as there are recipe cards
+      for (let i = 0; i < deleteButtons.length; i++) {
+        let recipe = recipes[i];
+        let recipeCard = recipeCards[i];
+        deleteButtons[i].addEventListener('click', () => {
+          const deleteConfirmed = confirm("Are you sure you want to delete the " 
+            +recipe.name+" recipe?\nThis action cannot be undone!");
+          if (deleteConfirmed) {
+            deleteRecipe(recipe);
+            // Remove the recipe from the DOM.
+            recipeCard.remove();
+          }
+          if (recipeCards.length == 0) {
+            noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+          }
+        });
+      }
     }
   }
 }
