@@ -1,12 +1,18 @@
 var auth2;
 // client ID is generated from my google APIs credentials page.
 const CLIENT_ID = '1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com'
+
 // googleUser is generated with auth2.currentUser.get().
 // Further Google Sign in documentation is available at:
 // https://developers.google.com/identity/sign-in/web/reference
 
-function getId() {
-  return auth2.currentUser.get().getId();
+/**
+ * This ID token is an encrypted token containing user information,
+ * including user unique ID and profile data.
+ * ID token must be sent to backend for processing for any user-related datastore operation.
+ */
+function getIdToken() {
+  return auth2.currentUser.get().getAuthResponse().id_token;
 }
 
 /**
