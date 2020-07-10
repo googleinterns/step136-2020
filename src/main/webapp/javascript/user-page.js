@@ -39,8 +39,6 @@ createUserRecipeCard = (recipeInfo) => {
     createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
     createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
   ];
-  console.log("elementsToAddToImageDiv");
-  console.log(elementsToAddToImageDiv);
 
   let elementsToAddToTextDiv = [
     createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),

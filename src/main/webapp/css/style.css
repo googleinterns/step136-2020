@@ -21,7 +21,7 @@ body {
 .recipe-card {
   background-color: #F6F7F7;
   border: groove;
-  margin: 0.5vw;
+  margin: 0.76vw;
   /* border-radius: 25px; */
   /* TODO: figure out how to round the recipe card
   while keeping the picture pretty */
@@ -87,7 +87,7 @@ body {
   top: 10%;
 }
 .bottom {
-  top: 86%;
+  top: 88%;
 }
 .text-div{
   padding: 0 10px;
