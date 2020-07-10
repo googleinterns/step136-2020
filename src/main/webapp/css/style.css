@@ -22,6 +22,9 @@ body {
   background-color: #F6F7F7;
   border: groove;
   margin: 0.5vw;
+  /* border-radius: 25px; */
+  /* TODO: figure out how to round the recipe card
+  while keeping the picture pretty */
   width: 24vw;
 }
 
@@ -33,7 +36,7 @@ body {
   height: 24vw;
   overflow: hidden;
   object-fit: cover;
-  /* TODO: make all images squares */
+  /* border-radius: 10px; */
 }
 @media screen and (min-width: 1250px) {
   .recipe-card {
@@ -65,17 +68,20 @@ body {
 .icon {
   font-size: 20px;
 }
+.material-icons {
+  font-size: 18px!important;
+}
 .left {
   left: 10%;
 }
 .more-left {
-  left: 19%;
+  left: 18%;
 }
 .right {
   left: 90%;
 }
 .more-right {
-  left: 78%;
+  left: 79%;
 }
 .top {
   top: 10%;

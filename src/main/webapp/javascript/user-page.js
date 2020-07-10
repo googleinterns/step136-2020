@@ -36,9 +36,11 @@ createUserRecipeCard = (recipeInfo) => {
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
     createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
     createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
-    createElement("button", "Planner", {"class": "card-button bottom more-left planner-btn"}),
-    createElement("button", "Cookbook", {"class": "card-button bottom more-right cookbook-btn"}),
+    createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
+    createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
   ];
+  console.log("elementsToAddToImageDiv");
+  console.log(elementsToAddToImageDiv);
 
   let elementsToAddToTextDiv = [
     createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
@@ -56,8 +58,8 @@ createUserRecipeCard = (recipeInfo) => {
 
   let plannerButtons = document.getElementsByClassName("planner-btn");
   let cookbookButtons = document.getElementsByClassName("cookbook-btn");
-  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
-  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
+  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
   for (let i = 0; i < plannerButtons.length; i++) {
     cookbookButtons[i].appendChild(add1);
     plannerButtons[i].appendChild(add2);

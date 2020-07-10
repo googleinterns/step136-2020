@@ -34,10 +34,10 @@ createRecipeCard = (divId, recipeInfo) => {
  * regardless of the explicit property name:
  * a recipe name, a recipe description, and a recipe
  */
-createUserRecipeCard = (recipeInfo) => {
+createRecipeCard = (recipeInfo) => {
   let docDiv = document.getElementById("user-recipes");
 
-  let recipeDiv = createElement("div", "", {"class": "recipe-card"});
+  let recipeDiv = createElement("div", "", {"class": "recipe-card  curve"});
   let imageDiv = createElement("div", "", {"class": "image-div"});
   let textDiv = createElement("div", "", {"class": "text-div"});
 
@@ -45,8 +45,6 @@ createUserRecipeCard = (recipeInfo) => {
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
     createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
     createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
-    createElement("button", "Planner", {"class": "card-button icon bottom more-left planner-btn"}),
-    createElement("button", "Cookbook", {"class": "card-button icon bottom more-right cookbook-btn"}),
   ];
 
   let elementsToAddToTextDiv = [
