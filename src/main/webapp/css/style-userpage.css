@@ -19,26 +19,26 @@
 /* adjusts to 2 columns of recipe cards */
 @media screen and (max-width: 815px) {
   .recipe-card {
-    width: 36vw;
     margin: 1vw;
+    width: 36vw;
   }
   .recipe-card-image {
-    width: 36vw;
     height: 36vw;
+    width: 36vw;
   }
 }
 /* adjusts to 1 column of recipe cards */
 @media screen and (max-width: 580px) {
   .recipe-card {
-    width: 73vw;
     margin: 3vw;
     min-width: 280px;
+    width: 73vw;
   }
   .recipe-card-image {
-    width: 71vw;
     height: 71vw;
-    min-width: 280px;
     min-height: 280px;
+    min-width: 280px;
+    width: 71vw;
   }
 }
 
