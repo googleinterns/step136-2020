@@ -7,12 +7,13 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
 
 public class User {
   // API variables:
@@ -37,17 +38,16 @@ public class User {
     // "email" OAuth scopes to the application.
     // "sub" or Subject refers to the user-unique ID number.
     "sub" : "110169484474386276334"
-    "email": "testuser@gmail.com",
-    "email_verified": "true",
+    "email" : "testuser@gmail.com",
+    "email_verified" : "true",
     "name" : "Test User",
-    "picture": "https://lh4.googleusercontent.com/-kYgzyAWpZzJ/ABCDEFGHI/AAAJKLMNOP/tIXL9Ir44LE/s99-c/photo.jpg",
-    "given_name": "Test",
-    "family_name": "User",
-    "locale": "en"
+    "picture" : "https://lh4.googleusercontent.com/-kYgzyAWpZzJ/ABCDEFGHI/AAAJKLMNOP/tIXL9Ir44LE/s99-c/photo.jpg",
+    "given_name" : "Test",
+    "family_name" : "User",
   */
 
   /**
-   * Prevents usage of default constructor
+   * Used for initialization with static methods.
    */
   private User() { }
 
@@ -81,7 +81,7 @@ public class User {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
         testUser.entity = datastore.get(userKey);
-    } catch(Exception e) {
+    } catch(EntityNotFoundException e) {
         // On EntityNotFoundException, create initial instance.
         testUser.entity = new Entity(userKey);
         String emptyJsonArray = "[ ]";
@@ -95,12 +95,12 @@ public class User {
   }
 
   public long getDisplayName() {
-    return (long)entity.getProperty("displayName");
+    return (long) entity.getProperty("displayName");
   }
 
   public void setDisplayName(String name) {
     entity.setProperty("displayName", name);
-    put();
+    putEntity();
   }
 
 // Cookbook and Planner currently support only one type of Recipe entity (namely public).
@@ -143,6 +143,7 @@ public class User {
   }
 
   /**
+   * Helper method for removing recipe IDs form specific user recipe list.
    * @Param id recipe ID to be removed from current User entity.
    * @Param recipeListType Property name of the list to removed from.
    */
@@ -151,10 +152,11 @@ public class User {
     ArrayList<Long> list = getPropertyArrayList(recipeListType);
     list.remove(new Long(id));
     entity.setProperty(recipeListType, gson.toJson(list));
-    put();
+    putEntity();
   }
 
   /**
+   * Helper method for adding recipe IDs to specific user recipe list.
    * @Param id recipe ID to be added to current User entity.
    * @Param recipeListType Property name of the list to add to.
    */
@@ -165,13 +167,13 @@ public class User {
       list.add(id);
     }
     entity.setProperty(recipeListType, gson.toJson(list));
-    put();
+    putEntity();
   }
 
   /**
    * Creates a datastore object and stores current entity in database.
    */
-  private void put() {
+  private void putEntity() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(entity);
   }
@@ -183,7 +185,7 @@ public class User {
    */
   private ArrayList<Long> getPropertyArrayList(String property) {
     Gson gson = new Gson();
-    String jsonArray = (String)entity.getProperty(property);
+    String jsonArray = (String) entity.getProperty(property);
     Type listType = new TypeToken<List<String>>(){}.getType();
     List<String> stringIDs = gson.fromJson(jsonArray, listType);
     ArrayList<Long> longIDs = new ArrayList<Long>();
