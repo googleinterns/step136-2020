@@ -99,15 +99,15 @@ public class User {
 // Likewise, userRecipes should only include private recipes.
 
   public ArrayList<Long> getCookbook() {
-    return new ArrayList<Long>();
+    return getPropertyArrayList("cookbook");
   }
 
   public ArrayList<Long> getUserRecipes() {
-    return new ArrayList<Long>();
+    return getPropertyArrayList("userRecipes");
   }
 
   public ArrayList<Long> getPlanner() {
-    return new ArrayList<Long>();
+    return getPropertyArrayList("planner");
   }
 
   public void setDisplayName(String name) {
@@ -163,6 +163,7 @@ public class User {
     datastore.put(entity);
   }
 
+  
   private ArrayList<Long> getPropertyArrayList(String property) {
     Gson gson = new Gson();
     String jsonArray = (String)entity.getProperty(property);
