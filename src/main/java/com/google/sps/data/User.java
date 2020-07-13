@@ -98,7 +98,7 @@ public class User {
 // Cookbook and Planner currently support only one type of Recipe entity (namely public).
 // Likewise, userRecipes should only include private recipes.
 
-  public ArrayList<Long> getCookbookKeys() {
+  public ArrayList<Long> getCookbook() {
     return new ArrayList<Long>();
   }
 
