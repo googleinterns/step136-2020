@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 #content {
   margin: 0 auto;
   max-width: 1000px;
@@ -10,6 +14,12 @@
   text-align: center;
 }
 
+button {
+  border-radius: 5px;
+  border-width: thin;
+  padding: 5px 10px;
+}
+
 #greeting-container {
   margin-top: 20px;
 }
@@ -17,18 +27,32 @@
 .recipe-card {
   background-color: #F6F7F7;
   border: groove;
-  margin: 1.35%;
-  min-width: 150px;
-  width: 30%;
+  margin: 0.76vw;
+  width: 24vw;
+  /* border-radius: 25px; */
+  /* TODO: figure out how to round the recipe card
+  while keeping the picture pretty */
 }
+
 .image-div {
   position: relative;
 }
 .recipe-card-image {
-  width: 100%;
-  overflow: hidden;
+  height: 24vw;
   object-fit: cover;
-  /* TODO: make all images squares */
+  overflow: hidden;
+  width: 24vw;
+  /* border-radius: 10px; */
+}
+@media screen and (min-width: 1250px) {
+  .recipe-card {
+    margin: 11px;
+    width: 300px;
+  }
+  .recipe-card-image {
+    height: 300px;
+    width: 300px;
+  }
 }
 .card-button {
   -ms-transform: translate(-50%, -50%);
@@ -50,20 +74,26 @@
 .icon {
   font-size: 20px;
 }
+.material-icons {
+  font-size: 18px!important;
+}
 .left {
   left: 10%;
 }
 .more-left {
-
+  left: 18%;
 }
 .right {
   left: 90%;
+}
+.more-right {
+  left: 79%;
 }
 .top {
   top: 10%;
 }
 .bottom {
-  top: 86%;
+  top: 88%;
 }
 .text-div{
   padding: 0 10px;

@@ -21,6 +21,9 @@ public class Recipe {
     this.name = name;
     this.imageBlobKey = imageBlobKey;
     this.description = description;
+    ingredients = new ArrayList<String>();
+    steps = new ArrayList<String>();
+    tags = new ArrayList<String>();
   }
   
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 

@@ -1,4 +1,3 @@
-
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
@@ -8,53 +7,32 @@ async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
 
+  let recipesDiv = document.getElementById("user-recipes");
+  recipesDiv.innerHTML = "";
+  
   if (Object.keys(recipes)) {
-    for (let key of Object.keys(recipes)) {
+    if(Object.keys(recipes).length == 0){
+      recipesDiv.innerText = "You have not uploaded any recipes yet.";
+      recipesDiv.style.height = "100px";
+    }
+    else {
+      for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createUserRecipeCard(value);
+        createRecipeCard("user-recipes", value);
+
+        // since these cards are the user recipe cards, they need edit/delete buttons
+        let elementsToAddToImageDiv = [
+          createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
+          createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
+        ];
+        let imageDivs = document.getElementsByClassName("image-div");
+        for (let i = 0; i < imageDivs.length; i++) {
+          elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
+        }
+      }
     }
   }
 }
-
-createUserRecipeCard = (recipeInfo) => {
-  let docDiv = document.getElementById("user-recipes");
-
-  let recipeDiv = createElement("div", "", {"class": "recipe-card"});
-  let imageDiv = createElement("div", "", {"class": "image-div"});
-  let textDiv = createElement("div", "", {"class": "text-div"});
-
-  let elementsToAddToImageDiv = [
-    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "", {"class": "card-button icon top left far fa-trash-alt"}),
-    createElement("button", "", {"class": "card-button icon top right fa fa-edit"}),
-    createElement("button", "Planner", {"class": "card-button bottom more-left planner-btn"}),
-    createElement("button", "Cookbook", {"class": "card-button bottom more-right cookbook-btn"}),
-  ];
-
-  let elementsToAddToTextDiv = [
-    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
-    createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
-  ];
-
-  let allElementsToAdd = [imageDiv, textDiv];
-
-  // Adds all the elements to the recipe card, then appends the recipe card
-  // to the div
-  elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
-  elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
-  allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
-  docDiv.appendChild(recipeDiv);
-
-  let plannerButtons = document.getElementsByClassName("planner-btn");
-  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
-  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
-  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons icon"});
-  for (let i = 0; i < plannerButtons.length; i++) {
-    cookbookButtons[i].appendChild(add1);
-    plannerButtons[i].appendChild(add2);
-  }
-}
-
 
 // opens the recipe form modal
 function openModal() {
