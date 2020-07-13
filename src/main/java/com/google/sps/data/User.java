@@ -14,15 +14,15 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.*;
 
-// Class representing a User
 public class User {
   // API variables:
   // client ID is generated from Ali's google APIs credentials page.
   private static String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
   private Payload payload;
+  private Entity entity;
 
-  /*
+  /**
     // User Entity Properties:
 
     "displayName" : "Example Name"
@@ -46,15 +46,16 @@ public class User {
     "locale": "en"
   */
 
-  private Entity entity;
+  /**
+   * Prevents usage of default constructor
+   */
+  private User() { }
 
-  private User() {
-      // prevents usage of default constructor.
-  }
-
-  // Constructs a User instance based on a unique id_token.
-  // Verify user using google's ID token verifyer API.
-  // This method is commented out because it does not work yet.
+  /**
+   * Constructs a User instance based on a unique id_token.
+   * Verify user using google's ID token verifyer API.
+   * This method is commented out because it does not work yet.
+   */
   public User(String idTokenString) {
     // GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
     // .Builder(UrlFetchTransport.getDefaultInstance(), new JsonFactory())
@@ -69,8 +70,10 @@ public class User {
     // payload = idToken.getPayload();
   }
 
-  // This creates a standard universal user instance regardless of login status.
-  // This test method will not be removed from the webapp prior to deployment.
+  /**
+   * This creates a standard universal user instance regardless of login status.
+   * This test method will not be removed from the webapp prior to deployment.
+   */
   public static User getTestUser() {
     User testUser = new User();
     String testID = "000000000000000000000";
@@ -79,7 +82,7 @@ public class User {
     try {
         testUser.entity = datastore.get(userKey);
     } catch(Exception e) {
-        // create initial instance of entity
+        // On EntityNotFoundException, create initial instance.
         testUser.entity = new Entity(userKey);
         String emptyJsonArray = "[ ]";
         testUser.entity.setProperty("displayName", "Test Person");
@@ -95,6 +98,11 @@ public class User {
     return (long)entity.getProperty("displayName");
   }
 
+  public void setDisplayName(String name) {
+    entity.setProperty("displayName", name);
+    put();
+  }
+
 // Cookbook and Planner currently support only one type of Recipe entity (namely public).
 // Likewise, userRecipes should only include private recipes.
 
@@ -108,11 +116,6 @@ public class User {
 
   public ArrayList<Long> getPlanner() {
     return getPropertyArrayList("planner");
-  }
-
-  public void setDisplayName(String name) {
-    entity.setProperty("displayName", name);
-    put();
   }
 
   public void addRecipeToPlanner(long id) {
@@ -139,6 +142,10 @@ public class User {
     removeIDFromRecipeList(id, "userRecipes");
   }
 
+  /**
+   * @Param id recipe ID to be removed from current User entity.
+   * @Param recipeListType Property name of the list to removed from.
+   */
   private void removeIDFromRecipeList(long id, String recipeListType) {
     Gson gson = new Gson();
     ArrayList<Long> list = getPropertyArrayList(recipeListType);
@@ -147,6 +154,10 @@ public class User {
     put();
   }
 
+  /**
+   * @Param id recipe ID to be added to current User entity.
+   * @Param recipeListType Property name of the list to add to.
+   */
   private void addIDToRecipeList(long id, String recipeListType) {
     Gson gson = new Gson();
     ArrayList<Long> list = getPropertyArrayList(recipeListType);
@@ -157,13 +168,19 @@ public class User {
     put();
   }
 
-  // Creates a datastore object and stores current entity in database.
+  /**
+   * Creates a datastore object and stores current entity in database.
+   */
   private void put() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(entity);
   }
 
-  
+  /**
+   * Gets the (String) Json array of a given recipe list.
+   * @Param property Property name of entity list to be obtained.
+   * Returns Parsed array as ArrayList<Long>
+   */
   private ArrayList<Long> getPropertyArrayList(String property) {
     Gson gson = new Gson();
     String jsonArray = (String)entity.getProperty(property);
