@@ -14,8 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.*;
 
-
-
 // Class representing a User
 public class User {
   // API variables:
@@ -93,8 +91,6 @@ public class User {
     return testUser;
   }
 
-
-
   public long getDisplayName() {
     return (long)entity.getProperty("displayName");
   }
@@ -102,17 +98,17 @@ public class User {
 // Cookbook and Planner currently support only one type of Recipe entity (namely public).
 // Likewise, userRecipes should only include private recipes.
 
-//   public Arraylist<long> getCookbookKeys() {
+  public ArrayList<Long> getCookbookKeys() {
+    return new ArrayList<Long>();
+  }
 
-//   }
+  public ArrayList<Long> getUserRecipes() {
+    return new ArrayList<Long>();
+  }
 
-//   public ArrayList<long> getUserRecipes() {
-
-//   }
-
-//   public Arraylist<long> getPlanner() {
-
-//   }
+  public ArrayList<Long> getPlanner() {
+    return new ArrayList<Long>();
+  }
 
   public void setDisplayName(String name) {
     entity.setProperty("displayName", name);
