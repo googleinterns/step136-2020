@@ -24,17 +24,14 @@ import javax.servlet.http.HttpServletResponse;
  * Returns comments from the datastore depending on the size request made by
  * the browser. Also handles receiving requests to post new comment data.
  **/
-@WebServlet("/seach")
+@WebServlet("/search")
 public class Search extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/index.html");
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        SOP(request.getParameter("query"));
+        response.setContentType("text");
+        response.getWriter().println(request.getParameter("query"));
     }
 
     /**
