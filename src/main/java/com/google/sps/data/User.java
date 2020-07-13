@@ -116,56 +116,44 @@ public class User {
   }
 
   public void addRecipeToPlanner(long id) {
-    Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("planner");
-    if (!planner.contains(id)) {
-      planner.add(id);
-    }
-    entity.setProperty("planner", gson.toJson(planner));
-    put();
+    addIDToRecipeList(id, "planner");
   }
 
   public void addRecipeToCookbook(long id) {
-    Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("cookbook");
-    if (!planner.contains(id)) {
-      planner.add(id);
-    }
-    entity.setProperty("cookbook", gson.toJson(planner));
-    put();
+    addIDToRecipeList(id, "cookbook");
   }
 
   public void addRecipeToUserRecipes(long id) {
-    Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("userRecipes");
-    if (!planner.contains(id)) {
-      planner.add(id);
-    }
-    entity.setProperty("userRecipes", gson.toJson(planner));
-    put();
+    addIDToRecipeList(id, "userRecipes");
   }
 
   public void removeRecipeFromPlanner(long id) {
-    Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("planner");
-    planner.remove(new Long(id));
-    entity.setProperty("planner", gson.toJson(planner));
-    put();
+    removeIDFromRecipeList(id, "planner");
   }
 
   public void removeRecipeFromCookbook(long id) {
-    Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("cookbook");
-    planner.remove(new Long(id));
-    entity.setProperty("cookbook", gson.toJson(planner));
-    put();
+    removeIDFromRecipeList(id, "cookbook");
   }
 
   public void removeRecipeFromUserRecipes(long id) {
+    removeIDFromRecipeList(id, "userRecipes");
+  }
+
+  private void removeIDFromRecipeList(long id, String recipeListType) {
     Gson gson = new Gson();
-    ArrayList<Long> planner = getPropertyArrayList("userRecipes");
-    planner.remove(new Long(id));
-    entity.setProperty("userRecipes", gson.toJson(planner));
+    ArrayList<Long> list = getPropertyArrayList(recipeListType);
+    list.remove(new Long(id));
+    entity.setProperty(recipeListType, gson.toJson(list));
+    put();
+  }
+
+  private void addIDToRecipeList(long id, String recipeListType) {
+    Gson gson = new Gson();
+    ArrayList<Long> list = getPropertyArrayList(recipeListType);
+    if (!list.contains(id)) {
+      list.add(id);
+    }
+    entity.setProperty(recipeListType, gson.toJson(list));
     put();
   }
 
