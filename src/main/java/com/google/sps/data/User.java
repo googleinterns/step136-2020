@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -22,8 +23,6 @@ public class User {
   // Client ID is generated from Ali's google APIs credentials page.
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
-
-  private static final String TEST_ID = "000000000000000000000";
 
   /**
     Payload object properties:
@@ -55,33 +54,32 @@ public class User {
   private Entity entity;
 
   /**
-   * This creates a standard universal user instance regardless of login status.
-   * This method will be changed to instantiate distinct user object.
+   * 
    */
-  public User() {
-    String testId = TEST_ID;
-    Key userKey = KeyFactory.createKey("User", testId);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  public User(String idTokenString) throws SecurityException {
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+    .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
+    .setAudience(Collections.singletonList(CLIENT_ID))
+    .build();
+
+    GoogleIdToken idToken;
     try {
-      entity = datastore.get(userKey);
-    } catch(EntityNotFoundException e) {
-      // On EntityNotFoundException, create initial instance.
-      entity = new Entity(userKey);
-      String emptyJsonArray = "[ ]";
-      entity.setProperty("displayName", "Test Person");
-      entity.setProperty("cookbook", emptyJsonArray);
-      entity.setProperty("userRecipes", emptyJsonArray);
-      entity.setProperty("userRecipes", emptyJsonArray);
-      entity.setProperty("planner", emptyJsonArray);
+      idToken = verifier.verify(idTokenString);
+    } catch(IOException | GeneralSecurityException e) {
+      throw new SecurityException("Failed to verify Google token", e);
+    }
+
+    if (idToken != null) {
+      payload = idToken.getPayload();
+      System.out.println("User ID: " + payload.getSubject());
     }
   }
 
   /**
    * Returns the String user unique ID.
-   * Currently returns ID of test user instance.
    */
-  String getId() {
-    return TEST_ID;
+  public String getId() {
+    return payload.getSubject();
   }
 
   public long getDisplayName() {
