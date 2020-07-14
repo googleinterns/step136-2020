@@ -38,10 +38,16 @@ public class UserActionServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String destination = (String) request.getParameter("destination");
-    long id = Long.parseLong((String) request.getParameter("inputId"));
+    long id = Long.parseLong((String) request.getParameter("inputID"));
+
+    String idToken = "oogabooga" //To be changed
     
-    // May be changed to require initialization arguments.
-    User user = new User();
+    try {
+      User user = new User(idToken);
+    } catch(Exception e) {
+      System.out.println("ERROR: Invalid destination parameter");
+      return;
+    }
 
     if (destination.equals(COOKBOOK)) {
       user.addRecipeToCookbook(id);
@@ -49,8 +55,6 @@ public class UserActionServlet extends HttpServlet {
       user.addRecipeToUserRecipes(id);
     } else if (destination.equals(PLANNER)) {
       user.addRecipeToPlanner(id);
-    } else {
-      System.out.println("ERROR: Invalid destination parameter");
     }
   }
 }
