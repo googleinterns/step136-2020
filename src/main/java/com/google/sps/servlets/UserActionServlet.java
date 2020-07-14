@@ -31,20 +31,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/user-action")
 public class UserActionServlet extends HttpServlet {
 
+  public static final String COOKBOOK = "cookbook";
+  public static final String USER_RECIPES = "userRecipes";
+  public static final String PLANNER = "planner";
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String destination = (String) request.getParameter("destination");
-    long id = Long.parseLong((String) request.getParameter("inputID"));
+    long id = Long.parseLong((String) request.getParameter("inputId"));
     
     // May be changed to require initialization arguments.
     User user = new User();
 
-    if (destination.equals("cookbook")) {
+    if (destination.equals(COOKBOOK)) {
       user.addRecipeToCookbook(id);
-    } else if (destination.equals("userRecipes")) {
+    } else if (destination.equals(USER_RECIPES)) {
       user.addRecipeToUserRecipes(id);
-    } else if (destination.equals("planner")) {
+    } else if (destination.equals(PLANNER)) {
       user.addRecipeToPlanner(id);
+    } else {
+      System.out.println("ERROR: Invalid destination parameter");
     }
   }
 }

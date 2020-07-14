@@ -1,6 +1,5 @@
 package com.google.sps.data;
 
-// import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -23,6 +22,8 @@ public class User {
   // Client ID is generated from Ali's google APIs credentials page.
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
+
+  private static final String TEST_ID = "000000000000000000000";
 
   /**
     Payload object properties:
@@ -58,8 +59,8 @@ public class User {
    * This method will be changed to instantiate distinct user object.
    */
   public User() {
-    String testID = "000000000000000000000";
-    Key userKey = KeyFactory.createKey("User", testID);
+    String testId = TEST_ID;
+    Key userKey = KeyFactory.createKey("User", testId);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
       entity = datastore.get(userKey);
@@ -79,8 +80,8 @@ public class User {
    * Returns the String user unique ID.
    * Currently returns ID of test user instance.
    */
-  String getID() {
-    return "000000000000000000000";
+  String getId() {
+    return TEST_ID;
   }
 
   public long getDisplayName() {
@@ -110,27 +111,27 @@ public class User {
   }
 
   public void addRecipeToPlanner(long id) {
-    addIDToRecipeList(id, "planner");
+    addIdToRecipeList(id, "planner");
   }
 
   public void addRecipeToCookbook(long id) {
-    addIDToRecipeList(id, "cookbook");
+    addIdToRecipeList(id, "cookbook");
   }
 
   public void addRecipeToUserRecipes(long id) {
-    addIDToRecipeList(id, "userRecipes");
+    addIdToRecipeList(id, "userRecipes");
   }
 
   public void removeRecipeFromPlanner(long id) {
-    removeIDFromRecipeList(id, "planner");
+    removeIdFromRecipeList(id, "planner");
   }
 
   public void removeRecipeFromCookbook(long id) {
-    removeIDFromRecipeList(id, "cookbook");
+    removeIdFromRecipeList(id, "cookbook");
   }
 
   public void removeRecipeFromUserRecipes(long id) {
-    removeIDFromRecipeList(id, "userRecipes");
+    removeIdFromRecipeList(id, "userRecipes");
   }
 
   /**
@@ -138,7 +139,7 @@ public class User {
    * @Param id recipe ID to be removed from current User entity.
    * @Param recipeListType Property name of the list to removed from.
    */
-  private void removeIDFromRecipeList(long id, String recipeListType) {
+  private void removeIdFromRecipeList(long id, String recipeListType) {
     Gson gson = new Gson();
     ArrayList<Long> list = getPropertyArrayList(recipeListType);
     list.remove(new Long(id));
@@ -151,7 +152,7 @@ public class User {
    * @Param id recipe ID to be added to current User entity.
    * @Param recipeListType Property name of the list to add to.
    */
-  private void addIDToRecipeList(long id, String recipeListType) {
+  private void addIdToRecipeList(long id, String recipeListType) {
     Gson gson = new Gson();
     ArrayList<Long> list = getPropertyArrayList(recipeListType);
     if (!list.contains(id)) {
@@ -178,11 +179,11 @@ public class User {
     Gson gson = new Gson();
     String jsonArray = (String) entity.getProperty(property);
     Type listType = new TypeToken<List<String>>(){}.getType();
-    List<String> stringIDs = gson.fromJson(jsonArray, listType);
-    ArrayList<Long> longIDs = new ArrayList<Long>();
-    for (String str : stringIDs) {
-        longIDs.add(Long.parseLong(str));
+    List<String> stringIds = gson.fromJson(jsonArray, listType);
+    ArrayList<Long> longIds = new ArrayList<Long>();
+    for (String str : stringIds) {
+        longIds.add(Long.parseLong(str));
     }
-    return longIDs;
+    return longIds;
   }
 }
