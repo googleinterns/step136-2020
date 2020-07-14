@@ -18,7 +18,7 @@ async function loadUserRecipes() {
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      noRecipes("user-recipes", NO_USER_RECIPES);
+      setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
@@ -58,7 +58,7 @@ function addDeleteFunctionality(recipes){
         recipeCard.remove();
       }
       if (recipeCards.length == 0) {
-        noRecipes("user-recipes", NO_USER_RECIPES);
+        setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
       }
     });
   }
@@ -67,7 +67,7 @@ function addDeleteFunctionality(recipes){
 // takes in div id and message
 // makes the recipes container bigger and gives it the message
 // to use when there are no recipes in planner/cookbook/user-recipes
-noRecipes = (divID, message) => {
+setUpDivWithNoRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
   recipesDiv.innerText = message;
   recipesDiv.style.height = "100px";
