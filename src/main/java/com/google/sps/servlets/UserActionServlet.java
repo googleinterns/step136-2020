@@ -34,17 +34,17 @@ public class UserActionServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String destination = (String) request.getParameter("destination");
-    long ID = Long.parse((String) request.getParameter("inputID"));
+    long id = Long.parse((String) request.getParameter("inputID"));
     
     // Must be changed to implement distinct users with sign-in API.
     User user = User.getTestUser();
 
-    if (destination == "cookbook") {
-      user.addRecipeToCookbook(ID);
-    } else if (destination == "userRecipes") {
-      user.addRecipeToUserRecipes(ID);
-    } else if (destination == "planner") {
-      user.addRecipeToPlanner(ID);
+    if (destination.equals("cookbook")) {
+      user.addRecipeToCookbook(id);
+    } else if (destination.equals("userRecipes")) {
+      user.addRecipeToUserRecipes(id);
+    } else if (destination.equals("planner")) {
+      user.addRecipeToPlanner(id);
     }
   }
 }

@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+// import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -14,30 +15,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class User {
   // API variables:
-  // client ID is generated from Ali's google APIs credentials page.
-  private static String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
+  // Client ID is generated from Ali's google APIs credentials page.
+  private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
-  private Payload payload;
-  private Entity entity;
 
   /**
-    // User Entity Properties:
+    Payload object properties:
 
-    "displayName" : "Example Name"
-    "cookbook" : [ "longId1", "longId2", "longId3" ]
-    "userRecipes" : [ "longId1", "longId2", "longId3" ]
-    "planner" : [ "longId1", "longId2", "longId3" ]
-    "shoppingList" : [ "longId1", "longId2", "longId3" ]
-
-    // Properties that can be accessed from Payload object:
-
-    // These seven fields are only included when the user has granted the "profile" and
-    // "email" OAuth scopes to the application.
-    // "sub" or Subject refers to the user-unique ID number.
+    These seven fields are only included when the user has granted the "profile" and
+    "email" OAuth scopes to the application.
+    "sub" or Subject refers to the user-unique ID number.
     "sub" : "110169484474386276334"
     "email" : "testuser@gmail.com",
     "email_verified" : "true",
@@ -46,36 +38,26 @@ public class User {
     "given_name" : "Test",
     "family_name" : "User",
   */
+  private Payload payload;
 
   /**
-   * Used for initialization with static methods.
-   */
-  private User() { }
+    User Entity Properties:
 
-  /**
-   * Constructs a User instance based on a unique id_token.
-   * Verify user using google's ID token verifyer API.
-   * This method is commented out because it does not work yet.
-   */
-  public User(String idTokenString) {
-    // GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
-    // .Builder(UrlFetchTransport.getDefaultInstance(), new JsonFactory())
-    // // Specify the CLIENT_ID of the app that accesses the backend:
-    // .setAudience(Collections.singletonList(CLIENT_ID)).build();
+    "displayName" : "Example Name"
+    "cookbook" : [ "ID1", "ID2", "ID3" ]
+    "userRecipes" : [ "ID1", "ID2", "ID3" ]
+    "planner" : [ "ID1", "ID2", "ID3" ]
+    "shoppingList" : [ "ID1", "ID2", "ID3" ]
 
-    // GoogleIdToken idToken = verifier.verify(idTokenString);
-    // if (idToken == null) {
-    //   throw new Exception("ID token verification failed");
-    // }
-
-    // payload = idToken.getPayload();
-  }
+    Note: ID values must be parsed into Long type.
+    */
+  private Entity entity;
 
   /**
    * This creates a standard universal user instance regardless of login status.
-   * This test method will not be removed from the webapp prior to deployment.
+   * This method will be changed to instantiate distinct user object.
    */
-  public static User getTestUser() {
+  public User() {
     User testUser = new User();
     String testID = "000000000000000000000";
     Key userKey = KeyFactory.createKey("User", testID);
@@ -95,6 +77,14 @@ public class User {
     return testUser;
   }
 
+  /**
+   * Returns the String user unique ID.
+   * Currently returns ID of test user instance.
+   */
+  String getID() {
+    return "000000000000000000000";
+  }
+
   public long getDisplayName() {
     return (long) entity.getProperty("displayName");
   }
@@ -104,8 +94,10 @@ public class User {
     putEntity();
   }
 
-// Cookbook and Planner currently support only one type of Recipe entity (namely public).
-// Likewise, userRecipes should only include private recipes.
+  /* 
+  Cookbook and Planner currently support only one type of Recipe entity (namely public).
+  Likewise, userRecipes should only include private recipes.
+  */
 
   public ArrayList<Long> getCookbook() {
     return getPropertyArrayList("cookbook");
