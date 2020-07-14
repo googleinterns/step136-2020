@@ -58,23 +58,21 @@ public class User {
    * This method will be changed to instantiate distinct user object.
    */
   public User() {
-    User testUser = new User();
     String testID = "000000000000000000000";
     Key userKey = KeyFactory.createKey("User", testID);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
-        testUser.entity = datastore.get(userKey);
+      entity = datastore.get(userKey);
     } catch(EntityNotFoundException e) {
-        // On EntityNotFoundException, create initial instance.
-        testUser.entity = new Entity(userKey);
-        String emptyJsonArray = "[ ]";
-        testUser.entity.setProperty("displayName", "Test Person");
-        testUser.entity.setProperty("cookbook", emptyJsonArray);
-        testUser.entity.setProperty("userRecipes", emptyJsonArray);
-        testUser.entity.setProperty("userRecipes", emptyJsonArray);
-        testUser.entity.setProperty("planner", emptyJsonArray);
+      // On EntityNotFoundException, create initial instance.
+      entity = new Entity(userKey);
+      String emptyJsonArray = "[ ]";
+      entity.setProperty("displayName", "Test Person");
+      entity.setProperty("cookbook", emptyJsonArray);
+      entity.setProperty("userRecipes", emptyJsonArray);
+      entity.setProperty("userRecipes", emptyJsonArray);
+      entity.setProperty("planner", emptyJsonArray);
     }
-    return testUser;
   }
 
   /**

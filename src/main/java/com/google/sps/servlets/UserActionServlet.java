@@ -34,10 +34,10 @@ public class UserActionServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String destination = (String) request.getParameter("destination");
-    long id = Long.parse((String) request.getParameter("inputID"));
+    long id = Long.parseLong((String) request.getParameter("inputID"));
     
-    // Must be changed to implement distinct users with sign-in API.
-    User user = User.getTestUser();
+    // May be changed to require initialization arguments.
+    User user = new User();
 
     if (destination.equals("cookbook")) {
       user.addRecipeToCookbook(id);
