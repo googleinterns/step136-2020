@@ -11,7 +11,7 @@ async function loadUserRecipes() {
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
-    if(Object.keys(recipes).length == 0){
+    if (Object.keys(recipes).length == 0) {
       noRecipes("user-recipes", "You have not uploaded any recipes yet.");
     }
     else {
@@ -29,28 +29,32 @@ async function loadUserRecipes() {
           elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
         }
       }
-
-      // functionality of delete button
-      const deleteButtons = document.getElementsByClassName('fa-trash-alt');
-      const recipeCards = document.getElementsByClassName('recipe-card');
-      // there are as many delete buttons as there are recipe cards
-      for (let i = 0; i < deleteButtons.length; i++) {
-        let recipe = recipes[i];
-        let recipeCard = recipeCards[i];
-        deleteButtons[i].addEventListener('click', () => {
-          const deleteConfirmed = confirm("Are you sure you want to delete the " 
-            +recipe.name+" recipe?\nThis action cannot be undone!");
-          if (deleteConfirmed) {
-            deleteRecipe(recipe);
-            // Remove the recipe from the DOM.
-            recipeCard.remove();
-          }
-          if (recipeCards.length == 0) {
-            noRecipes("user-recipes", "You have not uploaded any recipes yet.");
-          }
-        });
-      }
+      addDeleteFunctionality(recipes);
+      // TODO: add edit functionality
     }
+  }
+}
+
+function addDeleteFunctionality(recipes){
+  // functionality of delete button
+  const deleteButtons = document.getElementsByClassName('fa-trash-alt');
+  const recipeCards = document.getElementsByClassName('recipe-card');
+  // there are as many delete buttons as there are recipe cards
+  for (let i = 0; i < deleteButtons.length; i++) {
+    let recipe = recipes[i];
+    let recipeCard = recipeCards[i];
+    deleteButtons[i].addEventListener('click', () => {
+      const deleteConfirmed = confirm("Are you sure you want to delete the " 
+        + recipe.name + " recipe?\nThis action cannot be undone!");
+      if (deleteConfirmed) {
+        deleteRecipe(recipe);
+        // Remove the recipe from the DOM.
+        recipeCard.remove();
+      }
+      if (recipeCards.length == 0) {
+        noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+      }
+    });
   }
 }
 
