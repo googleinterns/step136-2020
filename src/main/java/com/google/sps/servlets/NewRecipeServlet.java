@@ -61,6 +61,7 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
+    // TODO: get user ID and setProperty
 
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained

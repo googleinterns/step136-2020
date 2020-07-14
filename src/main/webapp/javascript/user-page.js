@@ -67,8 +67,35 @@ function addEditFunctionality(recipes){
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
     editButtons[i].addEventListener('click', () => {
-      alert("You clicked the edit button");
+      openModal("edit-recipe-modal");
+      addExistingValuesToEditForm(recipe);
     });
+  }
+}
+
+function addExistingValuesToEditForm(recipe) {
+  document.getElementById("edit-name").value = recipe.name;
+  document.getElementById("edit-description").value = recipe.description;
+  // sets up tags
+  if (recipe.tags.length > 0) {
+    document.getElementById("edit-tags").value = recipe.tags[0];
+  }
+  for (let i = 1; i < recipe.tags.length; i++) {
+    document.getElementById("edit-tags").value += ", " + recipe.tags[i];
+  }
+  // sets up ingredients
+  if (recipe.ingredients.length > 0) {
+    document.getElementById("edit-ingredients").value = recipe.ingredients[0];
+  }
+  for (let i = 1; i < recipe.ingredients.length; i++) {
+    document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
+  }
+  // sets up steps
+  if (recipe.steps.length > 0) {
+    document.getElementById("edit-steps").value = recipe.steps[0];
+  }
+  for (let i = 1; i < recipe.steps.length; i++) {
+    document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
   }
 }
 
