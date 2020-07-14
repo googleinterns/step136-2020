@@ -31,6 +31,7 @@ async function loadUserRecipes() {
       }
       addDeleteFunctionality(recipes);
       // TODO: add edit functionality
+      addEditFunctionality(recipes);
     }
   }
 }
@@ -58,6 +59,19 @@ function addDeleteFunctionality(recipes){
   }
 }
 
+function addEditFunctionality(recipes){
+  const editButtons = document.getElementsByClassName('fa-edit');
+  const recipeCards = document.getElementsByClassName('recipe-card');
+  // there are as many delete buttons as there are recipe cards
+  for (let i = 0; i < editButtons.length; i++) {
+    let recipe = recipes[i];
+    let recipeCard = recipeCards[i];
+    editButtons[i].addEventListener('click', () => {
+      alert("You clicked the edit button");
+    });
+  }
+}
+
 // takes in div id and message
 noRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
@@ -66,8 +80,8 @@ noRecipes = (divID, message) => {
 }
 
 // opens the recipe form modal
-function openModal() {
-  document.getElementById("recipe-modal").style.display = "block";
+function openModal(id) {
+  document.getElementById(id).style.display = "block";
   fetchBlobstoreUrl();
 }
 
@@ -84,8 +98,8 @@ function fetchBlobstoreUrl() {
 }
 
 // closes the recipe form modal
-function closeModal() {
-  document.getElementById("recipe-modal").style.display = "none";
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
 
 // tells the server to delete the recipe.
