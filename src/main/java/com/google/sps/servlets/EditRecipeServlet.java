@@ -72,6 +72,9 @@ public class EditRecipeServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+        System.out.println(entity.getProperty("name"));
+    }
     Entity recipeEntity = results.asSingleEntity();
 
     recipeEntity.setProperty("name", name);
