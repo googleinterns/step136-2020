@@ -1,3 +1,9 @@
+// constants
+const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet.";
+const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
+const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
+
+
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
@@ -12,7 +18,7 @@ async function loadUserRecipes() {
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+      noRecipes("user-recipes", NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
@@ -35,8 +41,8 @@ async function loadUserRecipes() {
   }
 }
 
+// adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){
-  // functionality of delete button
   const deleteButtons = document.getElementsByClassName('fa-trash-alt');
   const recipeCards = document.getElementsByClassName('recipe-card');
   // there are as many delete buttons as there are recipe cards
@@ -52,13 +58,15 @@ function addDeleteFunctionality(recipes){
         recipeCard.remove();
       }
       if (recipeCards.length == 0) {
-        noRecipes("user-recipes", "You have not uploaded any recipes yet.");
+        noRecipes("user-recipes", NO_USER_RECIPES);
       }
     });
   }
 }
 
 // takes in div id and message
+// makes the recipes container bigger and gives it the message
+// to use when there are no recipes in planner/cookbook/user-recipes
 noRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
   recipesDiv.innerText = message;
