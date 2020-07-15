@@ -54,7 +54,7 @@
   z-index: 1; 
 }
 
-#recipe-form {
+.recipe-form {
   background-color: #B6E6F9;
   border-radius: 25px;
   margin: 0 auto;
@@ -82,7 +82,7 @@ textarea {
 }
 
 /* Add Animation - Zoom in the Modal */
-#recipe-form {
+.recipe-form {
   -webkit-animation-duration: 0.6s;
   -webkit-animation-name: zoom;
   animation-duration: 0.6s;

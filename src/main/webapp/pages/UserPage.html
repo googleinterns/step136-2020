@@ -39,7 +39,7 @@
         </div>
         <div class="modal" id="new-recipe-modal">
           <span onclick="closeModal('new-recipe-modal')" class="close">&times;</span>
-          <form id="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
+          <form id="new-recipe-form" class="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="name" name="name">
@@ -76,7 +76,7 @@
         </div>
         <div class="modal" id="edit-recipe-modal">
           <span onclick="closeModal('edit-recipe-modal')" class="close">&times;</span>
-          <form id="recipe-form" method="POST" enctype="multipart/form-data" action="/edit-recipe">
+          <form id="edit-recipe-form" class="recipe-form" method="POST" enctype="multipart/form-data" action="/edit-recipe">
             <h1 class="center">Edit Recipe</h1>
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="edit-name" name="edit-name">

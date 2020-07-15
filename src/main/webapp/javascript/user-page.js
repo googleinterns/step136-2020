@@ -139,7 +139,14 @@ function fetchBlobstoreUrl(id) {
         return response.text();
       })
       .then((imageUploadUrl) => {
-        const form = document.getElementById(id);
+        let form;
+        if (id == "new-recipe-modal") {
+          form = document.getElementById("new-recipe-form");
+        } else if (id == "edit-recipe-modal") {
+          form = document.getElementById("edit-recipe-form");
+        } else {
+          console.log("invalid modal id");
+        }
         form.action = imageUploadUrl;
       });
 }
