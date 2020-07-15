@@ -3,7 +3,6 @@ const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet."
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 
-
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
@@ -38,7 +37,6 @@ async function loadUserRecipes() {
         }
       }
       addDeleteFunctionality(recipes);
-      // TODO: add edit functionality
       addEditFunctionality(recipes);
     }
   }
@@ -91,6 +89,9 @@ function addEditFunctionality(recipes){
 }
 
 function addExistingValuesToEditForm(recipe) {
+  console.log(recipe);
+  document.getElementById("recipeID").value = recipe.id;
+  console.log(recipe.id);
   document.getElementById("edit-name").value = recipe.name;
   document.getElementById("edit-description").value = recipe.description;
   // sets up tags
@@ -119,7 +120,10 @@ function addExistingValuesToEditForm(recipe) {
 // opens the recipe form modal
 function openModal(id) {
   document.getElementById(id).style.display = "block";
-  fetchBlobstoreUrl(id);
+  // edit-recipe-modal doesn't have image functionality rn
+  if (id == "new-recipe-modal") {
+    fetchBlobstoreUrl(id);
+  }
 }
 
 // takes in div id and message
