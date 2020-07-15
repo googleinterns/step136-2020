@@ -9,6 +9,8 @@ async function loadRecipes() {
   loadUserRecipes();
 }
 
+// loads the user made/uploaded recipes specifically from the 
+// general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
@@ -42,6 +44,7 @@ async function loadUserRecipes() {
   }
 }
 
+
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){
   const deleteButtons = document.getElementsByClassName('fa-trash-alt');
@@ -63,6 +66,14 @@ function addDeleteFunctionality(recipes){
       }
     });
   }
+}
+
+// tells the server to delete the recipe.
+// input is a recipe js object
+function deleteRecipe(recipe) {
+  const params = new URLSearchParams();
+  params.append("id", recipe.id);
+  fetch("/delete-recipe", {method: "POST", body: params});
 }
 
 function addEditFunctionality(recipes){
@@ -105,6 +116,12 @@ function addExistingValuesToEditForm(recipe) {
   }
 }
 
+// opens the recipe form modal
+function openModal(id) {
+  document.getElementById(id).style.display = "block";
+  fetchBlobstoreUrl(id);
+}
+
 // takes in div id and message
 // makes the recipes container bigger and gives it the message
 // to use when there are no recipes in planner/cookbook/user-recipes
@@ -114,21 +131,16 @@ setUpDivWithNoRecipes = (divID, message) => {
   recipesDiv.style.height = "100px";
 }
 
-// opens the recipe form modal
-function openModal(id) {
-  document.getElementById(id).style.display = "block";
-  fetchBlobstoreUrl();
-}
-
 // not quite sure what this does; something with blobs
-function fetchBlobstoreUrl() {
-  fetch('/blobstore-upload-url')
+function fetchBlobstoreUrl(id) {
+  console.log("fetchBlobstoreUrl() id = "+id);
+  fetch('/blobstore-upload-url?divID='+id)
       .then((response) => {
         return response.text();
       })
       .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('recipe-form');
-        messageForm.action = imageUploadUrl;
+        const form = document.getElementById(id);
+        form.action = imageUploadUrl;
       });
 }
 
@@ -137,10 +149,3 @@ function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
 
-// tells the server to delete the recipe.
-// input is a recipe js object
-function deleteRecipe(recipe) {
-  const params = new URLSearchParams();
-  params.append("id", recipe.id);
-  fetch("/delete-recipe", {method: "POST", body: params});
-}

@@ -36,6 +36,9 @@ public class NewRecipeServlet extends HttpServlet {
     // prevents empty responses as being saved in datastore
     // redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
+    if (name == null) {
+      System.out.println("     NewRecipeServlet: stuff is null");
+    }
     if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")){
       response.sendRedirect("/pages/UserPage.html");
       return;

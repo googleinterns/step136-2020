@@ -1,5 +1,10 @@
 package com.google.sps.servlets;
 
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -59,7 +64,7 @@ public class EditRecipeServlet extends HttpServlet {
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
-    System.out.println("name value: " + name+"\n");
+    System.out.println("\nname value: " + name+"\n");
 
     // make filters to find specific recipe that was edited
     Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
@@ -73,9 +78,6 @@ public class EditRecipeServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-    for (Entity entity : results.asIterable()) {
-        System.out.println("entity name: " + entity.getProperty("name"));
-    }
     Entity recipeEntity = results.asSingleEntity();
 
     recipeEntity.setProperty("name", name);
@@ -83,9 +85,34 @@ public class EditRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
-    datastore.put(recipeEntity);
 
-    // TODO: figure out how to replace image
+    // getUploads returns a set of blobs that have been uploaded 
+    // the Map object is a list that associates the names of the upload fields to the blobs they contained
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+    System.out.println("got blobkeys from image input");
+
+    // user submitted form without selecting a file, so we can't get a URL. (dev server)
+    // redirects user back to UserPage
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      response.sendRedirect("/pages/UserPage.html");
+      return;
+    } else {
+      BlobKey blobkey = blobKeys.get(0);
+      BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobkey);
+      // user submitted form without selecting a file, so we can't get a URL. (dev server)
+      // redirects user back to UserPage
+      if (blobInfo.getSize() == 0) {
+        blobstoreService.delete(blobkey);
+        response.sendRedirect("/pages/UserPage.html");
+        return;
+      } else {
+        recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
+      }
+    }
+
+    datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.html");
   }
