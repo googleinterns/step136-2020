@@ -154,3 +154,11 @@ function userSpecificService() {
     outputPlace.innerText = 'current user: ' + auth2.currentUser.get().getBasicProfile().getName();
   });
 }
+
+/**
+ * Test for user verification  */
+ function verifyUser() {
+  confirmUser().then(() => {
+    fetch(`/user-test?${getIdToken()}`).then(() => console.log("verification test complete"));
+  });
+}

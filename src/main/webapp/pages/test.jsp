@@ -33,5 +33,9 @@
         <button onclick="userSpecificService()" id="user-specific-service">sign in required service</button>
         <p id="test-output"></p>
       </div>
+
+      <div id="verify-user-test">
+        <button onclick="verifyUser()">verify</button>
+      </div>
   </body>
 </html>
