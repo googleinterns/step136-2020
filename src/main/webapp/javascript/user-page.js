@@ -1,3 +1,9 @@
+// constants
+const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet.";
+const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
+const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
+
+
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
@@ -11,9 +17,8 @@ async function loadUserRecipes() {
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
-    if(Object.keys(recipes).length == 0){
-      recipesDiv.innerText = "You have not uploaded any recipes yet.";
-      recipesDiv.style.height = "100px";
+    if (Object.keys(recipes).length == 0) {
+      setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
@@ -30,8 +35,42 @@ async function loadUserRecipes() {
           elementsToAddToImageDiv.forEach(elem => imageDivs[i].appendChild(elem));
         }
       }
+      addDeleteFunctionality(recipes);
+      // TODO: add edit functionality
     }
   }
+}
+
+// adds delete functionality to the delete button in the recipe cards
+function addDeleteFunctionality(recipes){
+  const deleteButtons = document.getElementsByClassName('fa-trash-alt');
+  const recipeCards = document.getElementsByClassName('recipe-card');
+  // there are as many delete buttons as there are recipe cards
+  for (let i = 0; i < deleteButtons.length; i++) {
+    let recipe = recipes[i];
+    let recipeCard = recipeCards[i];
+    deleteButtons[i].addEventListener('click', () => {
+      const deleteConfirmed = confirm("Are you sure you want to delete the " 
+        + recipe.name + " recipe?\nThis action cannot be undone!");
+      if (deleteConfirmed) {
+        deleteRecipe(recipe);
+        // Remove the recipe from the DOM.
+        recipeCard.remove();
+      }
+      if (recipeCards.length == 0) {
+        setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
+      }
+    });
+  }
+}
+
+// takes in div id and message
+// makes the recipes container bigger and gives it the message
+// to use when there are no recipes in planner/cookbook/user-recipes
+setUpDivWithNoRecipes = (divID, message) => {
+  let recipesDiv = document.getElementById(divID);
+  recipesDiv.innerText = message;
+  recipesDiv.style.height = "100px";
 }
 
 // opens the recipe form modal
