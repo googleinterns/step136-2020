@@ -4,10 +4,13 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,8 +37,6 @@ public class EditRecipeServlet extends HttpServlet {
     // privacy will be used once we give users the option to make their recipes public
     // String privacy = request.getParameter("privacy");
 
-    System.out.println(name);
-
     // prevents empty responses as being saved in datastore
     // redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
@@ -58,22 +59,22 @@ public class EditRecipeServlet extends HttpServlet {
     ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
 
+    System.out.println("name value: " + name+"\n");
+
     // make filters to find specific recipe that was edited
     Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
     Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
     // TODO: further filter by author ID
     // Filter authorFilter = new FilterPredicate("authorID", FilterOperator.valueOf("EQUAL"), authorID));
+    Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
 
     // set filters to the query
-    Query query = new Query("PrivateRecipe")
-        .setFilter(nameFilter)
-        .setFilter(descriptionFilter);
-        // .setFilter(authorFilter);
+    Query query = new Query("PrivateRecipe").setFilter(composFilter);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
-        System.out.println(entity.getProperty("name"));
+        System.out.println("entity name: " + entity.getProperty("name"));
     }
     Entity recipeEntity = results.asSingleEntity();
 
