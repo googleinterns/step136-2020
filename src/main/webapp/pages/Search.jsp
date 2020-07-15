@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
+    <script src="../javascript/recipe-rendering.js"></script>
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
   <body>
@@ -10,7 +11,6 @@
       <div id="extended search">
       </div>
       <div id="content">
-        <p>Hello World!</p>
       </div>
   </body>
 </html>
