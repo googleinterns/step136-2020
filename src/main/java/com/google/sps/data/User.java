@@ -13,10 +13,13 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.lang.SecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.security.GeneralSecurityException;
 
 public class User {
   // API variables:
@@ -54,7 +57,10 @@ public class User {
   private Entity entity;
 
   /**
-   * 
+   * Verifies user and creates a User instance for accessing and adding user data.
+   * throws SecurityException on failure, import from java.lang.SecurityException.
+   * @Param idTokenString is the Google-user ID Token provided buy user-auth.js/getIdToken.
+   * Token should be passed as URL Fetch argument from front end.
    */
   public User(String idTokenString) throws SecurityException {
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
@@ -69,9 +75,21 @@ public class User {
       throw new SecurityException("Failed to verify Google token", e);
     }
 
-    if (idToken != null) {
-      payload = idToken.getPayload();
-      System.out.println("User ID: " + payload.getSubject());
+    payload = idToken.getPayload();
+
+    Key userKey = KeyFactory.createKey("User", getId());
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    try {
+      entity = datastore.get(userKey);
+    } catch(EntityNotFoundException e) {
+      // On EntityNotFoundException, create initial instance.
+      entity = new Entity(userKey);
+      String emptyJsonArray = "[ ]";
+      // displayName defaults to given name from Gmail account.
+      entity.setProperty("displayName", (String) payload.get("name"));
+      entity.setProperty("cookbook", emptyJsonArray);
+      entity.setProperty("userRecipes", emptyJsonArray);
+      entity.setProperty("planner", emptyJsonArray);
     }
   }
 
