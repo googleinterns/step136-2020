@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Provides get method for adding a recipe ID to one of the three User recipe lists.
- * Request parameters: "destination", "inputID", "idToken"
+ * Request parameters: "destination", "idInput", "idToken"
  * "destination" may be one of three user recipe list: "cookbook", "userRecipes", "planner".
- * "inputID" must contain the recipe ID to be added.
+ * "idInput" must contain the recipe ID to be added.
  * Google ID token is required for instantiation of User object, acquire from user-auth.js/getIdToken.
  */
 @WebServlet("/user-action")
