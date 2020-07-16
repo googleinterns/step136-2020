@@ -89,9 +89,7 @@ function addEditFunctionality(recipes){
 }
 
 function addExistingValuesToEditForm(recipe) {
-  console.log(recipe);
   document.getElementById("recipeID").value = recipe.id;
-  console.log(recipe.id);
   document.getElementById("edit-name").value = recipe.name;
   document.getElementById("edit-description").value = recipe.description;
   // sets up tags
@@ -137,7 +135,6 @@ setUpDivWithNoRecipes = (divID, message) => {
 
 // not quite sure what this does; something with blobs
 function fetchBlobstoreUrl(id) {
-  console.log("fetchBlobstoreUrl() id = "+id);
   fetch('/blobstore-upload-url?divID='+id)
       .then((response) => {
         return response.text();
