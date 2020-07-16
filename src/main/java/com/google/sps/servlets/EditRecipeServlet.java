@@ -68,7 +68,7 @@ public class EditRecipeServlet extends HttpServlet {
         name.trim();
       }
 
-        // if the tags input in the form is empty, the original value will be saved
+      // if the tags input in the form is empty, the original value will be saved
       if (tagsResponse.equals("")) {
         tags = (ArrayList<String>) recipeEntity.getProperty("tags");
       } else {
@@ -115,8 +115,6 @@ public class EditRecipeServlet extends HttpServlet {
         System.out.println("entity not found exception");
     }
     
-
-
     response.sendRedirect("/pages/UserPage.html");
   }
 }
