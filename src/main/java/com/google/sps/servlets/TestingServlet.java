@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.TestData;
 import com.google.sps.data.UserQuery;
-import com.google.sps.util.Utils.SOP;
+import com.google.sps.util.Utils;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class TestingServlet extends HttpServlet {
       TestData.RecipeNameSearch.initializeData();
       response.getWriter().println("I returned from post and initialized");
     } else if (request.getParameter("action").equals("delete")) {
-      SOP("NOT IMPLEMENTED YET");
+      Utils.SOP("NOT IMPLEMENTED YET");
     }
   }
 }

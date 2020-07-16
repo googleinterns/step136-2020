@@ -29,8 +29,7 @@ public class SearchUtils {
    * Current implementation returns strings trimmed and in lowercase.
    */
   public static String standardize(String str) {
-   String standard = str.trim();
-   standard = standard.toLowerCase();
+   String standard = str.trim().toLowerCase();
    return standard;
   }
 

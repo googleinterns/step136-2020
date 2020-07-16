@@ -22,7 +22,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.UserQuery;
-import com.google.sps.util.Utils.convertToJson;
+import com.google.sps.util.Utils;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class SearchServlet extends HttpServlet {
     UserQuery uQuery = new UserQuery(request.getParameter("query"));
     
     // Max size for the query response
-    private final int resultsPerRequest = 10;
+    final int resultsPerRequest = 10;
     
     // Creates the new Query and adds the filter to be used in Datastore
     // The filter is currently only set to find an exact match name in Datastore
@@ -76,9 +76,7 @@ public class SearchServlet extends HttpServlet {
 
     // Sets the response type,converts the data into JSON, and sends the response
     response.setContentType("application:json");
-    String recipeResponse = convertToJson(clientRecipeInfo);
+    String recipeResponse = Utils.convertToJson(clientRecipeInfo);
     response.getWriter().println(recipeResponse);
   }
-
-
 }
