@@ -115,6 +115,6 @@ public class EditRecipeServlet extends HttpServlet {
         System.out.println("entity not found exception");
     }
     
-    response.sendRedirect("/pages/UserPage.html");
+    response.sendRedirect("/pages/UserPage.jsp");
   }
 }

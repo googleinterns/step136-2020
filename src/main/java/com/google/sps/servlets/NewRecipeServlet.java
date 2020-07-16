@@ -37,7 +37,7 @@ public class NewRecipeServlet extends HttpServlet {
     // redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
     if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")){
-      response.sendRedirect("/pages/UserPage.html");
+      response.sendRedirect("/pages/UserPage.jsp");
       return;
     }
 
@@ -72,7 +72,7 @@ public class NewRecipeServlet extends HttpServlet {
     // user submitted form without selecting a file, so we can't get a URL. (dev server)
     // redirects user back to UserPage
     if (blobKeys == null || blobKeys.isEmpty()) {
-      response.sendRedirect("/pages/UserPage.html");
+      response.sendRedirect("/pages/UserPage.jsp");
       return;
     } else {
       BlobKey blobkey = blobKeys.get(0);
@@ -81,7 +81,7 @@ public class NewRecipeServlet extends HttpServlet {
       // redirects user back to UserPage
       if (blobInfo.getSize() == 0) {
         blobstoreService.delete(blobkey);
-        response.sendRedirect("/pages/UserPage.html");
+      response.sendRedirect("/pages/UserPage.jsp");
         return;
       } else {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
@@ -91,6 +91,6 @@ public class NewRecipeServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);
 
-    response.sendRedirect("/pages/UserPage.html");
+    response.sendRedirect("/pages/UserPage.jsp");
   }
 }
