@@ -20,9 +20,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.UserQuery;
+import com.google.sps.util.Utils.convertToJson;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,20 +80,5 @@ public class SearchServlet extends HttpServlet {
     response.getWriter().println(recipeResponse);
   }
 
-  /**
-   * Simple Implementation to reduce need to type print statements in debugging.
-   **/
-  private void SOP(Object thing) {
-    System.out.println(thing);
-  }
-
-  /**
-   * Converts an object into JSON using Gson, but abstracts the need to make
-   * a Gson object in different parts of code.
-   **/
-  private String convertToJson(Object target) {
-    Gson gson = new Gson();
-    return gson.toJson(target);
-  }
 
 }
