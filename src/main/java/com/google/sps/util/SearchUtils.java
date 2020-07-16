@@ -68,11 +68,11 @@ public class SearchUtils {
    * a query.
    */
   public static Query.FilterPredicate getAuthorFilter(Long authorID) {
-      return new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, authorID);
+    return new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, authorID);
   }
 
   /**
-   * Takes in an authorID and returns the query filter for the given author so it can be added to
+   * Takes in an recipe name and returns the query filter for the given recipe name so it can be added to
    * a query.
    */
   public static Query.FilterPredicate getRecipeNameFilter(String recipeName) {
@@ -85,14 +85,14 @@ public class SearchUtils {
    */
   public static Query.CompositeFilter getTagFilter(String tag) {
       // Filter for whether the tag is in the ingredient list
-      Query.Filter ingredFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, tag);
+      Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, tag);
       
       //Filter for whether the tag is in the tag list
       Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, tag);
 
       // returns a composite filter for whether the tag is in one of the arraylists
       return new Query.CompositeFilter(
-        Query.CompositeFilterOperator.OR, Arrays.asList(ingredFilter, tagFilter)
+        Query.CompositeFilterOperator.OR, Arrays.asList(ingredientFilter, tagFilter)
       );
   }
 }

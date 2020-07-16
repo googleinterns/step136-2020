@@ -2,7 +2,8 @@
  * The function to load the main page and display content properly 
  */
 mainPageLoad = () => {
-  
+  // TODO: implement the call to search and rendering functions here for the intial load of the
+  // search page. This will be called everytime the page is refreshed.
 }
 
 /**
@@ -69,14 +70,14 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
 
     // If the object parameter is not undefined or an empty string, it 
     // creates a textnode and adds it to the HTML element
-    if (object !== undefined || object !== "") {
+    if (object !== undefined && object !== "") {
       let htmlText = document.createTextNode(object);
       htmlElement.appendChild(htmlText);
     }
 
     // If the tagOptions object is not undefined or empty, it goes through each 
     // option and adds the attribute to the new HTML element.
-    if (tagOptions !== undefined || Object.keys(tagOptions).length > 0) {
+    if (tagOptions !== undefined && Object.keys(tagOptions).length > 0) {
       for (opt in tagOptions) {   
           htmlElement.setAttribute(opt, tagOptions[opt]); 
       }
