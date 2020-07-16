@@ -42,7 +42,6 @@ async function loadUserRecipes() {
   }
 }
 
-
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){
   const deleteButtons = document.getElementsByClassName('fa-trash-alt');
@@ -74,10 +73,11 @@ function deleteRecipe(recipe) {
   fetch("/delete-recipe", {method: "POST", body: params});
 }
 
+// adds edit functionality to the edit button in the recipe cards
 function addEditFunctionality(recipes){
   const editButtons = document.getElementsByClassName('fa-edit');
   const recipeCards = document.getElementsByClassName('recipe-card');
-  // there are as many delete buttons as there are recipe cards
+  // there are as many edit buttons as there are recipe cards
   for (let i = 0; i < editButtons.length; i++) {
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
@@ -88,6 +88,7 @@ function addEditFunctionality(recipes){
   }
 }
 
+// adds values of stored recipe to edit recipe form
 function addExistingValuesToEditForm(recipe) {
   document.getElementById("recipeID").value = recipe.id;
   document.getElementById("edit-name").value = recipe.name;
@@ -95,24 +96,28 @@ function addExistingValuesToEditForm(recipe) {
   // sets up tags
   if (recipe.tags.length > 0) {
     document.getElementById("edit-tags").value = recipe.tags[0];
+    for (let i = 1; i < recipe.tags.length; i++) {
+      document.getElementById("edit-tags").value += ", " + recipe.tags[i];
+    }
   }
-  for (let i = 1; i < recipe.tags.length; i++) {
-    document.getElementById("edit-tags").value += ", " + recipe.tags[i];
-  }
+  
   // sets up ingredients
   if (recipe.ingredients.length > 0) {
     document.getElementById("edit-ingredients").value = recipe.ingredients[0];
+    for (let i = 1; i < recipe.ingredients.length; i++) {
+      document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
+    }
   }
-  for (let i = 1; i < recipe.ingredients.length; i++) {
-    document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
-  }
+
   // sets up steps
   if (recipe.steps.length > 0) {
     document.getElementById("edit-steps").value = recipe.steps[0];
+    for (let i = 1; i < recipe.steps.length; i++) {
+      document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
+    }
   }
-  for (let i = 1; i < recipe.steps.length; i++) {
-    document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
-  }
+
+  // TODO: figure out image value (low priority)
 }
 
 // opens the recipe form modal
