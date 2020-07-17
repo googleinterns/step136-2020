@@ -32,19 +32,20 @@ public class EditRecipeServlet extends HttpServlet {
     // privacy will be used once we give users the option to make their recipes public
     // String privacy = request.getParameter("privacy");
 
-    // gets saved values from DataStore
-    String name = (String) recipeEntity.getProperty("name");
-    String tags = (ArrayList<String>) recipeEntity.getProperty("tags");
-    String description = (String) recipeEntity.getProperty("description");
-    String ingredients = (ArrayList<String>) recipeEntity.getProperty("ingredients");
-    String steps = (ArrayList<String>) recipeEntity.getProperty("steps");
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
     
     long id = Long.parseLong(idResponse);
     Key key = KeyFactory.createKey("PrivateRecipe", id);
     try {
       Entity recipeEntity = datastore.get(key);
+
+      // gets saved values from DataStore
+      String name = (String) recipeEntity.getProperty("name");
+      ArrayList<String> tags = (ArrayList<String>) recipeEntity.getProperty("tags");
+      String description = (String) recipeEntity.getProperty("description");
+      ArrayList<String> ingredients = (ArrayList<String>) recipeEntity.getProperty("ingredients");
+      ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class UserHelper {
+public class FormHelper {
 
   // input: String of values separated by commas
   // returns: values split by commas, trimmed and in lowercase and without any empty/null members
