@@ -74,7 +74,7 @@ function deleteRecipe(recipe) {
 }
 
 // adds edit functionality to the edit button in the recipe cards
-function addEditFunctionality(recipes){
+function addEditFunctionality(recipes) {
   const editButtons = document.getElementsByClassName('fa-edit');
   const recipeCards = document.getElementsByClassName('recipe-card');
   // there are as many edit buttons as there are recipe cards
@@ -138,7 +138,7 @@ setUpDivWithNoRecipes = (divID, message) => {
   recipesDiv.style.height = "100px";
 }
 
-// not quite sure what this does; something with blobs
+// not quite sure what this does; something with blobs and images
 function fetchBlobstoreUrl(id) {
   fetch('/blobstore-upload-url?divID='+id)
       .then((response) => {
