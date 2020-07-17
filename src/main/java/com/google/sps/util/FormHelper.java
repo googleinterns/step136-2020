@@ -1,5 +1,6 @@
 package com.google.sps.util;
 
+import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,5 +22,16 @@ public class FormHelper {
     ArrayList<String> list = new ArrayList<String>(Arrays.asList(Arrays.stream(input.split("\n")).map(String::trim).toArray(String[]::new)));
     list.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
     return list;
+  }
+
+  // input: two Entities
+  // deep copies the second from the first
+  public static void copyRecipeEntity(Entity first, Entity second) {
+    second.setProperty("name", first.getProperty("name"));
+    second.setProperty("tags", first.getProperty("tags"));
+    second.setProperty("description", first.getProperty("description"));
+    second.setProperty("ingredients", first.getProperty("description"));
+    second.setProperty("steps", first.getProperty("description"));
+    second.setProperty("imageBlobKey", first.getProperty("imageBlobKey"));
   }
 }

@@ -56,13 +56,12 @@
             <label for="steps" required>Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
             <textarea id="steps" name="steps" rows="4"></textarea>
             <br><br>
-            <!-- Letting users publish their recipes is for after the MVP -->
-            <!-- <label for="privacy">Choose a privacy setting:</label>
+            <label for="privacy">Choose a privacy setting:</label>
             <select id="privacy" name="privacy">
             <option value="private">private</option>
             <option value="public">public</option>
             </select>
-            <br><br> -->
+            <br><br>
             <label for="image">Upload an image</label>
             <input type="file"  accept="image/*" name="image" id="image">
             <br><br>
