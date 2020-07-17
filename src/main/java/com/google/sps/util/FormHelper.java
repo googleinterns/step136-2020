@@ -30,8 +30,8 @@ public class FormHelper {
     second.setProperty("name", first.getProperty("name"));
     second.setProperty("tags", first.getProperty("tags"));
     second.setProperty("description", first.getProperty("description"));
-    second.setProperty("ingredients", first.getProperty("description"));
-    second.setProperty("steps", first.getProperty("description"));
+    second.setProperty("ingredients", first.getProperty("ingredients"));
+    second.setProperty("steps", first.getProperty("steps"));
     second.setProperty("imageBlobKey", first.getProperty("imageBlobKey"));
   }
 }
