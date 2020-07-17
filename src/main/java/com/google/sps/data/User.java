@@ -27,6 +27,12 @@ public class User {
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
 
+  private static final String PRIVATE_KIND = "Private";
+  private static final String PUBLIC_KIND = "Public";
+  private static final String COOKBOOK = "cookbook";
+  private static final String PLANNER = "planner";
+  private static final String DRAFTS = "drafts";
+
   /**
     Payload object properties:
 
@@ -44,15 +50,7 @@ public class User {
   private Payload payload;
 
   /**
-    User Entity Properties:
 
-    "displayName" : "Example Name"
-    "cookbook" : [ "ID1", "ID2", "ID3" ]
-    "userRecipes" : [ "ID1", "ID2", "ID3" ]
-    "planner" : [ "ID1", "ID2", "ID3" ]
-    "shoppingList" : [ "ID1", "ID2", "ID3" ]
-
-    Note: ID values must be parsed into Long type.
     */
   private Entity entity;
 
@@ -63,33 +61,30 @@ public class User {
    * Token should be passed as URL Fetch argument from front end.
    */
   public User(String idTokenString) throws SecurityException {
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
-    .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
-    .setAudience(Collections.singletonList(CLIENT_ID))
-    .build();
+    // GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+    // .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
+    // .setAudience(Collections.singletonList(CLIENT_ID))
+    // .build();
 
-    GoogleIdToken idToken;
-    try {
-      idToken = verifier.verify(idTokenString);
-    } catch(IOException | GeneralSecurityException e) {
-      throw new SecurityException("Failed to verify Google token", e);
-    }
+    // GoogleIdToken idToken;
+    // try {
+    //   idToken = verifier.verify(idTokenString);
+    // } catch(IOException | GeneralSecurityException e) {
+    //   throw new SecurityException("Failed to verify Google token", e);
+    // }
 
-    payload = idToken.getPayload();
+    // payload = idToken.getPayload();
 
     Key userKey = KeyFactory.createKey("User", getId());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
       entity = datastore.get(userKey);
     } catch(EntityNotFoundException e) {
-      // On EntityNotFoundException, create initial instance.
       entity = new Entity(userKey);
-      String emptyJsonArray = "[ ]";
-      // displayName defaults to given name from Gmail account.
-      entity.setProperty("displayName", (String) payload.get("name"));
-      entity.setProperty("cookbook", emptyJsonArray);
-      entity.setProperty("userRecipes", emptyJsonArray);
-      entity.setProperty("planner", emptyJsonArray);
+      entity.setProperty("displayName", "testman jones");
+      entity.setProperty("cookbook", null);
+      entity.setProperty("userRecipes", null);
+      entity.setProperty("planner", null);
     }
   }
 
@@ -97,109 +92,45 @@ public class User {
    * Returns the String user unique ID.
    */
   public String getId() {
-    return payload.getSubject();
+    //return payload.getSubject();
+    return "0000000000"
   }
 
-  public long getDisplayName() {
-    return (long) entity.getProperty("displayName");
+  public String getName() {
+    return (String) entity.getProperty("name");
   }
 
-  public void setDisplayName(String name) {
-    entity.setProperty("displayName", name);
-    putEntity();
+  public void setName(String name) {
+    entity.setProperty("name", name);
+    uploadEntity();
   }
 
-  /* 
-  Cookbook and Planner currently support only one type of Recipe entity (namely public).
-  Likewise, userRecipes should only include private recipes.
-  */
+  public List<Key> getCookbook();
 
-  public ArrayList<Long> getCookbook() {
-    return getPropertyArrayList("cookbook");
-  }
+  public List<Key> getUserRecipes();
 
-  public ArrayList<Long> getUserRecipes() {
-    return getPropertyArrayList("userRecipes");
-  }
+  public List<Key> getPlanner();
 
-  public ArrayList<Long> getPlanner() {
-    return getPropertyArrayList("planner");
-  }
+  public void addCookbookKey(Key key);
 
-  public void addRecipeToPlanner(long id) {
-    addIdToRecipeList(id, "planner");
-  }
+  public void addPlannerKey(Key key);
 
-  public void addRecipeToCookbook(long id) {
-    addIdToRecipeList(id, "cookbook");
-  }
+  public void addDraftKey(Key key);
 
-  public void addRecipeToUserRecipes(long id) {
-    addIdToRecipeList(id, "userRecipes");
-  }
+  public void removeCookbookKey(Key key);
 
-  public void removeRecipeFromPlanner(long id) {
-    removeIdFromRecipeList(id, "planner");
-  }
+  public void removePlannerKey(Key key);
 
-  public void removeRecipeFromCookbook(long id) {
-    removeIdFromRecipeList(id, "cookbook");
-  }
-
-  public void removeRecipeFromUserRecipes(long id) {
-    removeIdFromRecipeList(id, "userRecipes");
-  }
+  public void removeDraftKey(Key key);
 
   /**
-   * Helper method for removing recipe IDs form specific user recipe list.
-   * @Param id recipe ID to be removed from current User entity.
-   * @Param recipeListType Property name of the list to removed from.
+   * Adds the current version of User entity to datastore.
    */
-  private void removeIdFromRecipeList(long id, String recipeListType) {
-    Gson gson = new Gson();
-    ArrayList<Long> list = getPropertyArrayList(recipeListType);
-    list.remove(new Long(id));
-    entity.setProperty(recipeListType, gson.toJson(list));
-    putEntity();
-  }
-
-  /**
-   * Helper method for adding recipe IDs to specific user recipe list.
-   * @Param id recipe ID to be added to current User entity.
-   * @Param recipeListType Property name of the list to add to.
-   */
-  private void addIdToRecipeList(long id, String recipeListType) {
-    Gson gson = new Gson();
-    ArrayList<Long> list = getPropertyArrayList(recipeListType);
-    if (!list.contains(id)) {
-      list.add(id);
-    }
-    entity.setProperty(recipeListType, gson.toJson(list));
-    putEntity();
-  }
-
-  /**
-   * Creates a datastore object and stores current entity in database.
-   */
-  private void putEntity() {
+  private void uploadEntity() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(entity);
   }
 
   /**
-   * Gets the (String) Json array of a given recipe list.
-   * @Param property Property name of entity list to be obtained.
-   * Returns Parsed array as ArrayList<Long>
-   */
-  private ArrayList<Long> getPropertyArrayList(String property) {
-    Gson gson = new Gson();
-    String jsonArray = (String) entity.getProperty(property);
-    Type listType = new TypeToken<List<String>>(){}.getType();
-    List<String> stringIds = gson.fromJson(jsonArray, listType);
-    ArrayList<Long> longIds = new ArrayList<Long>();
-    for (String str : stringIds) {
-        longIds.add(Long.parseLong(str));
-    }
-    return longIds;
-  }
+
 }
