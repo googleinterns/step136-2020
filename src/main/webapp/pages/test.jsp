@@ -33,15 +33,5 @@
         <button onclick="userSpecificService()" id="user-specific-service">sign in required service</button>
         <p id="test-output"></p>
       </div>
-
-      <div id="user-action-test">
-        <p>script fetch that does User datastores</p>
-        <button onclick="userAction()">User Action</button>
-        <script> 
-          var userAction = () => {
-            fetch("/user-action").then(() => console.log("User acted."));
-          }
-        </script>
-      </div>
   </body>
 </html>
