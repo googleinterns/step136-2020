@@ -24,8 +24,6 @@ public class User {
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
 
-  private static final String PRIVATE_KIND = "Private";
-  private static final String PUBLIC_KIND = "Public";
   private static final String COOKBOOK = "cookbook";
   private static final String PLANNER = "planner";
   private static final String DRAFTS = "drafts";
