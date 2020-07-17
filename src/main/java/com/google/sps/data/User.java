@@ -100,8 +100,7 @@ public class User {
    * Returns the String user unique ID.
    */
   public String getId() {
-    //return payload.getSubject();
-    return "user-test-ID-string";
+    return payload.getSubject();
   }
 
   public String getName() {
