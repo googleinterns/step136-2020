@@ -77,7 +77,7 @@ public class NewRecipeServlet extends HttpServlet {
       // redirects user back to UserPage
       if (blobInfo.getSize() == 0) {
         blobstoreService.delete(blobkey);
-      response.sendRedirect("/pages/UserPage.jsp");
+        response.sendRedirect("/pages/UserPage.jsp");
         return;
       } else {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
