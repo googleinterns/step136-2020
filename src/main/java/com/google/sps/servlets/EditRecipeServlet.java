@@ -79,7 +79,8 @@ public class EditRecipeServlet extends HttpServlet {
 
       datastore.put(recipeEntity);
     } catch (EntityNotFoundException e) {
-        System.out.println("entity not found exception");
+      // in normal circumstances, this won't happen bc user has not access to id
+      System.out.println("entity not found exception");
     }
     response.sendRedirect("/pages/UserPage.jsp");
   }
