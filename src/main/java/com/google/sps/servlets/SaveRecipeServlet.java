@@ -59,7 +59,7 @@ public class SaveRecipeServlet extends HttpServlet {
     } else if (listName.equals(PLANNER)) {
       currentUser.addPlannerKey(recipeKey);
     } else {
-        System.out.println("Invalid destination " + destination + ". Recipe not added.");
+      System.out.println("Invalid destination " + destination + ". Recipe not added.");
     }
   }
 }
