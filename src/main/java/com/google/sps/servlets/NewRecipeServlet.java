@@ -81,16 +81,14 @@ public class NewRecipeServlet extends HttpServlet {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
       }
     }
-
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);
 
     if (privacy.equals("public")) {
-      System.out.println("privacy was public");
       Entity publicRecipeEntity = new Entity("PublicRecipe");
       FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
       datastore.put(publicRecipeEntity);
-      System.out.println("public recipe put in datastore");
     }
 
     response.sendRedirect("/pages/UserPage.jsp");
