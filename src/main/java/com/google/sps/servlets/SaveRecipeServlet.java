@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Adds recipe to user's list depending on the following parameters:
- * "destination" = "cookbook", "planner", "drafts"
- * "kind" = "Public", "Private"
+ * "destination" = "cookbook", "planner".
+ * "isPublic" = Boolean
  * "recipeId" = Long
  *  userToken is the user's Google id_token provided by user-auth.js/getIdToken().
  * "userToken" = String
@@ -38,26 +38,26 @@ public class SaveRecipeServlet extends HttpServlet {
 
   private static final String COOKBOOK = "cookbook";
   private static final String PLANNER = "planner";
-  private static final String DRAFTS = "drafts";
-
+  private static final String PUBLIC_KIND = "PublicRecipe";
+  private static final String PRIVATE_KIND = "PrivateRecipe";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String userToken = (String) request.getParameter("idToken");
     String destination = (String) request.getParameter("destination");
-    String kind = (String) request.getParameter("kind");
+    Boolean isPublic = (Boolean) request.getParameter("isPublic");
     long recipeId = Long.parseLong(request.getParameter("recipeId"));
 
     User currentUser = new User(userToken);
+
+    String recipeKind = (isPublic) ? recipeKind = PUBLIC_KIND : recipeKind = PRIVATE_KIND;
     
-    Key recipeKey = KeyFactory.createKey(kind, recipeId);
+    Key recipeKey = KeyFactory.createKey(recipeKind, recipeId);
     
     if (destination.equals(COOKBOOK)) {
       currentUser.addCookbookKey(recipeKey);
     } else if (destination.equals(PLANNER)) {
       currentUser.addPlannerKey(recipeKey);
-    } else if (destination.equals(DRAFTS)) {
-      currentUser.addDraftKey(recipeKey);
     } else {
         System.out.println("Invalid destination " + destination + ". Recipe not added.");
     }
