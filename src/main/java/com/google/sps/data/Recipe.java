@@ -24,6 +24,7 @@ public class Recipe {
     ingredients = new ArrayList<String>();
     steps = new ArrayList<String>();
     tags = new ArrayList<String>();
+    popularity = 0;
   }
   
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
