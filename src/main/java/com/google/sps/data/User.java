@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -12,18 +13,19 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.lang.SecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.security.GeneralSecurityException;
 
 public class User {
   // API variables:
   // Client ID is generated from Ali's google APIs credentials page.
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
-
-  private static final String TEST_ID = "000000000000000000000";
 
   /**
     Payload object properties:
@@ -55,12 +57,27 @@ public class User {
   private Entity entity;
 
   /**
-   * This creates a standard universal user instance regardless of login status.
-   * This method will be changed to instantiate distinct user object.
+   * Verifies user and creates a User instance for accessing and adding user data.
+   * throws SecurityException on failure, import from java.lang.SecurityException.
+   * @Param idTokenString is the Google-user ID Token provided buy user-auth.js/getIdToken.
+   * Token should be passed as URL Fetch argument from front end.
    */
-  public User() {
-    String testId = TEST_ID;
-    Key userKey = KeyFactory.createKey("User", testId);
+  public User(String idTokenString) throws SecurityException {
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+    .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
+    .setAudience(Collections.singletonList(CLIENT_ID))
+    .build();
+
+    GoogleIdToken idToken;
+    try {
+      idToken = verifier.verify(idTokenString);
+    } catch(IOException | GeneralSecurityException e) {
+      throw new SecurityException("Failed to verify Google token", e);
+    }
+
+    payload = idToken.getPayload();
+
+    Key userKey = KeyFactory.createKey("User", getId());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
       entity = datastore.get(userKey);
@@ -68,9 +85,9 @@ public class User {
       // On EntityNotFoundException, create initial instance.
       entity = new Entity(userKey);
       String emptyJsonArray = "[ ]";
-      entity.setProperty("displayName", "Test Person");
+      // displayName defaults to given name from Gmail account.
+      entity.setProperty("displayName", (String) payload.get("name"));
       entity.setProperty("cookbook", emptyJsonArray);
-      entity.setProperty("userRecipes", emptyJsonArray);
       entity.setProperty("userRecipes", emptyJsonArray);
       entity.setProperty("planner", emptyJsonArray);
     }
@@ -78,10 +95,9 @@ public class User {
 
   /**
    * Returns the String user unique ID.
-   * Currently returns ID of test user instance.
    */
-  String getId() {
-    return TEST_ID;
+  public String getId() {
+    return payload.getSubject();
   }
 
   public long getDisplayName() {
