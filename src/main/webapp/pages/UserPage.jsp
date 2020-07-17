@@ -93,13 +93,12 @@
             <label for="steps" required>Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
             <textarea id="edit-steps" name="edit-steps" rows="4"></textarea>
             <br><br>
-            <!-- Letting users publish their recipes is for after the MVP -->
-            <!-- <label for="privacy">Choose a privacy setting:</label>
+            <label for="privacy">Choose a privacy setting:</label>
             <select id="privacy" name="privacy">
             <option value="private">private</option>
             <option value="public">public</option>
             </select>
-            <br><br> -->
+            <br><br>
             <div id="buttons">
               <button class="modal-btn" id="cancel-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
               <input class="modal-btn" type="submit" id="submit-btn" value="Submit Changes">
