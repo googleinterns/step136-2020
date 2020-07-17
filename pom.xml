@@ -35,7 +35,21 @@
       <artifactId>appengine-api-1.0-sdk</artifactId>
       <version>1.9.59</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>1.30.10</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-appengine -->
+    <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-appengine</artifactId>
+        <version>1.36.0</version>
+    </dependency>
   </dependencies>
+
 
   <build>
     <plugins>
