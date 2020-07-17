@@ -8,6 +8,7 @@
     <script src="../javascript/user-auth.js"></script>
     <script src="../javascript/tests.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=onStart" async defer></script>
+    <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
   <body onload=runTests()>
       <!--This div is for rendering the recipe cards which result from testing.-->
