@@ -44,7 +44,7 @@ public class TestData {
         
         // Tries to iteratively create test data based on the number of sets, and catches an index error
         // if one of the array properties doesn't match the expected amount of set properties. 
-        try {
+        if (NUM_SETS == TEST_SET_NAMES.length && NUM_SETS == TEST_SET_SIZES.length) {
           int offset = 0;
           for (int setNum = 0; setNum < NUM_SETS; setNum++) {
               Entity[] tempEntityList = TestUtil.generateTestRecipes(
@@ -59,9 +59,9 @@ public class TestData {
                   datastore.put(recipeElement);
               }
           }
-        } catch (ArrayIndexOutOfBoundsException AIOB) {
+        } else {
             Utils.SOP(String.join("\n",
-              "An array out of bounds exception was just caught.",
+              "An array out of bounds exception was just prevented.",
               "Please check that the size of TEST_SET_NAMES and TEST_SET_SIZES are equal to NUM_SETS"
             ));
         }
