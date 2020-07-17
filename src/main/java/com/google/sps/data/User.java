@@ -11,15 +11,11 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-
 import java.io.IOException;
-
 import java.lang.SecurityException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import java.security.GeneralSecurityException;
 
 public class User {

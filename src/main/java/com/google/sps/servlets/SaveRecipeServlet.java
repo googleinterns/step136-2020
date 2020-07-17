@@ -48,12 +48,9 @@ public class SaveRecipeServlet extends HttpServlet {
     String kind = (String) request.getParameter("kind");
     long recipeId = Long.parseLong(request.getParameter("recipeId"));
 
-
     User currentUser = new User(userToken);
-
-    Key recipeKey;
     
-    recipeKey = KeyFactory.createKey(kind, recipeId);
+    Key recipeKey = KeyFactory.createKey(kind, recipeId);
     
     if (destination.equals(COOKBOOK)) {
       currentUser.addCookbookKey(recipeKey);
