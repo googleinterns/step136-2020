@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Adds recipe to user's list depending on the following parameters:
- * "destination" = "cookbook", "planner".
+ * "listName" = "cookbook", "planner". The list to add to.
  * "isPublic" = Boolean
  * "recipeId" = Long
  *  userToken is the user's Google id_token provided by user-auth.js/getIdToken().
@@ -44,7 +44,7 @@ public class SaveRecipeServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String userToken = (String) request.getParameter("idToken");
-    String destination = (String) request.getParameter("destination");
+    String listName = (String) request.getParameter("listName");
     Boolean isPublic = (Boolean) request.getParameter("isPublic");
     long recipeId = Long.parseLong(request.getParameter("recipeId"));
 
@@ -54,9 +54,9 @@ public class SaveRecipeServlet extends HttpServlet {
     
     Key recipeKey = KeyFactory.createKey(recipeKind, recipeId);
     
-    if (destination.equals(COOKBOOK)) {
+    if (listName.equals(COOKBOOK)) {
       currentUser.addCookbookKey(recipeKey);
-    } else if (destination.equals(PLANNER)) {
+    } else if (listName.equals(PLANNER)) {
       currentUser.addPlannerKey(recipeKey);
     } else {
         System.out.println("Invalid destination " + destination + ". Recipe not added.");
