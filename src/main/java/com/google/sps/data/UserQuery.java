@@ -47,14 +47,14 @@ public class UserQuery {
   }
 
   public ArrayList<String> getTagsAndIngredients() {
-      return this.tagsAndIngredients;
+    return this.tagsAndIngredients;
   }
 
   public ArrayList<String> getAuthors() {
-      return this.authors;
+    return this.authors;
   }
 
   public String getName() {
-      return this.recipeName;
+    return this.recipeName;
   }
 }
