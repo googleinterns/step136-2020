@@ -18,13 +18,6 @@
 
 /* adjusts to 3 columns of recipe cards */
 @media screen and (max-width: 1250px) {
-  /* TODO: figure out cookbook/planner button placement */
-  .more-left {
-    left: 17%;
-   }
-  .more-right {
-    left: 81%;
-  }
   .recipe-card {
     width: 23.3vw;
   }
