@@ -74,18 +74,20 @@ public class EditRecipeServlet extends HttpServlet {
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
       recipeEntity.setProperty("imageBlobKey", (String) recipeEntity.getProperty("imageBlobKey"));
-      datastore.put(recipeEntity);
+      recipeEntity.setProperty("published", false);
 
       if (privacy.equals("public")) {
-        System.out.println("privacy was public");
         Entity publicRecipeEntity = new Entity("PublicRecipe");
         FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
+        publicRecipeEntity.setProperty("published", true);
         datastore.put(publicRecipeEntity);
-        System.out.println("public recipe put in datastore");
+
+        recipeEntity.setProperty("published", true);
       }
 
-
-    } catch (EntityNotFoundException e) {
+      datastore.put(recipeEntity);
+    } 
+    catch (EntityNotFoundException e) {
       // in normal circumstances, this won't happen bc user has not access to id
       System.out.println("entity not found exception");
     }

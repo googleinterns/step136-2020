@@ -55,6 +55,7 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
+    recipeEntity.setProperty("published", false);
     // TODO: get user ID and setProperty
 
     // getUploads returns a set of blobs that have been uploaded 
@@ -83,15 +84,15 @@ public class NewRecipeServlet extends HttpServlet {
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(recipeEntity);
 
     if (privacy.equals("public")) {
-      System.out.println("privacy was public");
       Entity publicRecipeEntity = new Entity("PublicRecipe");
       FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
       datastore.put(publicRecipeEntity);
-      System.out.println("public recipe put in datastore");
+      recipeEntity.setProperty("published", true);
     }
+
+    datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.jsp");
   }

@@ -90,6 +90,7 @@ function addEditFunctionality(recipes) {
 
 // adds values of stored recipe to edit recipe form
 function addExistingValuesToEditForm(recipe) {
+    console.log(recipe);
   document.getElementById("recipeID").value = recipe.id;
   document.getElementById("edit-name").value = recipe.name;
   document.getElementById("edit-description").value = recipe.description;
@@ -100,7 +101,6 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-tags").value += ", " + recipe.tags[i];
     }
   }
-  
   // sets up ingredients
   if (recipe.ingredients.length > 0) {
     document.getElementById("edit-ingredients").value = recipe.ingredients[0];
@@ -108,7 +108,6 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
     }
   }
-
   // sets up steps
   if (recipe.steps.length > 0) {
     document.getElementById("edit-steps").value = recipe.steps[0];
@@ -116,8 +115,15 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
     }
   }
-
   // TODO: figure out image value (low priority)
+  
+  if (!recipe.published) {
+    const publishOptions = document.getElementsByClassName("hidden");
+    console.log(publishOptions);
+    for (let i = 0; i < publishOptions.length; i++) {
+      publishOptions[i].style.display = "block";
+    }
+  }
 }
 
 // opens the recipe form modal

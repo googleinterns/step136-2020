@@ -33,5 +33,6 @@ public class FormHelper {
     second.setProperty("ingredients", first.getProperty("ingredients"));
     second.setProperty("steps", first.getProperty("steps"));
     second.setProperty("imageBlobKey", first.getProperty("imageBlobKey"));
+    second.setProperty("published", first.getProperty("published"));
   }
 }

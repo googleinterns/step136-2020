@@ -96,6 +96,14 @@ select {
   justify-content: center;
 }
 
+.hidden {
+  display: none;
+}
+
+#note {
+  margin-top: 2px;
+}
+
 .modal-btn {
   border-radius: 5px;
   border-width: thin;
