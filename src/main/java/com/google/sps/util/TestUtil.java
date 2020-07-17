@@ -33,4 +33,25 @@ public class TestUtil {
     recipeEntity.setProperty("popularity", popularity);
     return recipeEntity;
    }
+
+  /** 
+   * Returns an array with recipe entities which can be used as test data to be added to datastore
+   * The offset is used to properly number recipes, and should be equal to the number of test
+   * recipes created before these.
+   */
+  public static Entity[] generateTestRecipes(int numRecipes, int offset, String message,
+    ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps,
+    String entityName, String recipeName) {
+    
+    Entity[] testRecipes = new Entity[numRecipes];
+    
+    // Goes though creating recipe entities and adding them to the array at the given index
+    for (int i = 0; i < numRecipes; i++) {
+      testRecipes[i] = TestUtil.createRecipeEntity(
+        entityName, recipeName, 
+        message + String.format(" I AM RECIPE %d OF MY KIND.", i + offset),
+        tags, ingredients, steps, -1);
+    }
+    return testRecipes;
+  }
 }
