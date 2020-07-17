@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.User;
 import java.io.IOException;
@@ -34,31 +36,18 @@ import javax.servlet.http.HttpServletResponse;
 public class UserActionServlet extends HttpServlet {
 
   public static final String COOKBOOK = "cookbook";
-  public static final String USER_RECIPES = "userRecipes";
+  public static final String DRAFTS = "drafts";
   public static final String PLANNER = "planner";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String destination = (String) request.getParameter("destination");
-    long id = Long.parseLong((String) request.getParameter("idInput"));
-    String idToken =  (String) request.getParameter("idToken");
-    
-    User user;
-    try {
-      user = new User(idToken);
-    } catch(SecurityException e) {
-      System.out.println("ERROR: User verification failed.");
-      return;
-    }
-
-    if (destination.equals(COOKBOOK)) {
-      user.addRecipeToCookbook(id);
-    } else if (destination.equals(USER_RECIPES)) {
-      user.addRecipeToUserRecipes(id);
-    } else if (destination.equals(PLANNER)) {
-      user.addRecipeToPlanner(id);
-    } else {
-      System.out.println("USAGE ERROR: Invalid destination value.");
-    }
+    User user = new User("oogabooga");
+    Key test1 = KeyFactory.createKey("Public", 1111111111L);
+    Key test2 = KeyFactory.createKey("Public", 2222222222L);
+    Key test3 = KeyFactory.createKey("Public", 3333333333L);
+    user.addCookbookKey(test1);
+    user.addCookbookKey(test2);
+    user.addCookbookKey(test3);
+    user.removeCookbookKey(test1);
   }
 }
