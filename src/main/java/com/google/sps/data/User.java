@@ -5,7 +5,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -13,17 +12,13 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 
 import java.lang.SecurityException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import java.security.GeneralSecurityException;
 
@@ -75,19 +70,19 @@ public class User {
    * Token should be passed as URL Fetch argument from front end.
    */
   public User(String idTokenString) throws SecurityException {
-    // GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
-    //     .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
-    //     .setAudience(Collections.singletonList(CLIENT_ID))
-    //     .build();
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+        .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
+        .setAudience(Collections.singletonList(CLIENT_ID))
+        .build();
 
-    // GoogleIdToken idToken;
-    // try {
-    //   idToken = verifier.verify(idTokenString);
-    // } catch(IOException | GeneralSecurityException e) {
-    //   throw new SecurityException("Failed to verify Google token", e);
-    // }
+    GoogleIdToken idToken;
+    try {
+      idToken = verifier.verify(idTokenString);
+    } catch(IOException | GeneralSecurityException e) {
+      throw new SecurityException("Failed to verify Google token", e);
+    }
 
-    // payload = idToken.getPayload();
+    payload = idToken.getPayload();
     datastore = DatastoreServiceFactory.getDatastoreService();
     Key userKey = KeyFactory.createKey("User", getId());
 
@@ -97,7 +92,7 @@ public class User {
     } catch(EntityNotFoundException e) {
       // Create initial User instance, default name from idToken payload.
       entity = new Entity(userKey);
-      entity.setProperty("name", "TestPersson Userson");
+      entity.setProperty("name", (String) payload.get("name"));
     }
   }
 
