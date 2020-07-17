@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,19 +42,14 @@ public class NewRecipeServlet extends HttpServlet {
       return;
     }
 
-    // splits the String responses from the form by commas/newlines, trims each member of array, and makes the resulting arrays into Lists
-    List<String> tags = new ArrayList<String>(Arrays.asList(Arrays.stream(tagsResponse.split(",")).map(String::trim).toArray(String[]::new)));
-    List<String> ingredients = new ArrayList<String>(Arrays.asList(Arrays.stream(ingredientsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
-    List<String> steps = new ArrayList<String>(Arrays.asList(Arrays.stream(stepsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
+    // splits the String responses from the form into lists
+    List<String> tags = FormHelper.separateByCommas(tagsResponse);
+    List<String> ingredients = FormHelper.separateByNewlines(ingredientsResponse);
+    List<String> steps = FormHelper.separateByNewlines(stepsResponse);
 
     // trims String responses
-    name.trim();
-    description.trim();
-
-    // removes any empty, null, or newline members of the Lists
-    tags.removeAll(Arrays.asList("", null));
-    ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
-    steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
+    name = name.trim();
+    description = description.trim();
 
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("name", name);
