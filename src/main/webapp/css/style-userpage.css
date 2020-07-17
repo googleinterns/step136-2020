@@ -17,7 +17,7 @@
 }
 
 /* adjusts to 3 columns of recipe cards */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1250px) {
   /* TODO: figure out cookbook/planner button placement */
   .more-left {
     left: 17%;
@@ -34,7 +34,7 @@
   }
 }
 /* adjusts to 2 column of recipe cards */
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 890px) {
   .recipe-card {
     margin: 1.5vw;
     width: 34vw;
@@ -48,7 +48,7 @@
   }
 }
 /* adjusts to 1 column of recipe cards */
-@media screen and (max-width: 605px) {
+@media screen and (max-width: 635px) {
   .recipe-card {
     margin: 10px;
     min-width: 280px;
