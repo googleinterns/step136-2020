@@ -81,10 +81,8 @@ public class EditRecipeServlet extends HttpServlet {
 
         Entity publicRecipeEntity = new Entity("PublicRecipe");
         FormHelper.copyFirstRecipeEntityToSecond(recipeEntity, publicRecipeEntity);
-
         datastore.put(publicRecipeEntity);
       }
-
       datastore.put(recipeEntity);
     } 
     catch (EntityNotFoundException e) {
