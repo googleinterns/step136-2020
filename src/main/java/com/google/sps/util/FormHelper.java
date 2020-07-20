@@ -26,7 +26,7 @@ public class FormHelper {
 
   // input: a PrivateRecipe entity
   // returns: a PublicRecipe entity copied from the PrivateRecipe
-  public static Entity copyToPublicRecipe(Entity recipe) {
+  public static Entity copyToNewPublicRecipe(Entity recipe) {
     Entity entity = new Entity("PublicRecipe");
     entity.setProperty("name", recipe.getProperty("name"));
     entity.setProperty("tags", recipe.getProperty("tags"));
@@ -36,5 +36,17 @@ public class FormHelper {
     entity.setProperty("imageBlobKey", recipe.getProperty("imageBlobKey"));
     entity.setProperty("published", recipe.getProperty("published"));
     return entity;
+  }
+
+  // input: a PrivateRecipe entity and a PublicRecipe entity
+  // copies the PrivateRecipe entity to an existing PublicRecipe entity
+  public static void copyToPublicRecipe(Entity privateRecipe, Entity publicRecipe) {
+    publicRecipe.setProperty("name", privateRecipe.getProperty("name"));
+    publicRecipe.setProperty("tags", privateRecipe.getProperty("tags"));
+    publicRecipe.setProperty("description", privateRecipe.getProperty("description"));
+    publicRecipe.setProperty("ingredients", privateRecipe.getProperty("ingredients"));
+    publicRecipe.setProperty("steps", privateRecipe.getProperty("steps"));
+    publicRecipe.setProperty("imageBlobKey", privateRecipe.getProperty("imageBlobKey"));
+    publicRecipe.setProperty("published", privateRecipe.getProperty("published"));
   }
 }
