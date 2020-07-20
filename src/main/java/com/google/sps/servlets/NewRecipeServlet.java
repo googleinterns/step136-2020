@@ -26,16 +26,17 @@ public class NewRecipeServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = request.getParameter("name");
-    String tagsResponse = request.getParameter("tags");
-    String description = request.getParameter("description");
-    String ingredientsResponse = request.getParameter("ingredients");
-    String stepsResponse = request.getParameter("steps");
+    // get responses from form
+    String name = request.getParameter("name").trim();
+    String tagsResponse = request.getParameter("tags").trim();
+    String description = request.getParameter("description").trim();
+    String ingredientsResponse = request.getParameter("ingredients").trim();
+    String stepsResponse = request.getParameter("steps").trim();
     String privacy = request.getParameter("privacy");
 
     // prevents empty responses as being saved in datastore and redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
-    if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")){
+    if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")) {
       response.sendRedirect("/pages/UserPage.jsp");
       return;
     }
@@ -44,10 +45,6 @@ public class NewRecipeServlet extends HttpServlet {
     List<String> tags = FormHelper.separateByCommas(tagsResponse);
     List<String> ingredients = FormHelper.separateByNewlines(ingredientsResponse);
     List<String> steps = FormHelper.separateByNewlines(stepsResponse);
-
-    // trims String responses
-    name = name.trim();
-    description = description.trim();
 
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("name", name);
@@ -82,16 +79,16 @@ public class NewRecipeServlet extends HttpServlet {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
       }
     }
-
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     if (privacy.equals("public")) {
+      recipeEntity.setProperty("published", true);
+
       Entity publicRecipeEntity = new Entity("PublicRecipe");
       FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
       datastore.put(publicRecipeEntity);
-      recipeEntity.setProperty("published", true);
     }
-
     datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.jsp");

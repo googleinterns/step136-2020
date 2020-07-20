@@ -24,11 +24,11 @@ public class EditRecipeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     // get edits from form
     String idResponse = request.getParameter("recipeID");
-    String nameResponse = request.getParameter("edit-name");
-    String tagsResponse = request.getParameter("edit-tags");
-    String descriptionResponse = request.getParameter("edit-description");
-    String ingredientsResponse = request.getParameter("edit-ingredients");
-    String stepsResponse = request.getParameter("edit-steps");
+    String nameResponse = request.getParameter("edit-name").trim();
+    String tagsResponse = request.getParameter("edit-tags").trim();
+    String descriptionResponse = request.getParameter("edit-description").trim();
+    String ingredientsResponse = request.getParameter("edit-ingredients").trim();
+    String stepsResponse = request.getParameter("edit-steps").trim();
     String privacy = request.getParameter("privacy");
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -48,7 +48,6 @@ public class EditRecipeServlet extends HttpServlet {
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
         name = nameResponse;
-        name = name.trim();
       }
       // if the tags input in the form is not empty, the form value will be saved
       if (!tagsResponse.equals("")) {
@@ -57,7 +56,6 @@ public class EditRecipeServlet extends HttpServlet {
       // if the description input in the form is not empty, the form value will be saved
       if (!descriptionResponse.equals("")) {
         description = descriptionResponse;
-        description = description.trim();
       }
       // if the ingredients input in the form is not empty, the form value will be saved
       if (!ingredientsResponse.equals("")) {
