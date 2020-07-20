@@ -85,8 +85,7 @@ public class NewRecipeServlet extends HttpServlet {
     if (privacy.equals("public")) {
       recipeEntity.setProperty("published", true);
 
-      Entity publicRecipeEntity = new Entity("PublicRecipe");
-      FormHelper.copyFirstRecipeEntityToSecond(recipeEntity, publicRecipeEntity);
+      Entity publicRecipeEntity = FormHelper.copyToPublicRecipe(recipeEntity);
       datastore.put(publicRecipeEntity);
     }
     datastore.put(recipeEntity);

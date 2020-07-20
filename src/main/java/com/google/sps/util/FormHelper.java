@@ -24,15 +24,17 @@ public class FormHelper {
     return list;
   }
 
-  // input: two Entities
-  // deep copies the second from the first
-  public static void copyFirstRecipeEntityToSecond(Entity first, Entity second) {
-    second.setProperty("name", first.getProperty("name"));
-    second.setProperty("tags", first.getProperty("tags"));
-    second.setProperty("description", first.getProperty("description"));
-    second.setProperty("ingredients", first.getProperty("ingredients"));
-    second.setProperty("steps", first.getProperty("steps"));
-    second.setProperty("imageBlobKey", first.getProperty("imageBlobKey"));
-    second.setProperty("published", first.getProperty("published"));
+  // input: a PrivateRecipe entity
+  // returns: a PublicRecipe entity copied from the PrivateRecipe
+  public static Entity copyToPublicRecipe(Entity recipe) {
+    Entity entity = new Entity("PublicRecipe");
+    entity.setProperty("name", recipe.getProperty("name"));
+    entity.setProperty("tags", recipe.getProperty("tags"));
+    entity.setProperty("description", recipe.getProperty("description"));
+    entity.setProperty("ingredients", recipe.getProperty("ingredients"));
+    entity.setProperty("steps", recipe.getProperty("steps"));
+    entity.setProperty("imageBlobKey", recipe.getProperty("imageBlobKey"));
+    entity.setProperty("published", recipe.getProperty("published"));
+    return entity;
   }
 }
