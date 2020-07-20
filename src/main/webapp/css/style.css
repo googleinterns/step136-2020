@@ -103,4 +103,8 @@ button {
 }
 .recipe-card-name {
   font-weight: bold;
+  margin: 15px 0 10px;
+}
+.recipe-card-description {
+  margin: 0 0 15px;
 }

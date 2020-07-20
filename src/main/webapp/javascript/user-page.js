@@ -90,7 +90,6 @@ function addEditFunctionality(recipes) {
 
 // adds values of stored recipe to edit recipe form
 function addExistingValuesToEditForm(recipe) {
-    console.log(recipe);
   document.getElementById("recipeID").value = recipe.id;
   document.getElementById("edit-name").value = recipe.name;
   document.getElementById("edit-description").value = recipe.description;
@@ -120,7 +119,6 @@ function addExistingValuesToEditForm(recipe) {
   // the option to publish the recipe will only be available if it has not been published before
   if (!recipe.published) {
     const publishOptions = document.getElementsByClassName("hidden");
-    console.log(publishOptions);
     for (let i = 0; i < publishOptions.length; i++) {
       publishOptions[i].style.display = "block";
     }
