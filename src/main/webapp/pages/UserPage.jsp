@@ -100,7 +100,7 @@
             <p id="note" class="hidden"><i>Note: Once you publish a recipe you cannot edit the public version</i></p>
             <br>
             <div id="buttons">
-              <button class="modal-btn" id="cancel-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
+              <button type="button" class="modal-btn" id="cancel-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
               <input class="modal-btn" type="submit" id="submit-btn" value="Submit Changes">
             </div>
           </form>

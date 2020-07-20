@@ -74,18 +74,20 @@ public class EditRecipeServlet extends HttpServlet {
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
       recipeEntity.setProperty("imageBlobKey", (String) recipeEntity.getProperty("imageBlobKey"));
-      recipeEntity.setProperty("published", false);
+      recipeEntity.setProperty("published", recipeEntity.getProperty("published"));
 
       if (privacy.equals("public")) {
+        recipeEntity.setProperty("published", true);
+
         Entity publicRecipeEntity = new Entity("PublicRecipe");
         FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
-        publicRecipeEntity.setProperty("published", true);
-        datastore.put(publicRecipeEntity);
 
-        recipeEntity.setProperty("published", true);
+        System.out.println("     publicRecipeEntity published: " + publicRecipeEntity.getProperty("published"));
+        datastore.put(publicRecipeEntity);
       }
 
       datastore.put(recipeEntity);
+        System.out.println("     recipeEntity published: " + recipeEntity.getProperty("published"));
     } 
     catch (EntityNotFoundException e) {
       // in normal circumstances, this won't happen bc user has not access to id

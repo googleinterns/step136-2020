@@ -117,6 +117,7 @@ function addExistingValuesToEditForm(recipe) {
   }
   // TODO: figure out image value (low priority)
   
+  // the option to publish the recipe will only be available if it has not been published before
   if (!recipe.published) {
     const publishOptions = document.getElementsByClassName("hidden");
     console.log(publishOptions);
