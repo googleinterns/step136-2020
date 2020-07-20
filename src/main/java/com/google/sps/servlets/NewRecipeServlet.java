@@ -32,13 +32,11 @@ public class NewRecipeServlet extends HttpServlet {
     String description = request.getParameter("description").trim();
     String ingredientsResponse = request.getParameter("ingredients").trim();
     String stepsResponse = request.getParameter("steps").trim();
-    // privacy will be used once we give users the option to make their recipes public
-    // String privacy = request.getParameter("privacy");
+    String privacy = request.getParameter("privacy");
 
-    // prevents empty responses as being saved in datastore
-    // redirects user back to UserPage
+    // prevents empty responses as being saved in datastore and redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
-    if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")){
+    if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")) {
       response.sendRedirect("/pages/UserPage.jsp");
       return;
     }
@@ -80,9 +78,15 @@ public class NewRecipeServlet extends HttpServlet {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
       }
     }
-
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);
+
+    if (privacy.equals("public")) {
+      Entity publicRecipeEntity = new Entity("PublicRecipe");
+      FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
+      datastore.put(publicRecipeEntity);
+    }
 
     response.sendRedirect("/pages/UserPage.jsp");
   }
