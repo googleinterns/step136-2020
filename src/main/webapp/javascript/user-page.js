@@ -115,14 +115,20 @@ function addExistingValuesToEditForm(recipe) {
     }
   }
   // TODO: figure out image value (low priority)
-  
-  // the option to publish the recipe will only be available if it has not been published before
-  if (!recipe.published) {
-    const publishOptions = document.getElementsByClassName("hidden");
-    for (let i = 0; i < publishOptions.length; i++) {
-      publishOptions[i].style.display = "block";
-    }
+    
+  // sets the default to the current value
+  if (recipe.published) {
+    setOption("first", "public");
+    setOption("second", "private");
+  } else {
+    setOption("first", "private");
+    setOption("second", "public");
   }
+}
+
+function setOption(id, text) {
+  document.getElementById(id).value = text;
+  document.getElementById(id).innerText = text;
 }
 
 // opens the recipe form modal
