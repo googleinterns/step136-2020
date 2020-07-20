@@ -3,12 +3,13 @@ const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet."
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 
-
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
 }
 
+// loads the user made/uploaded recipes specifically from the 
+// general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
@@ -36,7 +37,7 @@ async function loadUserRecipes() {
         }
       }
       addDeleteFunctionality(recipes);
-      // TODO: add edit functionality
+      addEditFunctionality(recipes);
     }
   }
 }
@@ -64,6 +65,70 @@ function addDeleteFunctionality(recipes){
   }
 }
 
+// tells the server to delete the recipe.
+// input is a recipe js object
+function deleteRecipe(recipe) {
+  const params = new URLSearchParams();
+  params.append("id", recipe.id);
+  fetch("/delete-recipe", {method: "POST", body: params});
+}
+
+// adds edit functionality to the edit button in the recipe cards
+function addEditFunctionality(recipes) {
+  const editButtons = document.getElementsByClassName('fa-edit');
+  const recipeCards = document.getElementsByClassName('recipe-card');
+  // there are as many edit buttons as there are recipe cards
+  for (let i = 0; i < editButtons.length; i++) {
+    let recipe = recipes[i];
+    let recipeCard = recipeCards[i];
+    editButtons[i].addEventListener('click', () => {
+      openModal("edit-recipe-modal");
+      addExistingValuesToEditForm(recipe);
+    });
+  }
+}
+
+// adds values of stored recipe to edit recipe form
+function addExistingValuesToEditForm(recipe) {
+  document.getElementById("recipeID").value = recipe.id;
+  document.getElementById("edit-name").value = recipe.name;
+  document.getElementById("edit-description").value = recipe.description;
+  // sets up tags
+  if (recipe.tags.length > 0) {
+    document.getElementById("edit-tags").value = recipe.tags[0];
+    for (let i = 1; i < recipe.tags.length; i++) {
+      document.getElementById("edit-tags").value += ", " + recipe.tags[i];
+    }
+  }
+  
+  // sets up ingredients
+  if (recipe.ingredients.length > 0) {
+    document.getElementById("edit-ingredients").value = recipe.ingredients[0];
+    for (let i = 1; i < recipe.ingredients.length; i++) {
+      document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
+    }
+  }
+
+  // sets up steps
+  if (recipe.steps.length > 0) {
+    document.getElementById("edit-steps").value = recipe.steps[0];
+    for (let i = 1; i < recipe.steps.length; i++) {
+      document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
+    }
+  }
+
+  // TODO: figure out image value (low priority)
+}
+
+// opens the recipe form modal
+function openModal(id) {
+  document.getElementById(id).style.display = "block";
+  // edit-recipe-modal doesn't have image functionality rn
+  if (id == "new-recipe-modal") {
+    fetchBlobstoreUrl(id);
+  }
+}
+
 // takes in div id and message
 // makes the recipes container bigger and gives it the message
 // to use when there are no recipes in planner/cookbook/user-recipes
@@ -73,33 +138,27 @@ setUpDivWithNoRecipes = (divID, message) => {
   recipesDiv.style.height = "100px";
 }
 
-// opens the recipe form modal
-function openModal() {
-  document.getElementById("recipe-modal").style.display = "block";
-  fetchBlobstoreUrl();
-}
-
-// not quite sure what this does; something with blobs
-function fetchBlobstoreUrl() {
-  fetch('/blobstore-upload-url')
+// not quite sure what this does; something with blobs and images
+function fetchBlobstoreUrl(id) {
+  fetch('/blobstore-upload-url?divID='+id)
       .then((response) => {
         return response.text();
       })
       .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('recipe-form');
-        messageForm.action = imageUploadUrl;
+        let form;
+        if (id == "new-recipe-modal") {
+          form = document.getElementById("new-recipe-form");
+        } else if (id == "edit-recipe-modal") {
+          form = document.getElementById("edit-recipe-form");
+        } else {
+          console.log("invalid modal id");
+        }
+        form.action = imageUploadUrl;
       });
 }
 
 // closes the recipe form modal
-function closeModal() {
-  document.getElementById("recipe-modal").style.display = "none";
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
 
-// tells the server to delete the recipe.
-// input is a recipe js object
-function deleteRecipe(recipe) {
-  const params = new URLSearchParams();
-  params.append("id", recipe.id);
-  fetch("/delete-recipe", {method: "POST", body: params});
-}

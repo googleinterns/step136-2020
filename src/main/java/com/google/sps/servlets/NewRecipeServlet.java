@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -25,11 +26,12 @@ public class NewRecipeServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = request.getParameter("name");
-    String tagsResponse = request.getParameter("tags");
-    String description = request.getParameter("description");
-    String ingredientsResponse = request.getParameter("ingredients");
-    String stepsResponse = request.getParameter("steps");
+    // get responses from form
+    String name = request.getParameter("name").trim();
+    String tagsResponse = request.getParameter("tags").trim();
+    String description = request.getParameter("description").trim();
+    String ingredientsResponse = request.getParameter("ingredients").trim();
+    String stepsResponse = request.getParameter("steps").trim();
     // privacy will be used once we give users the option to make their recipes public
     // String privacy = request.getParameter("privacy");
 
@@ -37,23 +39,14 @@ public class NewRecipeServlet extends HttpServlet {
     // redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
     if (name.equals("") || tagsResponse.equals("") || description.equals("") || ingredientsResponse.equals("") || stepsResponse.equals("")){
-      response.sendRedirect("/pages/UserPage.html");
+      response.sendRedirect("/pages/UserPage.jsp");
       return;
     }
 
-    // splits the String responses from the form by commas/newlines, trims each member of array, and makes the resulting arrays into Lists
-    List<String> tags = new ArrayList<String>(Arrays.asList(Arrays.stream(tagsResponse.split(",")).map(String::trim).toArray(String[]::new)));
-    List<String> ingredients = new ArrayList<String>(Arrays.asList(Arrays.stream(ingredientsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
-    List<String> steps = new ArrayList<String>(Arrays.asList(Arrays.stream(stepsResponse.split("\n")).map(String::trim).toArray(String[]::new)));
-
-    // trims String responses
-    name.trim();
-    description.trim();
-
-    // removes any empty, null, or newline members of the Lists
-    tags.removeAll(Arrays.asList("", null));
-    ingredients.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
-    steps.removeAll(Arrays.asList("", null, "\n", "\r\n", "\r"));
+    // splits the String responses from the form into lists
+    List<String> tags = FormHelper.separateByCommas(tagsResponse);
+    List<String> ingredients = FormHelper.separateByNewlines(ingredientsResponse);
+    List<String> steps = FormHelper.separateByNewlines(stepsResponse);
 
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("name", name);
@@ -61,6 +54,7 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
+    // TODO: get user ID and setProperty
 
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained
@@ -71,7 +65,7 @@ public class NewRecipeServlet extends HttpServlet {
     // user submitted form without selecting a file, so we can't get a URL. (dev server)
     // redirects user back to UserPage
     if (blobKeys == null || blobKeys.isEmpty()) {
-      response.sendRedirect("/pages/UserPage.html");
+      response.sendRedirect("/pages/UserPage.jsp");
       return;
     } else {
       BlobKey blobkey = blobKeys.get(0);
@@ -80,7 +74,7 @@ public class NewRecipeServlet extends HttpServlet {
       // redirects user back to UserPage
       if (blobInfo.getSize() == 0) {
         blobstoreService.delete(blobkey);
-        response.sendRedirect("/pages/UserPage.html");
+        response.sendRedirect("/pages/UserPage.jsp");
         return;
       } else {
         recipeEntity.setProperty("imageBlobKey", blobkey.getKeyString());
@@ -90,6 +84,6 @@ public class NewRecipeServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(recipeEntity);
 
-    response.sendRedirect("/pages/UserPage.html");
+    response.sendRedirect("/pages/UserPage.jsp");
   }
 }
