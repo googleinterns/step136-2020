@@ -44,6 +44,8 @@ public class EditRecipeServlet extends HttpServlet {
       String description = (String) recipeEntity.getProperty("description");
       ArrayList<String> ingredients = (ArrayList<String>) recipeEntity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
+      String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
+      boolean published = (boolean) recipeEntity.getProperty("published");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
@@ -71,8 +73,8 @@ public class EditRecipeServlet extends HttpServlet {
       recipeEntity.setProperty("description", description);
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
-      recipeEntity.setProperty("imageBlobKey", (String) recipeEntity.getProperty("imageBlobKey"));
-      recipeEntity.setProperty("published", recipeEntity.getProperty("published"));
+      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
+      recipeEntity.setProperty("published", published);
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
@@ -80,16 +82,14 @@ public class EditRecipeServlet extends HttpServlet {
         Entity publicRecipeEntity = new Entity("PublicRecipe");
         FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
 
-        System.out.println("     publicRecipeEntity published: " + publicRecipeEntity.getProperty("published"));
         datastore.put(publicRecipeEntity);
       }
 
       datastore.put(recipeEntity);
-        System.out.println("     recipeEntity published: " + recipeEntity.getProperty("published"));
     } 
     catch (EntityNotFoundException e) {
       // in normal circumstances, this won't happen bc user has not access to id
-      System.out.println("entity not found exception");
+      System.out.println("Recipe id not found when trying to edit recipe. This should never happen.");
     }
     response.sendRedirect("/pages/UserPage.jsp");
   }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/style-userpage.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="../javascript/user-page.js"></script>
-    <script src="../javascript/RecipeRendering.js"></script>
+    <script src="../javascript/recipe-rendering.js"></script>
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body onload="loadRecipes()">
