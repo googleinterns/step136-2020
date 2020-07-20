@@ -122,8 +122,6 @@ function addExistingValuesToEditForm(recipe) {
     for (let i = 0; i < publishOptions.length; i++) {
       publishOptions[i].style.display = "block";
     }
-  } else {
-    // document.getElementById("publishDiv").appendChild(document.createElement("br"));
   }
 }
 
