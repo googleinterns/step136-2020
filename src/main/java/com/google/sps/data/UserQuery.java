@@ -32,29 +32,29 @@ public class UserQuery {
    * TODO: Implement regex and make calls to initialize authors, and tagsAndIngredients using regex functions
    */
   public UserQuery(String query) {
-    String standardizedQuery= SearchUtils.standardize(query);
+    String standardizedQuery = SearchUtils.standardize(query);
     this.tagsAndIngredients = new ArrayList<String>();
     this.authors = new ArrayList<String>();
     this.recipeName = SearchUtils.parseRecipeName(standardizedQuery);
   }
 
   /**
-   * Takes a new tag or ingeredient to search for and adds it to the tagsAndIngredients attribute.
+   * Takes a new tag or ingredient to search for and adds it to the tagsAndIngredients attribute.
    * TODO: Implement ability to avoid duplicates
    */
   public void addTag(String tag) {
     this.tagsAndIngredients.add(tag);
   }
 
-  public ArrayList<String> getTagsAndIngreds() {
-      return this.tagsAndIngredients;
+  public ArrayList<String> getTagsAndIngredients() {
+    return this.tagsAndIngredients;
   }
 
   public ArrayList<String> getAuthors() {
-      return this.authors;
+    return this.authors;
   }
 
   public String getName() {
-      return this.recipeName;
+    return this.recipeName;
   }
 }

@@ -17,16 +17,18 @@ package com.google.sps.servlets;
 import com.google.gson.Gson;
 import com.google.sps.data.User;
 import java.io.IOException;
+import java.lang.SecurityException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * provides get method for adding a recipe ID to one of the three User recipe lists.
- * request parameters: "destination", "inputID"
+ * Provides get method for adding a recipe ID to one of the three User recipe lists.
+ * Request parameters: "destination", "idInput", "idToken"
  * "destination" may be one of three user recipe list: "cookbook", "userRecipes", "planner".
- * "inputID" must be the recipe ID to be added.
+ * "idInput" must contain the recipe ID to be added.
+ * Google ID token is required for instantiation of User object, acquire from user-auth.js/getIdToken.
  */
 @WebServlet("/user-action")
 public class UserActionServlet extends HttpServlet {
@@ -38,10 +40,16 @@ public class UserActionServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String destination = (String) request.getParameter("destination");
-    long id = Long.parseLong((String) request.getParameter("inputId"));
+    long id = Long.parseLong((String) request.getParameter("idInput"));
+    String idToken =  (String) request.getParameter("idToken");
     
-    // May be changed to require initialization arguments.
-    User user = new User();
+    User user;
+    try {
+      user = new User(idToken);
+    } catch(SecurityException e) {
+      System.out.println("ERROR: User verification failed.");
+      return;
+    }
 
     if (destination.equals(COOKBOOK)) {
       user.addRecipeToCookbook(id);
@@ -50,7 +58,7 @@ public class UserActionServlet extends HttpServlet {
     } else if (destination.equals(PLANNER)) {
       user.addRecipeToPlanner(id);
     } else {
-      System.out.println("ERROR: Invalid destination parameter");
+      System.out.println("USAGE ERROR: Invalid destination value.");
     }
   }
 }

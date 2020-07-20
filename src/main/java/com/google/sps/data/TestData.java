@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.util.TestUtil;
+import com.google.sps.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,59 +17,54 @@ public class TestData {
    */
   public static final class RecipeNameSearch {
     // Properties for test recipes in this static class
-    private static final ArrayList<String> TAG_LIST = new ArrayList<String>(
+    public static final ArrayList<String> TAG_LIST = new ArrayList<String>(
         Arrays.asList("test", "name", "search"));
-    private static final ArrayList<String> INGRED_LIST = new ArrayList<String>(
+    public static final ArrayList<String> INGREDIENT_LIST = new ArrayList<String>(
         Arrays.asList("none"));
-    private static final ArrayList<String> STEPS_LIST = new ArrayList<String>(
+    public static final ArrayList<String> STEPS_LIST = new ArrayList<String>(
         Arrays.asList("none"));
-    private static final String ENTITY_NAME = "PublicRecipe";
-    private static final String RECIPE_NAME = "recipes for testing name search";
-    private static final String ALT_RECIPE_NAME = "alt recipes for testing name search";
-
-    // Recipes which are used for testing in this class
-    private static final Entity RECIPE_001 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 001 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_002 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 002 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_003 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 003 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_004 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 004 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_005 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 005 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_006 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, RECIPE_NAME, "THIS IS TEST RECIPE 006 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_007 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, ALT_RECIPE_NAME, "THIS IS TEST RECIPE 007 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_008 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, ALT_RECIPE_NAME, "THIS IS TEST RECIPE 008 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_009 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, ALT_RECIPE_NAME, "THIS IS TEST RECIPE 009 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-    private static final Entity RECIPE_010 = TestUtil.createRecipeEntity(
-      ENTITY_NAME, ALT_RECIPE_NAME, "THIS IS TEST RECIPE 010 FOR THE SEARCH BY NAME TEST",
-      TAG_LIST, INGRED_LIST, STEPS_LIST, -1);
-
-    // Array of all test entities
-    private static Entity[] testRecipes = new Entity[]{RECIPE_001, RECIPE_002, RECIPE_003, RECIPE_004,
-      RECIPE_005, RECIPE_006, RECIPE_007, RECIPE_008, RECIPE_009, RECIPE_010};
+    public static final String ENTITY_NAME = "PublicRecipe";
+    public static final String ENTITY_DESCRIPTION = "THIS IS A TEST RECIPE FOR THE SEARCH BY NAME TEST";
     
+    // Specifies the number of test sets that should be made
+    public static final int NUM_SETS = 2;
+
+    // The array determines the size of each set, based on the value at each index
+    public static final int[] TEST_SET_SIZES = {10, 5};
+
+    // The array determines the name for each set, based on the value at each index
+    public static final String[] TEST_SET_NAMES = {
+      "recipes for testing name search",
+      "alt recipes for testing name search"
+    };
+
     // Creates the datastore and puts all the test recipes into the Datastore
     public static void initializeData() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        for (int i = 0; i < 10; i++) {
-          datastore.put(testRecipes[i]);
+        
+        // Tries to iteratively create test data based on the number of sets, and catches an index error
+        // if one of the array properties doesn't match the expected amount of set properties. 
+        if (NUM_SETS == TEST_SET_NAMES.length && NUM_SETS == TEST_SET_SIZES.length) {
+          int offset = 0;
+          for (int setNum = 0; setNum < NUM_SETS; setNum++) {
+              Entity[] tempEntityList = TestUtil.generateTestRecipes(
+                  TEST_SET_SIZES[setNum], offset, ENTITY_DESCRIPTION, TAG_LIST, INGREDIENT_LIST,
+                  STEPS_LIST, ENTITY_NAME, TEST_SET_NAMES[setNum]
+              
+              );
+              offset += TEST_SET_SIZES[setNum];
+              
+              // puts all the enties in Datastore assuming an error wasn't thrown
+              for (Entity recipeElement : tempEntityList) {
+                  datastore.put(recipeElement);
+              }
+          }
+        } else {
+            Utils.SOP(String.join("\n",
+              "An array out of bounds exception was just prevented.",
+              "Please check that the size of TEST_SET_NAMES and TEST_SET_SIZES are equal to NUM_SETS"
+            ));
         }
-        return;
     }
   }
 }

@@ -33,7 +33,15 @@ public class BlobstoreUploadUrlServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/new-recipe");
+    String divID = request.getParameter("divID");
+    String uploadUrl = "";
+    if (divID.equals("new-recipe-modal")) {
+      uploadUrl = blobstoreService.createUploadUrl("/new-recipe");
+    } else if (divID.equals("edit-recipe-modal")) {
+      uploadUrl = blobstoreService.createUploadUrl("/edit-recipe");
+    } else {
+      System.out.println("BlobstoreUploadURL: divID is not valid");
+    }
 
     response.setContentType("text/html");
     response.getWriter().println(uploadUrl);

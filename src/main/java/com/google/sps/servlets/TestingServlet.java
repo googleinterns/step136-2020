@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.TestData;
 import com.google.sps.data.UserQuery;
+import com.google.sps.util.Utils;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,24 +50,7 @@ public class TestingServlet extends HttpServlet {
       TestData.RecipeNameSearch.initializeData();
       response.getWriter().println("I returned from post and initialized");
     } else if (request.getParameter("action").equals("delete")) {
-      SOP("NOT IMPLEMENTED YET");
+      Utils.SOP("NOT IMPLEMENTED YET");
     }
   }
-
-  /**
-   * Simple Implementation to reduce need to type print statements in debugging.
-   **/
-  private void SOP(Object thing) {
-    System.out.println(thing);
-  }
-
-  /**
-   * Converts an object into JSON using Gson, but abstracts the need to make
-   * a Gson object in different parts of code.
-   **/
-  private String convertToJson(Object target) {
-    Gson gson = new Gson();
-    return gson.toJson(target);
-  }
-
 }

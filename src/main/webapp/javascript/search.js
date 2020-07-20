@@ -5,7 +5,7 @@
  */
 async function search() {
     let userQuery =  document.getElementById("search-box").value;
-    
+    document.getElementById("content").innerHTML = "";
     // Uncomment to initialize test data for search testing
     /*let tempForm = new FormData();
     tempForm.append("action", "initialize");

@@ -20,9 +20,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.UserQuery;
+import com.google.sps.util.Utils;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,15 +36,18 @@ import javax.servlet.http.HttpServletResponse;
  * Handles requests for a Datastore search based on a query string with filters to use.
  **/
 @WebServlet("/search")
-public class Search extends HttpServlet {
+public class SearchServlet extends HttpServlet {
   /**
-   * Hnadles the get request for Datastore search results. Processes the url search parameters
+   * Handles the get request for Datastore search results. Processes the url search parameters
    * and returns a list in JSON format with all the recipe information to be rendered client side.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Initializes a user query object which will seperate the query data for ease of access.
     UserQuery uQuery = new UserQuery(request.getParameter("query"));
+    
+    // Max size for the query response
+    final int resultsPerRequest = 10;
     
     // Creates the new Query and adds the filter to be used in Datastore
     // The filter is currently only set to find an exact match name in Datastore
@@ -55,13 +58,12 @@ public class Search extends HttpServlet {
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery datastoreResult = datastore.prepare(query);
-    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(10));
+    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(resultsPerRequest));
 
     // Create a list of recipe entity information to be sent to the client, and then iterate through
     // the datastore response to create the recipe objects and add them to the list
     ArrayList<Recipe> clientRecipeInfo = new ArrayList<Recipe>();
-    for (int i = 0; i < recipes.size(); i++) {
-      Entity datastoreRecipe = recipes.get(i);
+    for (Entity datastoreRecipe : recipes) {
       clientRecipeInfo.add(
         new Recipe(
           datastoreRecipe.getKey().getId(),
@@ -73,25 +75,8 @@ public class Search extends HttpServlet {
     }
 
     // Sets the response type,converts the data into JSON, and sends the response
-    response.setContentType("JSON");
-    String recipeResponse = convertToJson(clientRecipeInfo);
+    response.setContentType("application:json");
+    String recipeResponse = Utils.convertToJson(clientRecipeInfo);
     response.getWriter().println(recipeResponse);
   }
-
-  /**
-   * Simple Implementation to reduce need to type print statements in debugging.
-   **/
-  private void SOP(Object thing) {
-    System.out.println(thing);
-  }
-
-  /**
-   * Converts an object into JSON using Gson, but abstracts the need to make
-   * a Gson object in different parts of code.
-   **/
-  private String convertToJson(Object target) {
-    Gson gson = new Gson();
-    return gson.toJson(target);
-  }
-
 }
