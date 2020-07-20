@@ -80,7 +80,7 @@ public class EditRecipeServlet extends HttpServlet {
         recipeEntity.setProperty("published", true);
 
         Entity publicRecipeEntity = new Entity("PublicRecipe");
-        FormHelper.copyRecipeEntity(recipeEntity, publicRecipeEntity);
+        FormHelper.copyFirstRecipeEntityToSecond(recipeEntity, publicRecipeEntity);
 
         datastore.put(publicRecipeEntity);
       }

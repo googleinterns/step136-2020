@@ -26,7 +26,7 @@ public class FormHelper {
 
   // input: two Entities
   // deep copies the second from the first
-  public static void copyRecipeEntity(Entity first, Entity second) {
+  public static void copyFirstRecipeEntityToSecond(Entity first, Entity second) {
     second.setProperty("name", first.getProperty("name"));
     second.setProperty("tags", first.getProperty("tags"));
     second.setProperty("description", first.getProperty("description"));
