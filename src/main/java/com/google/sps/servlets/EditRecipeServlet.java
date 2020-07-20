@@ -54,6 +54,9 @@ public class EditRecipeServlet extends HttpServlet {
       String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
       boolean published = (boolean) recipeEntity.getProperty("published");
 
+      String savedName = name;
+      String savedDescription = description;
+
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
         name = nameResponse;
@@ -99,10 +102,11 @@ public class EditRecipeServlet extends HttpServlet {
       // recipe was public
       if (published) {
         // make filters to the public recipe
-        Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
-        Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
+        Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, savedName);
+        Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, savedDescription);
         // TODO: further filter by author ID
         Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
+
         Query query = new Query("PublicRecipe").setFilter(composFilter);
         PreparedQuery results = datastore.prepare(query);
         
