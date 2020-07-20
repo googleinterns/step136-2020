@@ -51,8 +51,12 @@ function addDeleteFunctionality(recipes){
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
     deleteButtons[i].addEventListener('click', () => {
-      const deleteConfirmed = confirm("Are you sure you want to delete the " 
-        + recipe.name + " recipe?\nThis action cannot be undone!");
+      let message = "Are you sure you want to delete the " + recipe.name + "?\n";
+      if (recipe.published) {
+        message += "This recipe will no longer be able to be accessed by any user.\n";
+      }
+      message += "This action cannot be undone.";
+      const deleteConfirmed = confirm(message);
       if (deleteConfirmed) {
         deleteRecipe(recipe);
         // Remove the recipe from the DOM.
@@ -70,6 +74,8 @@ function addDeleteFunctionality(recipes){
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
+  params.append("name", recipe.name);
+  params.append("description", recipe.description);
   fetch("/delete-recipe", {method: "POST", body: params});
 }
 

@@ -130,7 +130,7 @@ public class EditRecipeServlet extends HttpServlet {
             }
           }
         } catch (TooManyResultsException e) {
-            System.out.println("Too many results were found in public recipes.");
+            System.out.println("EditRecipeServlet: Too many results were found in public recipes.");
         }
       }
       datastore.put(recipeEntity);
