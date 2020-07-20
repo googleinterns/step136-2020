@@ -24,3 +24,11 @@ async function search() {
     recipeList.forEach(elem => createRecipeCard("content", elem));
 
 }
+
+/**
+ * The function to load the main page and display content properly 
+ */
+mainPageLoad = () => {
+  // TODO: implement the call to search and rendering functions here for the intial load of the
+  // search page. This will be called everytime the page is refreshed.
+}

@@ -1,12 +1,4 @@
 /**
- * The function to load the main page and display content properly 
- */
-mainPageLoad = () => {
-  // TODO: implement the call to search and rendering functions here for the intial load of the
-  // search page. This will be called everytime the page is refreshed.
-}
-
-/**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
  * recipeInfo is expected to have the following data saved as properties,
@@ -55,6 +47,14 @@ createRecipeCard = (divID, recipeInfo) => {
       alert("You have clicked the add to cookbook button");
     });
   }
+}
+
+/**
+ * Takes the id for a recipe in Datastore, and using the recipe page template
+ * completes the page for the user. This function is added to each recipe card
+ * name, and should be called onClick().
+ */
+async function renderRecipePage(id) {
 }
 
 /**
