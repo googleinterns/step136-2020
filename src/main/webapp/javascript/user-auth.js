@@ -25,14 +25,22 @@ function onStart() {
 }
 
 /**
- * Initializes google authentication API and sets event listeners.
+ * Initializes google authentication API and preforms onload functions.
  */
 function initSigninV2() {
   auth2 = gapi.auth2.init({
     client_id : CLIENT_ID
   });
 
-  gapi.signin2.render('g-signin-container');
+  if (document.getElementById('g-signin-container') != null) {
+    fillSigninContainer('g-signin-container');
+  }
+}
+
+// Creates sign in box and sets event listeners.
+function fillSigninContainer(signInContainer) {
+
+  gapi.signin2.render(signInContainer);
 
   auth2.currentUser.listen(function(newGoogleUser) {
     if (auth2.isSignedIn.get()) {
