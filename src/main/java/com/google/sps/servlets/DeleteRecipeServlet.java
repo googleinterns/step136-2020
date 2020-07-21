@@ -31,15 +31,17 @@ public class DeleteRecipeServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    /// delete the private recipe
+    // delete the private recipe
     Key privateKey = KeyFactory.createKey("PrivateRecipe", privateRecipeID);
     datastore.delete(privateKey);
 
     // make filters to find the public recipe
     Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
     Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
-    // TODO: further filter by author ID
     Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
+
+    // TODO: make a map of private recipes IDs -> public recipe IDs to make this easier and prevent any errors
+    // get rid of other filters
 
     Query query = new Query("PublicRecipe").setFilter(composFilter);
     PreparedQuery results = datastore.prepare(query);
