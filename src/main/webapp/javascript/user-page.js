@@ -3,9 +3,16 @@ const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet."
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 
+
+
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
+  const idTokens = document.getElementsByClassName("idToken");
+  const idToken = getIdToken();
+  for (let i = 0; i < idTokens.length; i++) {
+    idTokens[i].value = idToken;
+  }
 }
 
 // loads the user made/uploaded recipes specifically from the 

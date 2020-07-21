@@ -33,6 +33,7 @@ public class NewRecipeServlet extends HttpServlet {
     String ingredientsResponse = request.getParameter("ingredients").trim();
     String stepsResponse = request.getParameter("steps").trim();
     String privacy = request.getParameter("privacy");
+    String idToken = request.getParameter("idToken");
 
     // prevents empty responses as being saved in datastore and redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
@@ -52,7 +53,7 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
-    // TODO: get user ID and setProperty
+    recipeEntity.setProperty("idToken", idToken);
 
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained
