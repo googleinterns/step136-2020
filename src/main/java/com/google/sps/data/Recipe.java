@@ -41,25 +41,4 @@ public class Recipe {
     this.published = published;
     this.popularity = popularity;
   }
-
-  // haven't implemented yet
-  public void setAuthorId(String id) {
-    authorID = id;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void publish() {
-    published = true;
-  }
-
-  public void increasePopularity() {
-    popularity++;
-  }
-  
-  public void decreasePopularity() {
-    popularity--;
-  }
 }
