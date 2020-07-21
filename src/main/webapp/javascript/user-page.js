@@ -2,10 +2,13 @@
 const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet.";
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
+const USER_RECIPES_DIV = "user-recipes";
 
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
+  setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
+  setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
 }
 
 // loads the user made/uploaded recipes specifically from the 
@@ -14,17 +17,17 @@ async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
 
-  let recipesDiv = document.getElementById("user-recipes");
+  let recipesDiv = document.getElementById(USER_RECIPES_DIV);
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
+      setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createRecipeCard("user-recipes", value);
+        createRecipeCard(USER_RECIPES_DIV, value);
 
         // since these cards are the user recipe cards, they need edit/delete buttons
         let elementsToAddToImageDiv = [
@@ -63,7 +66,7 @@ function addDeleteFunctionality(recipes){
         recipeCard.remove();
       }
       if (recipeCards.length == 0) {
-        setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
+        setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
       }
     });
   }
@@ -152,7 +155,7 @@ function openModal(id) {
 setUpDivWithNoRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
   recipesDiv.innerText = message;
-  recipesDiv.style.height = "100px";
+  recipesDiv.style.height = "80px";
 }
 
 // not quite sure what this does; something with blobs and images
