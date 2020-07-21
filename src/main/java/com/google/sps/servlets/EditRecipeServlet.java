@@ -80,11 +80,12 @@ public class EditRecipeServlet extends HttpServlet {
 
       // recipe is private and stays private
       recipeEntity.setProperty("name", name);
-      recipeEntity.setProperty("tags", tags);
       recipeEntity.setProperty("description", description);
+      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
-      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
+      recipeEntity.setProperty("tags", tags);
+      recipeEntity.setProperty("publicRecipeID", publicRecipeID);
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
@@ -106,7 +107,7 @@ public class EditRecipeServlet extends HttpServlet {
         Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, savedDescription);
         Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
 
-        // TODO: make a map of private recipes IDs -> public recipe IDs to make this easier and prevent any errors
+        // TODO: save public recipe ID to private recipe
         // get rid of other filters
 
         Query query = new Query("PublicRecipe").setFilter(composFilter);

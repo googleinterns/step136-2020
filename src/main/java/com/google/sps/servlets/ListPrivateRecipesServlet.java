@@ -35,6 +35,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     //   TODO: check if logged in user's id == recipe's authorID
     //   String authorID = (String) entity.getProperty("authorID");
       long id = entity.getKey().getId();
+      long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
@@ -44,6 +45,9 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       boolean published = (boolean) entity.getProperty("published");
 
       Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, published, 0);
+      if (publicRecipeID != 0) {
+        recipe.setPublicRecipeID(publicRecipeID);
+      }
       recipes.add(recipe);
     }
  

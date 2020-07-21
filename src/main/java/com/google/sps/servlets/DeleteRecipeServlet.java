@@ -38,12 +38,12 @@ public class DeleteRecipeServlet extends HttpServlet {
     // make filters to find the public recipe
     Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
     Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
-    Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
+    Filter combinedFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
 
-    // TODO: make a map of private recipes IDs -> public recipe IDs to make this easier and prevent any errors
+    // TODO: save public recipe ID to private recipe
     // get rid of other filters
 
-    Query query = new Query("PublicRecipe").setFilter(composFilter);
+    Query query = new Query("PublicRecipe").setFilter(combinedFilter);
     PreparedQuery results = datastore.prepare(query);
     
     try {
