@@ -44,7 +44,7 @@ button {
   min-height: 200px;
   object-fit: cover;
   overflow: hidden;
-  width: 17vw;
+  width: 100%;
   /* border-radius: 10px; */
 }
 @media screen and (min-width: 1250px) {
