@@ -101,9 +101,10 @@ function confirmUser() {
 }
 
 function createUserSession(idToken) {
-
+  params = new URLSearchParams({ "idToken" : idToken });
+  fetch("/session", { method : "POST", body : params });
 }
 
-function killUserSession(idToken) {
-
+function killUserSession() {
+  fetch("/session");
 }
