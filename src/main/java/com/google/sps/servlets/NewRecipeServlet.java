@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.User;
 import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,13 +48,15 @@ public class NewRecipeServlet extends HttpServlet {
     List<String> ingredients = FormHelper.separateByNewlines(ingredientsResponse);
     List<String> steps = FormHelper.separateByNewlines(stepsResponse);
 
+    User user = new User(idToken);
+
     Entity recipeEntity = new Entity("PrivateRecipe");
     recipeEntity.setProperty("name", name);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
-    recipeEntity.setProperty("idToken", idToken);
+    recipeEntity.setProperty("authorID", user.getId());
     recipeEntity.setProperty("published", false);
 
     // getUploads returns a set of blobs that have been uploaded 

@@ -35,7 +35,7 @@ public class FormHelper {
     entity.setProperty("steps", recipe.getProperty("steps"));
     entity.setProperty("imageBlobKey", recipe.getProperty("imageBlobKey"));
     entity.setProperty("published", recipe.getProperty("published"));
-    entity.setProperty("idToken", recipe.getProperty("idToken"));
+    entity.setProperty("authorID", recipe.getProperty("authorID"));
     return entity;
   }
 
@@ -49,6 +49,6 @@ public class FormHelper {
     publicRecipe.setProperty("steps", privateRecipe.getProperty("steps"));
     publicRecipe.setProperty("imageBlobKey", privateRecipe.getProperty("imageBlobKey"));
     publicRecipe.setProperty("published", privateRecipe.getProperty("published"));
-    publicRecipe.setProperty("idToken", privateRecipe.getProperty("idToken"));
+    publicRecipe.setProperty("authorID", privateRecipe.getProperty("authorID"));
   }
 }

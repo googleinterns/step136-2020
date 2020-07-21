@@ -27,6 +27,7 @@ public class DeleteRecipeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long privateRecipeID = Long.parseLong(request.getParameter("id"));
     String name = request.getParameter("name");
+    String authorID = request.getParameter("authorID");
     String description = request.getParameter("description");
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -38,8 +39,8 @@ public class DeleteRecipeServlet extends HttpServlet {
     // make filters to find the public recipe
     Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
     Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
-    // TODO: further filter by author ID
-    Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
+    Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
+    Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter, authorFilter);
 
     Query query = new Query("PublicRecipe").setFilter(composFilter);
     PreparedQuery results = datastore.prepare(query);

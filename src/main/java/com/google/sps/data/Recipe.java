@@ -22,6 +22,7 @@ public class Recipe {
     this.name = name;
     this.imageBlobKey = imageBlobKey;
     this.description = description;
+    authorID = "";
     ingredients = new ArrayList<String>();
     steps = new ArrayList<String>();
     tags = new ArrayList<String>();
@@ -29,10 +30,11 @@ public class Recipe {
     published = false;
   }
   
-  public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
+  public Recipe(long id, String name, String authorID, String imageBlobKey, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, boolean published, int popularity) {
     this.id = id;
     this.name = name;
+    this.authorID = authorID;
     this.imageBlobKey = imageBlobKey;
     this.tags = tags;
     this.description = description;

@@ -53,6 +53,7 @@ public class EditRecipeServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
       String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
       boolean published = (boolean) recipeEntity.getProperty("published");
+      String authorID = (String) recipeEntity.getProperty("authorID");
 
       String savedName = name;
       String savedDescription = description;

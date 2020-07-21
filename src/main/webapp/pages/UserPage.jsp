@@ -9,10 +9,10 @@
     <script src="../javascript/user-page.js"></script>
     <script src="../javascript/user-auth.js"></script>
     <script src="../javascript/recipe-rendering.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=onStart" async></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onStart" defer></script>
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
-  <body onload="confirmUser().then(loadRecipes)">
+  <body onload="loadRecipes()">
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
@@ -43,7 +43,7 @@
           <span onclick="closeModal('new-recipe-modal')" class="close">&times;</span>
           <form id="new-recipe-form" class="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
-            <input type="hidden" class="idToken" name="idToken">
+            <input type="hidden" id="idToken" name="idToken">
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="name" name="name">
             <br><br>
@@ -80,7 +80,6 @@
           <span onclick="closeModal('edit-recipe-modal')" class="close">&times;</span>
           <form id="edit-recipe-form" class="recipe-form" method="POST" action="/edit-recipe">
             <h1 class="center">Edit Recipe</h1>
-            <input type="hidden" class="idToken" name="idToken">
             <input type="hidden" id="recipeID" name="recipeID">
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="edit-name" name="edit-name">

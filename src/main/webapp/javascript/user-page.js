@@ -9,16 +9,16 @@ const USER_RECIPES_DIV = "user-recipes";
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
-  addIdTokenValues();
   setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
   setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
+  document.getElementById("idToken").value = getIdToken();
 }
 
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
-  const response = await fetch('/list-private-recipes');
+  const response = await fetch('/list-private-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
   let recipesDiv = document.getElementById(USER_RECIPES_DIV);
@@ -160,15 +160,6 @@ setUpDivWithNoRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
   recipesDiv.innerText = message;
   recipesDiv.style.height = "80px";
-}
-
-// adds the id token to the hidden inputs in the two forms
-function addIdTokenValues(){
-  const idTokens = document.getElementsByClassName("idToken");
-  const idToken = getIdToken();
-  for (let i = 0; i < idTokens.length; i++) {
-    idTokens[i].value = idToken;
-  }
 }
 
 // not quite sure what this does; something with blobs and images
