@@ -99,3 +99,11 @@ function confirmUser() {
     }
   })
 }
+
+function createUserSession(idToken) {
+
+}
+
+function killUserSession(idToken) {
+
+}
