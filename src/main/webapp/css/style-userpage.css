@@ -23,7 +23,7 @@
   }
   .recipe-card-image {
     height: 23.3vw;
-    width: 23.3vw;
+    width: 100%;
   }
 }
 /* adjusts to 2 column of recipe cards */
@@ -34,7 +34,7 @@
   }
   .recipe-card-image {
     height: 34vw;
-    width: 34vw;
+    width: 100%;
   }
   .recipes-container {
     padding: 1vw 2vw;
@@ -94,6 +94,14 @@ select {
 #buttons {
   display: flex;
   justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+#note {
+  margin: 2px 0 0;
 }
 
 .modal-btn {

@@ -44,7 +44,7 @@ button {
   min-height: 200px;
   object-fit: cover;
   overflow: hidden;
-  width: 17vw;
+  width: 100%;
   /* border-radius: 10px; */
 }
 @media screen and (min-width: 1250px) {
@@ -103,4 +103,8 @@ button {
 }
 .recipe-card-name {
   font-weight: bold;
+  margin: 15px 0 10px;
+}
+.recipe-card-description {
+  margin: 0 0 15px;
 }

@@ -24,15 +24,31 @@ public class FormHelper {
     return list;
   }
 
-  // input: two Entities
-  // deep copies the second from the first
-  public static void copyRecipeEntity(Entity first, Entity second) {
-    second.setProperty("name", first.getProperty("name"));
-    second.setProperty("tags", first.getProperty("tags"));
-    second.setProperty("description", first.getProperty("description"));
-    second.setProperty("ingredients", first.getProperty("ingredients"));
-    second.setProperty("steps", first.getProperty("steps"));
-    second.setProperty("imageBlobKey", first.getProperty("imageBlobKey"));
-    second.setProperty("idToken", first.getProperty("idToken"));
+  // input: a PrivateRecipe entity
+  // returns: a PublicRecipe entity copied from the PrivateRecipe
+  public static Entity copyToNewPublicRecipe(Entity recipe) {
+    Entity entity = new Entity("PublicRecipe");
+    entity.setProperty("name", recipe.getProperty("name"));
+    entity.setProperty("tags", recipe.getProperty("tags"));
+    entity.setProperty("description", recipe.getProperty("description"));
+    entity.setProperty("ingredients", recipe.getProperty("ingredients"));
+    entity.setProperty("steps", recipe.getProperty("steps"));
+    entity.setProperty("imageBlobKey", recipe.getProperty("imageBlobKey"));
+    entity.setProperty("published", recipe.getProperty("published"));
+    entity.setProperty("idToken", recipe.getProperty("idToken"));
+    return entity;
+  }
+
+  // input: a PrivateRecipe entity and a PublicRecipe entity
+  // copies the PrivateRecipe entity to an existing PublicRecipe entity
+  public static void copyToPublicRecipe(Entity privateRecipe, Entity publicRecipe) {
+    publicRecipe.setProperty("name", privateRecipe.getProperty("name"));
+    publicRecipe.setProperty("tags", privateRecipe.getProperty("tags"));
+    publicRecipe.setProperty("description", privateRecipe.getProperty("description"));
+    publicRecipe.setProperty("ingredients", privateRecipe.getProperty("ingredients"));
+    publicRecipe.setProperty("steps", privateRecipe.getProperty("steps"));
+    publicRecipe.setProperty("imageBlobKey", privateRecipe.getProperty("imageBlobKey"));
+    publicRecipe.setProperty("published", privateRecipe.getProperty("published"));
+    publicRecipe.setProperty("idToken", privateRecipe.getProperty("idToken"));
   }
 }

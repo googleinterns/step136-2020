@@ -8,6 +8,7 @@ public class Recipe {
   private ArrayList<String> ingredients;
   private ArrayList<String> steps;
   private ArrayList<String> tags;
+  private boolean published;
   private String authorID;
   private String description;
   private String imageBlobKey;
@@ -25,10 +26,11 @@ public class Recipe {
     steps = new ArrayList<String>();
     tags = new ArrayList<String>();
     popularity = 0;
+    published = false;
   }
   
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
+      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, int popularity) {
     this.id = id;
     this.name = name;
     this.imageBlobKey = imageBlobKey;
@@ -36,6 +38,7 @@ public class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.steps = steps;
+    this.published = published;
     this.popularity = popularity;
   }
 
@@ -46,6 +49,10 @@ public class Recipe {
 
   public long getId() {
     return id;
+  }
+
+  public void publish() {
+    published = true;
   }
 
   public void increasePopularity() {

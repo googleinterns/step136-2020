@@ -2,18 +2,18 @@
 const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet.";
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
+const USER_RECIPES_DIV = "user-recipes";
 
 
 
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
-  const idTokens = document.getElementsByClassName("idToken");
-  const idToken = getIdToken();
-  for (let i = 0; i < idTokens.length; i++) {
-    idTokens[i].value = idToken;
-  }
+  addIdTokenValues();
+  setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
+  setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
 }
+
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
@@ -21,17 +21,17 @@ async function loadUserRecipes() {
   const response = await fetch('/list-private-recipes');
   const recipes = await response.json();
 
-  let recipesDiv = document.getElementById("user-recipes");
+  let recipesDiv = document.getElementById(USER_RECIPES_DIV);
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
+      setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createRecipeCard("user-recipes", value);
+        createRecipeCard(USER_RECIPES_DIV, value);
 
         // since these cards are the user recipe cards, they need edit/delete buttons
         let elementsToAddToImageDiv = [
@@ -58,15 +58,19 @@ function addDeleteFunctionality(recipes){
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
     deleteButtons[i].addEventListener('click', () => {
-      const deleteConfirmed = confirm("Are you sure you want to delete the " 
-        + recipe.name + " recipe?\nThis action cannot be undone!");
+      let message = "Are you sure you want to delete the " + recipe.name + "?\n";
+      if (recipe.published) {
+        message += "This recipe will no longer be able to be accessed by any user.\n";
+      }
+      message += "This action cannot be undone.";
+      const deleteConfirmed = confirm(message);
       if (deleteConfirmed) {
         deleteRecipe(recipe);
         // Remove the recipe from the DOM.
         recipeCard.remove();
       }
       if (recipeCards.length == 0) {
-        setUpDivWithNoRecipes("user-recipes", NO_USER_RECIPES);
+        setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
       }
     });
   }
@@ -77,6 +81,8 @@ function addDeleteFunctionality(recipes){
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
+  params.append("name", recipe.name);
+  params.append("description", recipe.description);
   fetch("/delete-recipe", {method: "POST", body: params});
 }
 
@@ -107,7 +113,6 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-tags").value += ", " + recipe.tags[i];
     }
   }
-  
   // sets up ingredients
   if (recipe.ingredients.length > 0) {
     document.getElementById("edit-ingredients").value = recipe.ingredients[0];
@@ -115,7 +120,6 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-ingredients").value += "\n" + recipe.ingredients[i];
     }
   }
-
   // sets up steps
   if (recipe.steps.length > 0) {
     document.getElementById("edit-steps").value = recipe.steps[0];
@@ -123,8 +127,21 @@ function addExistingValuesToEditForm(recipe) {
       document.getElementById("edit-steps").value += "\n" + recipe.steps[i];
     }
   }
-
   // TODO: figure out image value (low priority)
+    
+  // sets the default to the current value
+  if (recipe.published) {
+    setOption("first", "public");
+    setOption("second", "private");
+  } else {
+    setOption("first", "private");
+    setOption("second", "public");
+  }
+}
+
+function setOption(id, text) {
+  document.getElementById(id).value = text;
+  document.getElementById(id).innerText = text;
 }
 
 // opens the recipe form modal
@@ -142,7 +159,16 @@ function openModal(id) {
 setUpDivWithNoRecipes = (divID, message) => {
   let recipesDiv = document.getElementById(divID);
   recipesDiv.innerText = message;
-  recipesDiv.style.height = "100px";
+  recipesDiv.style.height = "80px";
+}
+
+// adds the id token to the hidden inputs in the two forms
+function addIdTokenValues(){
+  const idTokens = document.getElementsByClassName("idToken");
+  const idToken = getIdToken();
+  for (let i = 0; i < idTokens.length; i++) {
+    idTokens[i].value = idToken;
+  }
 }
 
 // not quite sure what this does; something with blobs and images
