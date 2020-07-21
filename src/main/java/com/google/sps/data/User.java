@@ -24,10 +24,6 @@ public class User {
   private static final String CLIENT_ID = "1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com";
   // Payload class contains decrypted user information.
 
-  private static final String COOKBOOK = "cookbook";
-  private static final String PLANNER = "planner";
-  private static final String DRAFTS = "drafts";
-
   /**
     Payload object properties:
 
@@ -81,12 +77,12 @@ public class User {
     Key userKey = KeyFactory.createKey("User", getId());
 
     try {
-      // Check if User already has a profile
+      // Checks if User already has a profile.
       entity = datastore.get(userKey);
     } catch(EntityNotFoundException e) {
       // Create initial User instance, default name from idToken payload.
       entity = new Entity(userKey);
-      entity.setProperty("name", (String) payload.get("name"));
+      setName((String) payload.get("name"));
     }
   }
 
@@ -107,39 +103,39 @@ public class User {
   }
 
   public List<Key> getCookbookList() {
-    return getRecipeList(COOKBOOK);
+    return getRecipeListValue("cookbook");
   }
 
   public List<Key> getPlannerList() {
-    return getRecipeList(PLANNER);
+    return getRecipeListValue("planner");
   }
 
   public List<Key> getDraftList() {
-    return getRecipeList(DRAFTS);
+    return getRecipeListValue("drafts");
   }
 
   public void addCookbookKey(Key key) {
-    addKey(key, COOKBOOK);
+    addKey(key, "cookbook");
   }
 
   public void addPlannerKey(Key key) {
-    addKey(key, PLANNER);
+    addKey(key, "planner");
   }
 
   public void addDraftKey(Key key) {
-    addKey(key, DRAFTS);
+    addKey(key,"drafts");
   }
 
   public void removeCookbookKey(Key key) {
-    removeKey(key, COOKBOOK);
+    removeKey(key, "cookbook");
   }
 
   public void removePlannerKey(Key key) {
-    removeKey(key, PLANNER);
+    removeKey(key, "planner");
   }
 
   public void removeDraftKey(Key key) {
-    removeKey(key, DRAFTS);
+    removeKey(key, "drafts");
   }
 
   // PUBLIC METHODS END HERE
@@ -156,7 +152,7 @@ public class User {
    * Helper method for retrieving ArrayList<Key> of given recipe list.
    */
   @SuppressWarnings("unchecked") // Compiler cannot verify generic property type.
-  private ArrayList<Key> getRecipeList(String listName) {
+  private ArrayList<Key> getRecipeListValue(String listName) {
     ArrayList<Key> arrayListValue = (ArrayList<Key>) entity.getProperty(listName);
     if (arrayListValue == null) {
       return new ArrayList<Key>();
@@ -168,7 +164,7 @@ public class User {
    * Helper method for adding a key to a given recipe list.
    */
   private void addKey(Key key, String listName) {
-    ArrayList<Key> keys = getRecipeList(listName);
+    ArrayList<Key> keys = getRecipeListValue(listName);
     if (!keys.contains(key)) {
       keys.add(key);
       entity.setProperty(listName, keys);
@@ -180,7 +176,7 @@ public class User {
    * Helper methods for deleting a key from a given recipe list.
    */
   private void removeKey(Key key, String listName) {
-    ArrayList<Key> keys = getRecipeList(listName);
+    ArrayList<Key> keys = getRecipeListValue(listName);
     if (keys.remove(key)) {
       uploadEntity();
     }
