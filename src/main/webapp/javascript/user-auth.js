@@ -35,6 +35,15 @@ function initSigninV2() {
   if (document.getElementById('g-signin-container') != null) {
     fillSigninContainer('g-signin-container');
   }
+
+  // Sets listener to create user session if signed in, otherwise kill current session.
+  auth2.isSignedIn.listen((isSignedIn) => {
+    if (isSignedIn) {
+      createUserSession(getIdToken());
+    } else {
+      killUserSession();
+    }
+  })
 }
 
 // Creates sign in box and sets event listeners.
@@ -42,14 +51,14 @@ function fillSigninContainer(signInContainer) {
 
   gapi.signin2.render(signInContainer);
 
-  auth2.currentUser.listen(function(newGoogleUser) {
+  auth2.currentUser.listen((newGoogleUser) => {
     if (auth2.isSignedIn.get()) {
       insertUserInfo(newGoogleUser);
     }
   });
 
-  auth2.isSignedIn.listen(function(signedIn) {
-    if (signedIn) {
+  auth2.isSignedIn.listen((isSignedIn) => {
+    if (isSignedIn) {
       enableUserDropdown();
     } else {
       disableUserDropdown();
@@ -101,7 +110,7 @@ function disableUserDropdown() {
 function confirmUser() {
   return new Promise((resolve, reject) => {
     if (!auth2.isSignedIn.get()) {
-      auth2.signIn().then(resolve).catch(reject);
+      auth2.signIn().then(createUserSession(getIdToken())).then(resolve).catch(reject);
     } else {
       resolve();
     }
