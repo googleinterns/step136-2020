@@ -95,15 +95,13 @@
             <br><br>
             <label for="steps" required>Steps:<br><i>Each step should be on its own line. No need to number them.</i></label><br>
             <textarea id="edit-steps" name="edit-steps" rows="4"></textarea>
-            <div id="publishDiv">
-            <label for="privacy">Choose a privacy setting:</label>
-              <select id="privacy" name="privacy">
-                <option id="first"></option>
-                <option id="second"></option>
-              </select>
-              <p id="note"><i>Note: Once you publish a recipe you cannot edit the public version</i></p>
-            </div>
-            <br>
+            <br><br>
+           <label for="privacy">Choose a privacy setting:</label>
+            <select id="privacy" name="privacy">
+              <option id="first"></option>
+              <option id="second"></option>
+            </select>
+            <br><br>
             <div id="buttons">
               <button type="button" class="modal-btn" id="cancel-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
               <input class="modal-btn" type="submit" id="submit-btn" value="Submit Changes">

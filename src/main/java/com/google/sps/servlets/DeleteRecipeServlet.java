@@ -6,13 +6,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,36 +19,21 @@ public class DeleteRecipeServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long privateRecipeID = Long.parseLong(request.getParameter("id"));
-    String name = request.getParameter("name");
-    String authorID = request.getParameter("authorID");
-    String description = request.getParameter("description");
+    long publicRecipeID = Long.parseLong(request.getParameter("publicRecipeID"));
+    boolean published = Boolean.parseBoolean(request.getParameter("published"));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    /// delete the private recipe
+    // delete the private recipe
     Key privateKey = KeyFactory.createKey("PrivateRecipe", privateRecipeID);
     datastore.delete(privateKey);
 
-    // make filters to find the public recipe
-    Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, name);
-    Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, description);
-    Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
-    Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter, authorFilter);
-
-    Query query = new Query("PublicRecipe").setFilter(composFilter);
-    PreparedQuery results = datastore.prepare(query);
-    
-    try {
-      Entity publicRecipeEntity = results.asSingleEntity();
-      // publicRecipeEntity will only equal null if there is no entity left after the filters are applied
-      if (publicRecipeEntity != null) {
-        long publicRecipeID = publicRecipeEntity.getKey().getId();
-        Key recipeEntitykey = KeyFactory.createKey("PublicRecipe", publicRecipeID);
-        datastore.delete(recipeEntitykey);
-      }
-    } catch (TooManyResultsException e) {
-        System.out.println("DeleteServlet: Too many results were found in public recipes.");
+    // if the private recipe had been published, it has a public recipe equivalent that must be deleted as well
+    if (published) {
+      Key publicKey = KeyFactory.createKey("PublicRecipe", publicRecipeID);
+      datastore.delete(publicKey);
     }
 
+    // TODO: delete blobs too
   }
 }

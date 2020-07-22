@@ -48,6 +48,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
+      long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
@@ -56,7 +57,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
 
-      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, 0);
+      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, publicRecipeID);
       recipes.add(recipe);
     }
  

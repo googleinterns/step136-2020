@@ -7,13 +7,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query;
 import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,9 +47,7 @@ public class EditRecipeServlet extends HttpServlet {
       String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
       boolean published = (boolean) recipeEntity.getProperty("published");
       String authorID = (String) recipeEntity.getProperty("authorID");
-
-      String savedName = name;
-      String savedDescription = description;
+      long publicRecipeID = (long) recipeEntity.getProperty("publicRecipeID");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
@@ -79,13 +70,14 @@ public class EditRecipeServlet extends HttpServlet {
         steps = FormHelper.separateByNewlines(stepsResponse);
       }
 
-      // recipe is private and stays private
       recipeEntity.setProperty("name", name);
-      recipeEntity.setProperty("tags", tags);
       recipeEntity.setProperty("description", description);
+      recipeEntity.setProperty("authorID", authorID);
+      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
-      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
+      recipeEntity.setProperty("tags", tags);
+      recipeEntity.setProperty("publicRecipeID", publicRecipeID);
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
@@ -98,46 +90,33 @@ public class EditRecipeServlet extends HttpServlet {
       if (!published && privacy.equals("public")) {
         Entity publicRecipeEntity = FormHelper.copyToNewPublicRecipe(recipeEntity);
         datastore.put(publicRecipeEntity);
+        recipeEntity.setProperty("publicRecipeID", publicRecipeEntity.getKey().getId());
       }
 
       // recipe was public
       if (published) {
-        // make filters to the public recipe
-        Filter nameFilter = new FilterPredicate("name", FilterOperator.EQUAL, savedName);
-        Filter descriptionFilter = new FilterPredicate("description", FilterOperator.EQUAL, savedDescription);
-        // TODO: further filter by author ID
-        Filter composFilter = CompositeFilterOperator.and(nameFilter, descriptionFilter);
-
-        Query query = new Query("PublicRecipe").setFilter(composFilter);
-        PreparedQuery results = datastore.prepare(query);
-        
+        Key publicKey = KeyFactory.createKey("PublicRecipe", publicRecipeID);
         try {
-          Entity publicRecipeEntity = results.asSingleEntity();
-
-          if (publicRecipeEntity != null) {
-            // a matching PublicRecipe was found
-            long publicRecipeID = publicRecipeEntity.getKey().getId();
-            
-            // recipe is kept public and the public recipe is edited
-            if (privacy.equals("public")) {
-              FormHelper.copyToPublicRecipe(recipeEntity, publicRecipeEntity);
-              datastore.put(publicRecipeEntity);
-            }
-
-            // recipe is made private and the public recipe is deleted
-            if (privacy.equals("private")) {
-              Key recipeEntitykey = KeyFactory.createKey("PublicRecipe", publicRecipeID);
-              datastore.delete(recipeEntitykey);
-            }
+          Entity publicRecipeEntity = datastore.get(publicKey);
+        
+          // recipe is kept public and the public recipe is edited
+          if (privacy.equals("public")) {
+            FormHelper.copyToPublicRecipe(recipeEntity, publicRecipeEntity);
+            datastore.put(publicRecipeEntity);
           }
-        } catch (TooManyResultsException e) {
-            System.out.println("EditRecipeServlet: Too many results were found in public recipes.");
+          // recipe is made private and the public recipe is deleted
+          if (privacy.equals("private")) {
+            datastore.delete(publicKey);
+            recipeEntity.setProperty("publicRecipeID", 0);
+          }
+        } catch (EntityNotFoundException e) {
+          System.out.println("EditRecipeServlet: Public recipe enitity not found with stored public recipe id. This should never happen.");
         }
       }
       datastore.put(recipeEntity);
     } catch (EntityNotFoundException e) {
       // in normal circumstances, this won't happen bc user has not access to id
-      System.out.println("Recipe id not found when trying to edit recipe. This should never happen.");
+      System.out.println("EditRecipeServlet: Private recipe entity not found with saved recipe id. This should never happen.");
     }
     response.sendRedirect("/pages/UserPage.jsp");
   }
