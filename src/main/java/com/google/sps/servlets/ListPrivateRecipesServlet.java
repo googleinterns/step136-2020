@@ -44,10 +44,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
 
-      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, published, 0);
-      if (publicRecipeID != 0) {
-        recipe.setPublicRecipeID(publicRecipeID);
-      }
+      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, published, publicRecipeID);
       recipes.add(recipe);
     }
  
