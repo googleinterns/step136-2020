@@ -34,7 +34,6 @@ public class EditRecipeServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
-    
     long id = Long.parseLong(idResponse);
     Key key = KeyFactory.createKey("PrivateRecipe", id);
     try {

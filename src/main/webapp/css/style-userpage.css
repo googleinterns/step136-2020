@@ -86,6 +86,11 @@ textarea {
   width: 100%;
 }
 
+select {
+  min-height: 25px;
+  min-width: 80px;
+}
+
 #buttons {
   display: flex;
   justify-content: center;
