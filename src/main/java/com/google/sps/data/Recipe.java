@@ -13,7 +13,7 @@ public class Recipe {
   private String description;
   private String imageBlobKey;
   private String name;
-//   private int popularity;
+  private long popularity;
   private long id;
   private long publicRecipeID;
 
@@ -31,7 +31,7 @@ public class Recipe {
   
   // Recipe constructor for PublicRecipes that don't need published and publicRecipeID
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps) {
+      ArrayList<String> ingredients, ArrayList<String> steps, long popularity) {
     this.id = id;
     this.name = name;
     this.imageBlobKey = imageBlobKey;
@@ -39,12 +39,13 @@ public class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.steps = steps;
+    this.popularity = popularity;
     publicRecipeID = 0;
     published = true;
   }
 
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long publicRecipeID) {
+      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long publicRecipeID, long popularity) {
     this.id = id;
     this.name = name;
     this.imageBlobKey = imageBlobKey;
@@ -54,5 +55,6 @@ public class Recipe {
     this.steps = steps;
     this.published = published;
     this.publicRecipeID = publicRecipeID;
+    this.popularity = popularity;
   }
 }
