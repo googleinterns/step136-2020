@@ -83,12 +83,13 @@ public class NewRecipeServlet extends HttpServlet {
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
+    // user has chosen to publish their recipe
     if (privacy.equals("public")) {
       Entity publicRecipeEntity = FormHelper.copyToNewPublicRecipe(recipeEntity);
       datastore.put(publicRecipeEntity);
 
       recipeEntity.setProperty("published", true);
-      recipeEntity.setProperty("publicRecipeID", publicRecipeEntity..getKey().getId());
+      recipeEntity.setProperty("publicRecipeID", publicRecipeEntity.getKey().getId());
     }
     datastore.put(recipeEntity);
 

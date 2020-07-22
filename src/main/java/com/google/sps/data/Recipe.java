@@ -41,6 +41,7 @@ public class Recipe {
     this.steps = steps;
     this.published = published;
     this.popularity = popularity;
+    publicRecipeID = 0;
   }
 
   public void setPublicRecipeID(long id) {

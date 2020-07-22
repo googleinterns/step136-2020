@@ -77,8 +77,8 @@ function addDeleteFunctionality(recipes){
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
-  params.append("name", recipe.name);
-  params.append("description", recipe.description);
+  params.append("publicRecipeID", recipe.publicRecipeID);
+  params.append("published", recipe.published);
   fetch("/delete-recipe", {method: "POST", body: params});
 }
 
