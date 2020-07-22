@@ -32,7 +32,7 @@ public class Recipe {
   
 
   // Recipe constructor for PublicRecipes that don't need published and publicRecipeID
-  public Recipe(long id, String name, Stringa authorID, String imageBlobKey, String description, ArrayList<String> tags, 
+  public Recipe(long id, String name, String authorID, String imageBlobKey, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps) {
     this.id = id;
     this.name = name;

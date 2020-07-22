@@ -12,7 +12,7 @@
     <script src="https://apis.google.com/js/platform.js?onload=onStart" defer></script>
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
-  <body onload="loadRecipes()">
+  <body>
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->

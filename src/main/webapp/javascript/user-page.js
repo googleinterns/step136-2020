@@ -4,7 +4,10 @@ const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_DIV = "user-recipes";
 
-
+window.onload = function() {
+  onStart();
+  confirmUser().then(loadRecipes);
+}
 
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
