@@ -18,24 +18,19 @@ import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
 @WebServlet("/list-private-recipes")
-public class ListPrivateRecipesServlet extends HttpServlet {
+public class LisUserRecipes extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // this Query seems to need the addSort method to work so rn it's arbitrarily by the name
-    // it can be changed
-    // TODO: filter by author ID
-    Query query = new Query("PrivateRecipe").addSort("name", SortDirection.DESCENDING);
+    // TODO: filter by author ID or get keys from drafts in User
+    Query query = new Query("Recipe").addSort("name", SortDirection.DESCENDING);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
  
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-    //   TODO: check if logged in user's id == recipe's authorID
-    //   String authorID = (String) entity.getProperty("authorID");
       long id = entity.getKey().getId();
-      long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
@@ -44,7 +39,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
 
-      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, published, publicRecipeID, 0);
+      Recipe recipe = new Recipe(id, name, blobkey, description, tags, ingredients, steps, published, 0);
       recipes.add(recipe);
     }
  
