@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
 @WebServlet("/list-private-recipes")
-public class LisUserRecipes extends HttpServlet {
+public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
