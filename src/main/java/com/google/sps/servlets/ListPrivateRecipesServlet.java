@@ -32,9 +32,6 @@ public class ListPrivateRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // this Query seems to need the addSort method to work so rn it's arbitrarily by the name
-    // it can be changed
-    // TODO: filter by author ID
     String idToken = request.getParameter("idToken");
     User user = new User(idToken);
     String authorID = user.getId();
@@ -47,6 +44,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
  
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+      System.out.println(entity.getKey().toString());
       long id = entity.getKey().getId();
       long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");

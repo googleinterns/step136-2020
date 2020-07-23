@@ -12,11 +12,12 @@ window.onload = function() {
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
+  loadTypeRecipes("planner");
+  loadTypeRecipes("cookbook");
   setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
   setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
   document.getElementById("idToken").value = getIdToken();
 }
-
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
@@ -48,6 +49,28 @@ async function loadUserRecipes() {
       }
       addDeleteFunctionality(recipes);
       addEditFunctionality(recipes);
+    }
+  }
+}
+
+// loads the recipes the user has added to cookbook
+async function loadTypeRecipes(type) {
+  console.log("loadTypeRecipes function");
+  const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
+  const recipes = await response.json();
+
+  let recipesDiv = type + "-recipes";
+  document.getElementById(recipesDiv).innerHTML = "";
+  
+  if (Object.keys(recipes)) {
+    if (Object.keys(recipes).length == 0) {
+      setUpDivWithNoRecipes(recipesDiv, NO_USER_RECIPES);
+    }
+    else {
+      for (let key of Object.keys(recipes)) {
+        let value = recipes[key];
+        createRecipeCard(recipesDiv, value);
+      }
     }
   }
 }
