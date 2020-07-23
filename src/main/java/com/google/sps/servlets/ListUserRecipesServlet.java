@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
-@WebServlet("/list-private-recipes")
+@WebServlet("/list-user-recipes")
 public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
