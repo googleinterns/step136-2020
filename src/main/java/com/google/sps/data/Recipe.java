@@ -17,6 +17,7 @@ public class Recipe {
   private long id;
 
   // Recipe constructor for the recipe cards for which less information is needed
+  // the values for ingredients, steps, tags, and published will not be used
   public Recipe(long id, String name, String imageBlobKey, String description) {
     this.id = id;
     this.name = name;
