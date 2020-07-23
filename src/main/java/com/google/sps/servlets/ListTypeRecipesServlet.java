@@ -27,10 +27,8 @@ public class ListTypeRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println("ListTypeRecipesServlet");
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
-    System.out.println("  type: " + type);
     User user = new User(idToken);
     String authorID = user.getId();
 
@@ -45,12 +43,9 @@ public class ListTypeRecipesServlet extends HttpServlet {
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    System.out.println("  keys length: " + keys.size());
     
     List<Recipe> recipes = new ArrayList<>();
-    for (Key savedKey : keys) {
-        System.out.println(savedKey.toString());
-        Key key = KeyFactory.createKey(savedKey.getKind(), savedKey.getId());
+    for (Key key : keys) {
       try {
         Entity entity = datastore.get(key);
         long id = key.getId();
@@ -64,7 +59,6 @@ public class ListTypeRecipesServlet extends HttpServlet {
         System.out.println("ListTypeRecipesServlet: Entity not found with key from user key list. This should never happen.");
       }
     }
-    System.out.println("  recipes length: " + recipes.size());
  
     Gson gson = new Gson();
 

@@ -44,7 +44,6 @@ public class ListPrivateRecipesServlet extends HttpServlet {
  
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      System.out.println(entity.getKey().toString());
       long id = entity.getKey().getId();
       long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");

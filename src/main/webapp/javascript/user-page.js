@@ -14,8 +14,6 @@ async function loadRecipes() {
   loadUserRecipes();
   loadTypeRecipes("planner");
   loadTypeRecipes("cookbook");
-  setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
-  setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
   document.getElementById("idToken").value = getIdToken();
 }
 
@@ -55,7 +53,7 @@ async function loadUserRecipes() {
 
 // loads the recipes the user has added to cookbook
 async function loadTypeRecipes(type) {
-  console.log("loadTypeRecipes function");
+  // TODO: refresh planner/cookbook/user-recipes div when plannerButton or cookbookButton is clicked
   const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
   const recipes = await response.json();
 

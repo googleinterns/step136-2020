@@ -17,13 +17,11 @@ public class AddToListServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println("AddToListServlet");
     long id = Long.parseLong(request.getParameter("id"));
     long publicRecipeID = Long.parseLong(request.getParameter("publicRecipeID"));
     boolean published = Boolean.parseBoolean(request.getParameter("published"));
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
-    System.out.println("  type: "+type);
 
     User user = new User(idToken);
     List<Key> keys;
@@ -39,7 +37,6 @@ public class AddToListServlet extends HttpServlet {
     // recipe is a PublicRecipe
     if (published && publicRecipeID == 0) {
       Key key = KeyFactory.createKey("PublicRecipe", id);
-      System.out.println(key.toString());
       // if the key is already in the list, then remove it
       if (keys.contains(key)) {
         remove(user, type, key);
@@ -48,18 +45,14 @@ public class AddToListServlet extends HttpServlet {
       }
     }
     else {  // recipe is a PrivateRecipe
-      Key key = KeyFactory.createKey("PrivateKey", id);      System.out.println(key.toString());
-      System.out.println(key.toString());
+      Key key = KeyFactory.createKey("PrivateRecipe", id);
       // if the key is already in the list, then remove it
       if (keys.contains(key)) {
         remove(user, type, key);
-        System.out.println("  removed");
       } else { 
         add(user, type, key);
-        System.out.println("  added");
       }
     }
-    System.out.println("  keys length: " + keys.size());
   }
 
   public static void remove(User user, String type, Key key) {

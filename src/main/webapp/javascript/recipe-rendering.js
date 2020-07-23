@@ -51,12 +51,11 @@ createRecipeCard = (divID, recipeInfo) => {
 
     // where the functionality for planner/cookbook buttons will go
     plannerButton.addEventListener('click', () => {
-      alert("You have clicked the add to planner button");
+      // TODO: add an alert if they are removing from planner
       addToList(recipeInfo, "planner");
     });
     cookbookButton.addEventListener('click', () => {
       // TODO: add an alert if they are removing from cookbook
-      alert("You have clicked the add to cookbook button");
       addToList(recipeInfo, "cookbook");
     });
   }
