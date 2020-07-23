@@ -20,7 +20,7 @@ async function loadRecipes() {
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
-  const response = await fetch('/list-private-recipes?idToken='+ getIdToken());
+  const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
   let recipesDiv = document.getElementById(USER_RECIPES_DIV);
@@ -82,7 +82,7 @@ function addDeleteFunctionality(recipes){
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
     deleteButtons[i].addEventListener('click', () => {
-      let message = "Are you sure you want to delete the " + recipe.name + "?\n";
+      let message = "Are you sure you want to delete the " + recipe.name + " recipe?\n";
       if (recipe.published) {
         message += "This recipe will no longer be able to be accessed by any user.\n";
       }
@@ -105,8 +105,6 @@ function addDeleteFunctionality(recipes){
 function deleteRecipe(recipe) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
-  params.append("publicRecipeID", recipe.publicRecipeID);
-  params.append("published", recipe.published);
   fetch("/delete-recipe", {method: "POST", body: params});
 }
 

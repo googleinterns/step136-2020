@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
-@WebServlet("/list-private-recipes")
-public class ListPrivateRecipesServlet extends HttpServlet {
+@WebServlet("/list-user-recipes")
+public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -37,7 +37,8 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     String authorID = user.getId();
 
     Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
-    Query query = new Query("PrivateRecipe").setFilter(authorFilter);
+    Query query = new Query("Recipe").setFilter(authorFilter);
+
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -45,7 +46,6 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
-      long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
@@ -54,7 +54,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
 
-      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, publicRecipeID);
+      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, 0);
       recipes.add(recipe);
     }
  

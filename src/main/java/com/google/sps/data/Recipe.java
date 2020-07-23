@@ -13,11 +13,11 @@ public class Recipe {
   private String description;
   private String imageBlobKey;
   private String name;
-//   private int popularity;
+  private long popularity;
   private long id;
-  private long publicRecipeID;
 
   // Recipe constructor for the recipe cards for which less information is needed
+  // the values for ingredients, steps, tags, and published will not be used
   public Recipe(long id, String name, String imageBlobKey, String description) {
     this.id = id;
     this.name = name;
@@ -29,25 +29,9 @@ public class Recipe {
     tags = new ArrayList<String>();
     published = false;
   }
-  
-
-  // Recipe constructor for PublicRecipes that don't need published and publicRecipeID
-  public Recipe(long id, String name, String authorID, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps) {
-    this.id = id;
-    this.name = name;
-    this.authorID = authorID;
-    this.imageBlobKey = imageBlobKey;
-    this.tags = tags;
-    this.description = description;
-    this.ingredients = ingredients;
-    this.steps = steps;
-    publicRecipeID = 0;
-    published = true;
-  }
 
   public Recipe(long id, String name, String authorID, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long publicRecipeID) {
+      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long popularity) {
     this.id = id;
     this.name = name;
     this.authorID = authorID;
@@ -57,6 +41,6 @@ public class Recipe {
     this.ingredients = ingredients;
     this.steps = steps;
     this.published = published;
-    this.publicRecipeID = publicRecipeID;
+    this.popularity = popularity;
   }
 }
