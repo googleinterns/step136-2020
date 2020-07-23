@@ -2,8 +2,6 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
@@ -22,7 +20,7 @@ public class DeleteRecipeServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    // delete the private recipe
+    // delete the recipe
     Key key = KeyFactory.createKey("Recipe", id);
     datastore.delete(key);
 
