@@ -11,10 +11,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.lang.SecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,31 +39,31 @@ public class User {
     "family_name" : "User",
   */
   private Payload payload;
-
   /**
-    User Entity Properties:
+    User Entity Structure:
 
-    "displayName" : "Example Name"
-    "cookbook" : [ "ID1", "ID2", "ID3" ]
-    "userRecipes" : [ "ID1", "ID2", "ID3" ]
-    "planner" : [ "ID1", "ID2", "ID3" ]
-    "shoppingList" : [ "ID1", "ID2", "ID3" ]
+    Key = User(userID) {
+      "name" : String,
+      "cookbook" : ArrayList<Key)>,    *May contain public or private recipe kind.
+      "planner" : ArrayList<Key)>,    *May contain public or private recipe kind.
+      "drafts" : ArrayList<Key>    *May contain private recipe kind.
+    }
 
-    Note: ID values must be parsed into Long type.
+    * Recipe lists maintain the order they were added in.
     */
   private Entity entity;
-
+  private DatastoreService datastore;
   /**
    * Verifies user and creates a User instance for accessing and adding user data.
-   * throws SecurityException on failure, import from java.lang.SecurityException.
+   * Throws SecurityException on failure, import from java.lang.SecurityException.
    * @Param idTokenString is the Google-user ID Token provided buy user-auth.js/getIdToken.
    * Token should be passed as URL Fetch argument from front end.
    */
   public User(String idTokenString) throws SecurityException {
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
-    .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
-    .setAudience(Collections.singletonList(CLIENT_ID))
-    .build();
+        .Builder(UrlFetchTransport.getDefaultInstance(), new JacksonFactory())
+        .setAudience(Collections.singletonList(CLIENT_ID))
+        .build();
 
     GoogleIdToken idToken;
     try {
@@ -76,20 +73,16 @@ public class User {
     }
 
     payload = idToken.getPayload();
-
+    datastore = DatastoreServiceFactory.getDatastoreService();
     Key userKey = KeyFactory.createKey("User", getId());
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     try {
+      // Checks if User already has a profile.
       entity = datastore.get(userKey);
     } catch(EntityNotFoundException e) {
-      // On EntityNotFoundException, create initial instance.
+      // Create initial User instance, default name from idToken payload.
       entity = new Entity(userKey);
-      String emptyJsonArray = "[ ]";
-      // displayName defaults to given name from Gmail account.
-      entity.setProperty("displayName", (String) payload.get("name"));
-      entity.setProperty("cookbook", emptyJsonArray);
-      entity.setProperty("userRecipes", emptyJsonArray);
-      entity.setProperty("planner", emptyJsonArray);
+      setName((String) payload.get("name"));
     }
   }
 
@@ -100,106 +93,92 @@ public class User {
     return payload.getSubject();
   }
 
-  public long getDisplayName() {
-    return (long) entity.getProperty("displayName");
+  public String getName() {
+    return (String) entity.getProperty("name");
   }
 
-  public void setDisplayName(String name) {
-    entity.setProperty("displayName", name);
-    putEntity();
+  public void setName(String name) {
+    entity.setProperty("name", name);
+    uploadEntity();
   }
 
-  /* 
-  Cookbook and Planner currently support only one type of Recipe entity (namely public).
-  Likewise, userRecipes should only include private recipes.
-  */
-
-  public ArrayList<Long> getCookbook() {
-    return getPropertyArrayList("cookbook");
+  public List<Key> getCookbookList() {
+    return getRecipeListValue("cookbook");
   }
 
-  public ArrayList<Long> getUserRecipes() {
-    return getPropertyArrayList("userRecipes");
+  public List<Key> getPlannerList() {
+    return getRecipeListValue("planner");
   }
 
-  public ArrayList<Long> getPlanner() {
-    return getPropertyArrayList("planner");
+  public List<Key> getDraftList() {
+    return getRecipeListValue("drafts");
   }
 
-  public void addRecipeToPlanner(long id) {
-    addIdToRecipeList(id, "planner");
+  public void addCookbookKey(Key key) {
+    addKey(key, "cookbook");
   }
 
-  public void addRecipeToCookbook(long id) {
-    addIdToRecipeList(id, "cookbook");
+  public void addPlannerKey(Key key) {
+    addKey(key, "planner");
   }
 
-  public void addRecipeToUserRecipes(long id) {
-    addIdToRecipeList(id, "userRecipes");
+  public void addDraftKey(Key key) {
+    addKey(key,"drafts");
   }
 
-  public void removeRecipeFromPlanner(long id) {
-    removeIdFromRecipeList(id, "planner");
+  public void removeCookbookKey(Key key) {
+    removeKey(key, "cookbook");
   }
 
-  public void removeRecipeFromCookbook(long id) {
-    removeIdFromRecipeList(id, "cookbook");
+  public void removePlannerKey(Key key) {
+    removeKey(key, "planner");
   }
 
-  public void removeRecipeFromUserRecipes(long id) {
-    removeIdFromRecipeList(id, "userRecipes");
+  public void removeDraftKey(Key key) {
+    removeKey(key, "drafts");
   }
+
+  // PUBLIC METHODS END HERE
 
   /**
-   * Helper method for removing recipe IDs form specific user recipe list.
-   * @Param id recipe ID to be removed from current User entity.
-   * @Param recipeListType Property name of the list to removed from.
+   * Adds the current version of User entity to datastore.
    */
-  private void removeIdFromRecipeList(long id, String recipeListType) {
-    Gson gson = new Gson();
-    ArrayList<Long> list = getPropertyArrayList(recipeListType);
-    list.remove(new Long(id));
-    entity.setProperty(recipeListType, gson.toJson(list));
-    putEntity();
-  }
-
-  /**
-   * Helper method for adding recipe IDs to specific user recipe list.
-   * @Param id recipe ID to be added to current User entity.
-   * @Param recipeListType Property name of the list to add to.
-   */
-  private void addIdToRecipeList(long id, String recipeListType) {
-    Gson gson = new Gson();
-    ArrayList<Long> list = getPropertyArrayList(recipeListType);
-    if (!list.contains(id)) {
-      list.add(id);
-    }
-    entity.setProperty(recipeListType, gson.toJson(list));
-    putEntity();
-  }
-
-  /**
-   * Creates a datastore object and stores current entity in database.
-   */
-  private void putEntity() {
+  private void uploadEntity() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(entity);
   }
 
   /**
-   * Gets the (String) Json array of a given recipe list.
-   * @Param property Property name of entity list to be obtained.
-   * Returns Parsed array as ArrayList<Long>
+   * Helper method for retrieving ArrayList<Key> of given recipe list.
    */
-  private ArrayList<Long> getPropertyArrayList(String property) {
-    Gson gson = new Gson();
-    String jsonArray = (String) entity.getProperty(property);
-    Type listType = new TypeToken<List<String>>(){}.getType();
-    List<String> stringIds = gson.fromJson(jsonArray, listType);
-    ArrayList<Long> longIds = new ArrayList<Long>();
-    for (String str : stringIds) {
-        longIds.add(Long.parseLong(str));
+  @SuppressWarnings("unchecked") // Compiler cannot verify generic property type.
+  private ArrayList<Key> getRecipeListValue(String listName) {
+    ArrayList<Key> arrayListValue = (ArrayList<Key>) entity.getProperty(listName);
+    if (arrayListValue == null) {
+      return new ArrayList<Key>();
     }
-    return longIds;
+    return arrayListValue;
+  }
+
+  /**
+   * Helper method for adding a key to a given recipe list.
+   */
+  private void addKey(Key key, String listName) {
+    ArrayList<Key> keys = getRecipeListValue(listName);
+    if (!keys.contains(key)) {
+      keys.add(key);
+      entity.setProperty(listName, keys);
+      uploadEntity();
+    }
+  }
+
+  /**
+   * Helper methods for deleting a key from a given recipe list.
+   */
+  private void removeKey(Key key, String listName) {
+    ArrayList<Key> keys = getRecipeListValue(listName);
+    if (keys.remove(key)) {
+      uploadEntity();
+    }
   }
 }
