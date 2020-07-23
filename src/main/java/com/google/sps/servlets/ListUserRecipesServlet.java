@@ -28,19 +28,16 @@ import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
 @WebServlet("/list-private-recipes")
-public class ListPrivateRecipesServlet extends HttpServlet {
+public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // this Query seems to need the addSort method to work so rn it's arbitrarily by the name
-    // it can be changed
-    // TODO: filter by author ID
     String idToken = request.getParameter("idToken");
     User user = new User(idToken);
     String authorID = user.getId();
 
     Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
-    Query query = new Query("PrivateRecipe").setFilter(authorFilter);
+    Query query = new Query("Recipe").setFilter(authorFilter);
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -48,7 +45,6 @@ public class ListPrivateRecipesServlet extends HttpServlet {
     List<Recipe> recipes = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
-      long publicRecipeID = (long) entity.getProperty("publicRecipeID");
       String name = (String) entity.getProperty("name");
       String description = (String) entity.getProperty("description");
       String blobkey = (String) entity.getProperty("imageBlobKey");
@@ -57,7 +53,7 @@ public class ListPrivateRecipesServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
 
-      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, publicRecipeID);
+      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, 0);
       recipes.add(recipe);
     }
  

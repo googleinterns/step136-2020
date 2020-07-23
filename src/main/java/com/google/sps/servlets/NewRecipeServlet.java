@@ -50,7 +50,7 @@ public class NewRecipeServlet extends HttpServlet {
 
     User user = new User(idToken);
 
-    Entity recipeEntity = new Entity("PrivateRecipe");
+    Entity recipeEntity = new Entity("Recipe");
     recipeEntity.setProperty("name", name);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
@@ -58,7 +58,11 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("steps", steps);
     recipeEntity.setProperty("authorID", user.getId());
     recipeEntity.setProperty("published", false);
-    recipeEntity.setProperty("publicRecipeID", 0);
+
+    // user has chosen to publish their recipe
+    if (privacy.equals("public")) {
+      recipeEntity.setProperty("published", true);
+    }
 
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained
@@ -86,15 +90,6 @@ public class NewRecipeServlet extends HttpServlet {
     }
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-    // user has chosen to publish their recipe
-    if (privacy.equals("public")) {
-      Entity publicRecipeEntity = FormHelper.copyToNewPublicRecipe(recipeEntity);
-      datastore.put(publicRecipeEntity);
-
-      recipeEntity.setProperty("published", true);
-      recipeEntity.setProperty("publicRecipeID", publicRecipeEntity.getKey().getId());
-    }
     datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.jsp");
