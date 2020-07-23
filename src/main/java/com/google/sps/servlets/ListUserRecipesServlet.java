@@ -38,7 +38,6 @@ public class ListUserRecipesServlet extends HttpServlet {
 
     Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
     Query query = new Query("Recipe").setFilter(authorFilter);
-
  
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
