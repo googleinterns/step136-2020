@@ -43,16 +43,20 @@ createRecipeCard = (divID, recipeInfo) => {
   const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
   // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
   for (let i = 0; i < plannerButtons.length; i++) {
+    const plannerButton = plannerButtons[i];
+    const cookbookButton = cookbookButtons[i];
     // adds the plus  to planner/cookbook buttons
-    plannerButtons[i].appendChild(add1);
-    cookbookButtons[i].appendChild(add2);
+    plannerButton.appendChild(add1);
+    cookbookButton.appendChild(add2);
 
     // where the functionality for planner/cookbook buttons will go
-    plannerButtons[i].addEventListener('click', () => {
-      alert("You have clicked the add to planner button");
+    plannerButton.addEventListener('click', () => {
+      // TODO: add an alert if they are removing from planner
+      addToList(recipeInfo, "planner");
     });
-    cookbookButtons[i].addEventListener('click', () => {
-      alert("You have clicked the add to cookbook button");
+    cookbookButton.addEventListener('click', () => {
+      // TODO: add an alert if they are removing from cookbook
+      addToList(recipeInfo, "cookbook");
     });
   }
 }
@@ -65,24 +69,24 @@ createRecipeCard = (divID, recipeInfo) => {
  * needed, such as when making a new container div.
  */
 createElement = (htmlTag, object = "", tagOptions = {}) => {
-    // Create an HTML element with the given tag
-    let htmlElement = document.createElement(htmlTag.toLowerCase());
+  // Create an HTML element with the given tag
+  let htmlElement = document.createElement(htmlTag.toLowerCase());
 
-    // If the object parameter is not undefined or an empty string, it 
-    // creates a textnode and adds it to the HTML element
-    if (object !== undefined && object !== "") {
-      let htmlText = document.createTextNode(object);
-      htmlElement.appendChild(htmlText);
-    }
+  // If the object parameter is not undefined or an empty string, it 
+  // creates a textnode and adds it to the HTML element
+  if (object !== undefined && object !== "") {
+    let htmlText = document.createTextNode(object);
+    htmlElement.appendChild(htmlText);
+  }
 
-    // If the tagOptions object is not undefined or empty, it goes through each 
-    // option and adds the attribute to the new HTML element.
-    if (tagOptions !== undefined && Object.keys(tagOptions).length > 0) {
-      for (opt in tagOptions) {   
-          htmlElement.setAttribute(opt, tagOptions[opt]); 
-      }
+  // If the tagOptions object is not undefined or empty, it goes through each 
+  // option and adds the attribute to the new HTML element.
+  if (tagOptions !== undefined && Object.keys(tagOptions).length > 0) {
+    for (opt in tagOptions) {   
+        htmlElement.setAttribute(opt, tagOptions[opt]); 
     }
-    return htmlElement;
+  }
+  return htmlElement;
 }
 
 /**
@@ -95,4 +99,17 @@ createImage = (name, blobkey) => {
   imageElement.className = "recipe-card-image";
   imageElement.src = "/serve?blobkey="+blobkey;
   return imageElement;
+}
+
+// tells the server to add the recipe's key to the user's cookbook
+// input is a recipe js object
+function addToList(recipe, type) {
+  const params = new URLSearchParams();
+  params.append("id", recipe.id);
+  params.append("publicRecipeID", recipe.publicRecipeID);
+  params.append("published", recipe.published);
+  params.append("idToken", getIdToken());
+  params.append("type", type);
+  console.log("type: " + type);
+  fetch("/add-list", {method: "POST", body: params});
 }

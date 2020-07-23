@@ -4,17 +4,23 @@ const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_DIV = "user-recipes";
 
+window.onload = function() {
+  onStart();
+  confirmUser().then(loadRecipes);
+}
+
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
-  setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
-  setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
+  loadTypeRecipes("planner");
+  loadTypeRecipes("cookbook");
+  document.getElementById("idToken").value = getIdToken();
 }
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
-  const response = await fetch('/list-user-recipes');
+  const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
   let recipesDiv = document.getElementById(USER_RECIPES_DIV);
@@ -41,6 +47,28 @@ async function loadUserRecipes() {
       }
       addDeleteFunctionality(recipes);
       addEditFunctionality(recipes);
+    }
+  }
+}
+
+// loads the recipes the user has added to cookbook
+async function loadTypeRecipes(type) {
+  // TODO: refresh planner/cookbook/user-recipes div when plannerButton or cookbookButton is clicked
+  const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
+  const recipes = await response.json();
+
+  let recipesDiv = type + "-recipes";
+  document.getElementById(recipesDiv).innerHTML = "";
+  
+  if (Object.keys(recipes)) {
+    if (Object.keys(recipes).length == 0) {
+      setUpDivWithNoRecipes(recipesDiv, NO_USER_RECIPES);
+    }
+    else {
+      for (let key of Object.keys(recipes)) {
+        let value = recipes[key];
+        createRecipeCard(recipesDiv, value);
+      }
     }
   }
 }
