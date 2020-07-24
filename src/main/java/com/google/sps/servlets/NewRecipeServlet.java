@@ -62,8 +62,6 @@ public class NewRecipeServlet extends HttpServlet {
     // user has chosen to publish their recipe
     if (privacy.equals("public")) {
       recipeEntity.setProperty("published", true);
-    } else {
-      recipeEntity.setProperty("published", true);
     }
 
     // getUploads returns a set of blobs that have been uploaded 
