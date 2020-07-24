@@ -3,6 +3,8 @@ const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet."
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_DIV = "user-recipes";
+const PLANNER_RECIPES_DIV = "planner-recipes";
+const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
 
 window.onload = function() {
   onStart();
@@ -20,7 +22,7 @@ async function loadRecipes() {
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
-  const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
+  const response = await fetch('/list-user-recipes?idToken='+ getIdToken());r
   const recipes = await response.json();
 
   let recipesDiv = document.getElementById(USER_RECIPES_DIV);
