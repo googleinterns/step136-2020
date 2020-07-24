@@ -18,7 +18,6 @@ public class AddToListServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long id = Long.parseLong(request.getParameter("id"));
-    long publicRecipeID = Long.parseLong(request.getParameter("publicRecipeID"));
     boolean published = Boolean.parseBoolean(request.getParameter("published"));
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
@@ -34,24 +33,11 @@ public class AddToListServlet extends HttpServlet {
       System.out.println("AddToListServlet: invalid type");
     }
 
-    // recipe is a PublicRecipe
-    if (published && publicRecipeID == 0) {
-      Key key = KeyFactory.createKey("PublicRecipe", id);
-      // if the key is already in the list, then remove it
-      if (keys.contains(key)) {
-        remove(user, type, key);
-      } else { 
-        add(user, type, key);
-      }
-    }
-    else {  // recipe is a PrivateRecipe
-      Key key = KeyFactory.createKey("PrivateRecipe", id);
-      // if the key is already in the list, then remove it
-      if (keys.contains(key)) {
-        remove(user, type, key);
-      } else { 
-        add(user, type, key);
-      }
+    Key key = KeyFactory.createKey("Recipe", id);
+    if (keys.contains(key)) {
+      remove(user, type, key);
+    } else {
+      add(user, type, key);
     }
   }
 
