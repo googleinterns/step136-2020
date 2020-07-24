@@ -6,17 +6,24 @@ const USER_RECIPES_DIV = "user-recipes";
 const PLANNER_RECIPES_DIV = "planner-recipes";
 const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
 
+window.onload = function() {
+  onStart();
+  confirmUser().then(loadRecipes);
+}
+
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
   loadUserRecipes();
   setUpDivWithNoRecipes("planner-recipes", NO_PLANNER_RECIPES);
   setUpDivWithNoRecipes("cookbook-recipes", NO_COOKBOOK_RECIPES);
+  document.getElementById("idToken").value = getIdToken();
 }
+
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
-  const response = await fetch('/list-user-recipes');
+  const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
   let recipesDiv = document.getElementById(USER_RECIPES_DIV);
