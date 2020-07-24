@@ -64,7 +64,11 @@ async function loadTypeRecipes(type) {
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      setUpDivWithNoRecipes(recipesDiv, NO_USER_RECIPES);
+      if (type == "planner") {
+        setUpDivWithNoRecipes(recipesDiv, NO_PLANNER_RECIPES);
+      } else {
+        setUpDivWithNoRecipes(recipesDiv, NO_COOKBOOK_RECIPES);
+      }
     }
     else {
       for (let key of Object.keys(recipes)) {

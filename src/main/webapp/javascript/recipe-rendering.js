@@ -14,6 +14,7 @@ mainPageLoad = () => {
  * a recipe name, a recipe description, and a recipe
  */
 createRecipeCard = (divID, recipeInfo) => {
+  console.log("createRecipeCard");
   let docDiv = document.getElementById(divID);
 
   let recipeDiv = createElement("div", "", {"class": "recipe-card"});
@@ -41,7 +42,7 @@ createRecipeCard = (divID, recipeInfo) => {
   let cookbookButtons = document.getElementsByClassName("cookbook-btn");
   const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
   const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
-  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
+  // using plannerButtons.length is ok because plannerButtons/cookbookButtons will always be the same length
   for (let i = 0; i < plannerButtons.length; i++) {
     const plannerButton = plannerButtons[i];
     const cookbookButton = cookbookButtons[i];
@@ -49,14 +50,18 @@ createRecipeCard = (divID, recipeInfo) => {
     plannerButton.appendChild(add1);
     cookbookButton.appendChild(add2);
 
-    // where the functionality for planner/cookbook buttons will go
+    const id = recipeInfo.id;
+    const idToken = getIdToken();
+    let type;
+
+    // adds functionality to add/remove from planner/cookbook buttons
     plannerButton.addEventListener('click', () => {
-      // TODO: add an alert if they are removing from planner
-      addToList(recipeInfo, "planner");
+      type = "planner";
+      addAddToListFunctionality(id, idToken, type, recipeInfo.name)
     });
     cookbookButton.addEventListener('click', () => {
-      // TODO: add an alert if they are removing from cookbook
-      addToList(recipeInfo, "cookbook");
+      type = "cookbook";
+      addAddToListFunctionality(id, idToken, type, recipeInfo.name)
     });
   }
 }
@@ -101,15 +106,50 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
-// tells the server to add the recipe's key to the user's cookbook
-// input is a recipe js object
-function addToList(recipe, type) {
+async function addAddToListFunctionality (id, idToken, type, name) {
+    console.log("addListFunctionality");
+  const response = await fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type);
+  const willRemove = await response.text();
+  // asks user to confirm before removing from planner
+  if ((/true/i).test(willRemove)) {
+    const remove = confirm(createAlertMessage(name, type));
+    console.log("remove");
+    if (remove) {
+      // removes a recipe from type list
+      addToList(id, idToken, type);
+      if (document.URL.includes("UserPage")) {
+        location.reload();
+      } 
+    }
+  } else {
+    // adds a recipe to type list
+    addToList(id, idToken, type);
+    console.log("add");
+    alert("You have added the " + name + " recipe to your " + type + ".");
+    if (document.URL.includes("UserPage")) {
+      location.reload();
+    } 
+  }
+}
+
+// tells the server to add the recipe's key to the user's planner/cookbook
+// input is a the recipe ID, the user's idToken, and the recipe list type 
+// (i.e. planner or cookbook)
+function addToList(id, idToken, type) {
   const params = new URLSearchParams();
-  params.append("id", recipe.id);
-  params.append("publicRecipeID", recipe.publicRecipeID);
-  params.append("published", recipe.published);
-  params.append("idToken", getIdToken());
+  params.append("id", id);
+  params.append("idToken", idToken);
   params.append("type", type);
-  console.log("type: " + type);
   fetch("/add-list", {method: "POST", body: params});
+}
+
+// creates the alert message asking if the user is sure they want to remove the recipe from a list
+function createAlertMessage(name, type) {
+  let message = "Are you sure you wish to remove the " + name + " recipe from your ";
+  if (type == "cookbook") {
+    message += "cookbook?";
+  } else {
+    message += "planner?";
+  }
+  return message;
 }
