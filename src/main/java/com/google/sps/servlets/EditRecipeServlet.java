@@ -79,8 +79,7 @@ public class EditRecipeServlet extends HttpServlet {
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
-      }
-      if (privacy.equals("private")) {
+      } else {
         recipeEntity.setProperty("published", false);
       }
 
