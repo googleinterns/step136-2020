@@ -62,10 +62,7 @@ public class NewRecipeServlet extends HttpServlet {
     // user has chosen to publish their recipe
     if (privacy.equals("public")) {
       recipeEntity.setProperty("published", true);
-    }
-
-    // user has chosen to publish their recipe
-    if (privacy.equals("public")) {
+    } else {
       recipeEntity.setProperty("published", true);
     }
 
