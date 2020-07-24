@@ -8,6 +8,7 @@ public class Recipe {
   private ArrayList<String> ingredients;
   private ArrayList<String> steps;
   private ArrayList<String> tags;
+  private boolean published;
   private String authorID;
   private String description;
   private String imageBlobKey;
@@ -16,6 +17,7 @@ public class Recipe {
   private long id;
 
   // Recipe constructor for the recipe cards for which less information is needed
+  // the values for ingredients, steps, tags, and published will not be used
   public Recipe(long id, String name, String imageBlobKey, String description) {
     this.id = id;
     this.name = name;
@@ -24,11 +26,11 @@ public class Recipe {
     ingredients = new ArrayList<String>();
     steps = new ArrayList<String>();
     tags = new ArrayList<String>();
-    popularity = 0;
+    published = false;
   }
-  
+
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps, long popularity) {
+      ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long popularity) {
     this.id = id;
     this.name = name;
     this.imageBlobKey = imageBlobKey;
@@ -36,23 +38,7 @@ public class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.steps = steps;
+    this.published = published;
     this.popularity = popularity;
-  }
-
-  // haven't implemented yet
-  public void setAuthorId(String id) {
-    authorID = id;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void increasePopularity() {
-    popularity++;
-  }
-  
-  public void decreasePopularity() {
-    popularity--;
   }
 }
