@@ -3,6 +3,8 @@ const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet."
 const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_DIV = "user-recipes";
+const PLANNER_RECIPES_DIV = "planner-recipes";
+const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
 
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
