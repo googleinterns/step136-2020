@@ -42,9 +42,9 @@ public class SaveRecipeServlet extends HttpServlet {
     long recipeId = Long.parseLong(request.getParameter("recipeId"));
 
     User currentUser = new User(userToken);
-    
+
     Key recipeKey = KeyFactory.createKey("Recipe", recipeId);
-    
+
     if (listName.equals("cookbook")) {
       currentUser.removeCookbookKey(recipeKey);
     } else if (listName.equals("planner")) {

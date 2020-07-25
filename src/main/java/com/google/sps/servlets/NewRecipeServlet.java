@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.User;
 import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +34,7 @@ public class NewRecipeServlet extends HttpServlet {
     String ingredientsResponse = request.getParameter("ingredients").trim();
     String stepsResponse = request.getParameter("steps").trim();
     String privacy = request.getParameter("privacy");
+    String idToken = request.getParameter("idToken");
 
     // prevents empty responses as being saved in datastore and redirects user back to UserPage
     // TODO: inform the user that they're missing stuff
@@ -46,14 +48,16 @@ public class NewRecipeServlet extends HttpServlet {
     List<String> ingredients = FormHelper.separateByNewlines(ingredientsResponse);
     List<String> steps = FormHelper.separateByNewlines(stepsResponse);
 
+    User user = new User(idToken);
+
     Entity recipeEntity = new Entity("Recipe");
     recipeEntity.setProperty("name", name);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
+    recipeEntity.setProperty("authorID", user.getId());
     recipeEntity.setProperty("published", false);
-    // TODO: get user ID and setProperty
 
     // user has chosen to publish their recipe
     if (privacy.equals("public")) {
@@ -86,7 +90,6 @@ public class NewRecipeServlet extends HttpServlet {
     }
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     datastore.put(recipeEntity);
 
     response.sendRedirect("/pages/UserPage.jsp");
