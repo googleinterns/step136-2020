@@ -19,10 +19,8 @@ async function search() {
     let response = await fetch("/search?query=" + userQuery);
     let responseText = await response.text();
     let recipeList = JSON.parse(responseText);
-    console.log(recipeList);
 
     recipeList.forEach(elem => createRecipeCard("content", elem));
-
 }
 
 /**

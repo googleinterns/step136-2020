@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <%@ include file="../components/GlobalConfig.jsp"%>
+    <!--The script below makes sure that the template isn't filled until the
+      page is ready-->
+    <script>
+      $(document).ready(fillRecipeTemplate());
+    </script>
   </head>
   <body>
       <%@ include file="../components/topbar.jsp"%>

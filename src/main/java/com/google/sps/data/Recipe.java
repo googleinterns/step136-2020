@@ -12,7 +12,7 @@ public class Recipe {
   private String description;
   private String imageBlobKey;
   private String name;
-  private int popularity;
+  private long popularity;
   private long id;
 
   // Recipe constructor for the recipe cards for which less information is needed
@@ -28,7 +28,7 @@ public class Recipe {
   }
   
   public Recipe(long id, String name, String imageBlobKey, String description, ArrayList<String> tags, 
-      ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
+      ArrayList<String> ingredients, ArrayList<String> steps, long popularity) {
     this.id = id;
     this.name = name;
     this.imageBlobKey = imageBlobKey;
