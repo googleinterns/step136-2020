@@ -80,7 +80,7 @@ function signOut() {
  */
 function insertUserInfo(googleUser) {
   // Insert user name into user-page anchor.
-  let text = googleUser.getBasicProfile().getGivenName() + '\'s Page';
+  let text = googleUser.getBasicProfile().getGivenName() + '\'s Recipes';
   const userPageAnchor = document.getElementById('user-page-anchor');
   userPageAnchor.innerText = text;
 }
