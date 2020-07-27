@@ -76,6 +76,7 @@ async function loadTypeRecipes(type) {
         let value = recipes[key];
         createRecipeCard(recipesDiv, value);
       }
+      addRemoveFromListFunctionality(recipes, recipesDiv, type);
     }
   }
 }
@@ -128,6 +129,38 @@ function addEditFunctionality(recipes) {
       addExistingValuesToEditForm(recipe);
     });
   }
+}
+
+// removes the add to list function from the recipe card in that respective list
+// adds delete functionality to the delete button in the recipe cards
+function addRemoveFromListFunctionality(recipes, recipeDiv, type){
+  const idToken = getIdToken();
+  const buttons = recipeDiv.getElementsByClassName(type + "-btn");
+  // there are as many planner/cookbook buttons
+  for (let i = 0; i < buttons.length; i++) {
+    let recipe = recipes[i];
+    buttons[i].removeEventListener('click', addAddToListFunctionality(recipe.id, idToken, type));
+    buttons[i].addEventListener('click', removeFromList(recipe.id, recipe.name, idToken, type));
+  }
+}
+
+// asks the user to confirm that they want to remove the recipe from that list
+// if yes, removes the recipe
+function removeFromList(id, idToken, type) {
+  fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
+      .then(response => response.text()).then((contains) => {
+    if (!(/true/i).test(contains)) {
+      const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
+      // tells the server to remove the recipe's key from the user's cookbook/planner
+      if (confirmedRemove) {
+        const params = new URLSearchParams();
+        params.append("id", recipe.id);
+        params.append("idToken", getIdToken());
+        params.append("type", type);
+        fetch("/remove-list", {method: "POST", body: params});
+      }
+    } 
+  });
 }
 
 // adds values of stored recipe to edit recipe form

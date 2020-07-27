@@ -21,7 +21,7 @@ public class RemoveFromListServlet extends HttpServlet {
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
 
-    boolean remove = true;
+    boolean contains = false;
 
     User user = new User(idToken);
     List<Key> keys;
@@ -36,15 +36,15 @@ public class RemoveFromListServlet extends HttpServlet {
 
     Key key = KeyFactory.createKey("Recipe", id);
     if (keys.contains(key)) {
-      remove = true;
+      contains = true;
     } else {
-      remove = false;
+      contains = false;
     }
-    System.out.println("will remove?: " + remove);
+    System.out.println("contains?: " + contains);
 
     // returns whether the doPost will remove the recipe or not
     response.setContentType("text/html;");
-    response.getWriter().println(String.valueOf(remove));  
+    response.getWriter().println(String.valueOf(contains));  
   }
 
   @Override
