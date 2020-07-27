@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="../css/style-userpage.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="../javascript/user-page.js"></script>
+    <script src="../javascript/user-auth.js"></script>
     <script src="../javascript/recipe-rendering.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onStart" defer></script>
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
-  <body onload="loadRecipes()">
+  <body>
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
@@ -41,6 +43,7 @@
           <span onclick="closeModal('new-recipe-modal')" class="close">&times;</span>
           <form id="new-recipe-form" class="recipe-form" method="POST" enctype="multipart/form-data" action="/new-recipe">
             <h1 class="center">Create Recipe</h1>
+            <input type="hidden" id="idToken" name="idToken">
             <label for="name" required>Recipe Name:</label><br>
             <input type="text" id="name" name="name">
             <br><br>
