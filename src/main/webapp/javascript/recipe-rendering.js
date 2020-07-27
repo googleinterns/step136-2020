@@ -67,9 +67,8 @@ async function fillRecipeTemplate() {
 
   // Gets the servlet data for the recipe
   // TODO: put this code in an if statement to handle recipe not found scenarios
-  let response = await fetch("/retrieve-id?recipeId=" + recipeId.toString());
+  let response = await fetch("/search-id?recipeId=" + recipeId.toString());
   let responseText = await response.text();
-  console.log(responseText);
   let recipeInfo = JSON.parse(responseText);
 
   let detailsSection = document.getElementById("details");
@@ -108,7 +107,7 @@ addRecipeInfo = (recipeObj, infoDiv) => {
  * Takes a list and div (not div name) being used.
  */
 addAsList = (listObj, listDiv, listName) => {
-  // Constrcuts the base of how all item created in the function will be 
+  // Constructs the base of how all item created in the function will be 
   // named for CSS
   let cssRef = listName.toLowerCase() + "-list";
 

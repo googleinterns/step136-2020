@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 /** 
  * Handles requests for a Datastore search with a given ID.
  **/
-@WebServlet("/retrieve-id")
+@WebServlet("/search-id")
 public class IdSearchServlet extends HttpServlet {
   /**
    * Handles the get request for Datastore search results. The url search parameters should only
