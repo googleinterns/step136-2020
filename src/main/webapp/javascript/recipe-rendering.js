@@ -14,6 +14,7 @@ mainPageLoad = () => {
  * a recipe name, a recipe description, and a recipe
  */
 createRecipeCard = (divID, recipeInfo) => {
+  console.log("createRecipeCard");
   let docDiv = document.getElementById(divID);
 
   let recipeDiv = createElement("div", "", {"class": "recipe-card"});
@@ -124,7 +125,6 @@ async function addAddToListFunctionality (id, idToken, type, name) {
     // adds a recipe to type list
     addToList(id, idToken, type);
     console.log("add");
-    alert("You have added the " + name + " recipe to your " + type + ".");
     if (document.URL.includes("UserPage")) {
       location.reload();
     } 
