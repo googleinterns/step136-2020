@@ -25,23 +25,40 @@ function onStart() {
 }
 
 /**
- * Initializes google authentication API and sets event listeners.
+ * Initializes google authentication API and preforms onload functions.
  */
 function initSigninV2() {
   auth2 = gapi.auth2.init({
     client_id : CLIENT_ID
   });
 
-  gapi.signin2.render('g-signin-container');
+  if (document.getElementById('g-signin-container') != null) {
+    fillSigninContainer('g-signin-container');
+  }
 
-  auth2.currentUser.listen(function(newGoogleUser) {
+  // Sets listener to create user session if signed in, otherwise kill current session.
+  auth2.isSignedIn.listen((isSignedIn) => {
+    if (isSignedIn) {
+      createUserSession(getIdToken());
+    } else {
+      killUserSession();
+    }
+  })
+}
+
+// Creates sign in box and sets event listeners.
+function fillSigninContainer(signInContainer) {
+
+  gapi.signin2.render(signInContainer);
+
+  auth2.currentUser.listen((newGoogleUser) => {
     if (auth2.isSignedIn.get()) {
       insertUserInfo(newGoogleUser);
     }
   });
 
-  auth2.isSignedIn.listen(function(signedIn) {
-    if (signedIn) {
+  auth2.isSignedIn.listen((isSignedIn) => {
+    if (isSignedIn) {
       enableUserDropdown();
     } else {
       disableUserDropdown();
@@ -93,9 +110,18 @@ function disableUserDropdown() {
 function confirmUser() {
   return new Promise((resolve, reject) => {
     if (!auth2.isSignedIn.get()) {
-      auth2.signIn().then(resolve).catch(reject);
+      auth2.signIn().then(createUserSession(getIdToken())).then(resolve).catch(reject);
     } else {
       resolve();
     }
   })
+}
+
+function createUserSession(idToken) {
+  params = new URLSearchParams({ "idToken" : idToken });
+  fetch("/session", { method : "POST", body : params });
+}
+
+function killUserSession() {
+  fetch("/session");
 }

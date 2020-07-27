@@ -29,13 +29,12 @@ public class EditRecipeServlet extends HttpServlet {
     String descriptionResponse = request.getParameter("edit-description").trim();
     String ingredientsResponse = request.getParameter("edit-ingredients").trim();
     String stepsResponse = request.getParameter("edit-steps").trim();
-    // privacy will be used once we give users the option to make their recipes public
-    // String privacy = request.getParameter("privacy");
+    String privacy = request.getParameter("privacy");
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
     long id = Long.parseLong(idResponse);
-    Key key = KeyFactory.createKey("PrivateRecipe", id);
+    Key key = KeyFactory.createKey("Recipe", id);
     try {
       Entity recipeEntity = datastore.get(key);
 
@@ -45,6 +44,8 @@ public class EditRecipeServlet extends HttpServlet {
       String description = (String) recipeEntity.getProperty("description");
       ArrayList<String> ingredients = (ArrayList<String>) recipeEntity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
+      String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
+      String authorID = (String) recipeEntity.getProperty("authorID");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
@@ -68,16 +69,21 @@ public class EditRecipeServlet extends HttpServlet {
       }
 
       recipeEntity.setProperty("name", name);
-      recipeEntity.setProperty("tags", tags);
       recipeEntity.setProperty("description", description);
+      recipeEntity.setProperty("authorID", authorID);
+      recipeEntity.setProperty("imageBlobKey", imageBlobKey);
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
-      recipeEntity.setProperty("imageBlobKey", (String) recipeEntity.getProperty("imageBlobKey"));
+      recipeEntity.setProperty("tags", tags);
+      recipeEntity.setProperty("published", false);
+
+      if (privacy.equals("public")) {
+        recipeEntity.setProperty("published", true);
+      }
 
       datastore.put(recipeEntity);
     } catch (EntityNotFoundException e) {
-      // in normal circumstances, this won't happen bc user has not access to id
-      System.out.println("entity not found exception");
+      System.out.println("EditRecipeServlet: Private recipe entity not found with saved recipe id. This should never happen.");
     }
     response.sendRedirect("/pages/UserPage.jsp");
   }
