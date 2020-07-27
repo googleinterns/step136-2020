@@ -33,11 +33,14 @@ public class AddToListServlet extends HttpServlet {
       System.out.println("AddToListServlet: invalid type");
     }
 
+    // the print statements will just be there until I add alerts
     Key key = KeyFactory.createKey("Recipe", id);
     if (keys.contains(key)) {
       remove(user, type, key);
+      System.out.println("remove");
     } else {
       add(user, type, key);
+      System.out.println("add");
     }
   }
 

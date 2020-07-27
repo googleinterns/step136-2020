@@ -22,6 +22,7 @@ async function loadRecipes() {
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
+  console.log("loadUserRecipes");
   const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
