@@ -107,7 +107,7 @@ addRecipeInfo = (recipeObj, infoDiv) => {
  * Takes a list and div (not div name) being used.
  */
 addAsList = (listObj, listDiv, listName) => {
-  // Constrcuts the base of how all item created in the function will be 
+  // Constructs the base of how all item created in the function will be 
   // named for CSS
   let cssRef = listName.toLowerCase() + "-list";
 
