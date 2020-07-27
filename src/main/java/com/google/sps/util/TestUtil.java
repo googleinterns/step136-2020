@@ -23,7 +23,7 @@ public class TestUtil {
    * Takes in the info for a recipe and returns an entity with set properties based on the recipe object
    */
   public static Entity createRecipeEntity(String entityName, String name, String author, String description, 
-    ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
+    ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps, boolean published, int popularity) {
     Entity recipeEntity = new Entity(entityName);
     recipeEntity.setProperty("name", name);
     recipeEntity.setProperty("author", author);
@@ -32,6 +32,7 @@ public class TestUtil {
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
     recipeEntity.setProperty("popularity", popularity);
+    recipeEntity.setProperty("published", published);
     return recipeEntity;
    }
 
@@ -50,8 +51,8 @@ public class TestUtil {
     for (int i = 0; i < numRecipes; i++) {
       testRecipes[i] = TestUtil.createRecipeEntity(
         entityName, recipeName, author,
-        message + String.format(" I AM RECIPE %d OF MY KIND.", i + offset),
-        tags, ingredients, steps, Integer.valueOf(0));
+        message + String.format(". I AM RECIPE %d OF MY KIND.", i + offset),
+        tags, ingredients, steps, true, Integer.valueOf(0));
     }
     return testRecipes;
   }

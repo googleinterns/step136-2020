@@ -23,7 +23,7 @@ public class TestData {
         Arrays.asList("none"));
     public static final ArrayList<String> STEPS_LIST = new ArrayList<String>(
         Arrays.asList("none"));
-    public static final String ENTITY_NAME = "PublicRecipe";
+    public static final String ENTITY_NAME = "Recipe";
     public static final String ENTITY_DESCRIPTION = "THIS IS A TEST RECIPE FOR THE SEARCH BY NAME TEST";
     
     // Specifies the number of test sets that should be made

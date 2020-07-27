@@ -52,7 +52,8 @@ public class SearchServlet extends HttpServlet {
     // Creates the new Query and adds the filter to be used in Datastore
     // The filter is currently only set to find an exact match name in Datastore
     // TODO: Composite Query Filter will be needed to combine and add all filter to query in future
-    Query query = new Query("PublicRecipe");
+    Query query = new Query("Recipe");
+    Query.Filter publicFilter = new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, "true");
     query.setFilter(SearchUtils.getRecipeNameFilter(uQuery.getName()));
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
