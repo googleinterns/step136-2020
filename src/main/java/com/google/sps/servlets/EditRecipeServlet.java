@@ -45,7 +45,7 @@ public class EditRecipeServlet extends HttpServlet {
       ArrayList<String> ingredients = (ArrayList<String>) recipeEntity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
       String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
-      boolean published = (boolean) recipeEntity.getProperty("published");
+      String authorID = (String) recipeEntity.getProperty("authorID");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
@@ -70,15 +70,15 @@ public class EditRecipeServlet extends HttpServlet {
 
       recipeEntity.setProperty("name", name);
       recipeEntity.setProperty("description", description);
+      recipeEntity.setProperty("authorID", authorID);
       recipeEntity.setProperty("imageBlobKey", imageBlobKey);
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
       recipeEntity.setProperty("tags", tags);
+      recipeEntity.setProperty("published", false);
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
-      } else {
-        recipeEntity.setProperty("published", false);
       }
 
       datastore.put(recipeEntity);
