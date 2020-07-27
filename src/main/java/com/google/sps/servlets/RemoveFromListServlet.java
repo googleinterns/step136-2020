@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet responsible for deleting recipes. */
-@WebServlet("/add-list")
-public class AddToListServlet extends HttpServlet {
+@WebServlet("/remove-list")
+public class RemoveFromListServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -21,7 +21,7 @@ public class AddToListServlet extends HttpServlet {
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
 
-    boolean add;
+    boolean remove = true;
 
     User user = new User(idToken);
     List<Key> keys;
@@ -36,15 +36,15 @@ public class AddToListServlet extends HttpServlet {
 
     Key key = KeyFactory.createKey("Recipe", id);
     if (keys.contains(key)) {
-      add = false;
+      remove = true;
     } else {
-      add = true;
+      remove = false;
     }
-    System.out.println("will add?: " + add);
+    System.out.println("will remove?: " + remove);
 
     // returns whether the doPost will remove the recipe or not
     response.setContentType("text/html;");
-    response.getWriter().println(String.valueOf(add));  
+    response.getWriter().println(String.valueOf(remove));  
   }
 
   @Override
@@ -57,9 +57,9 @@ public class AddToListServlet extends HttpServlet {
     User user = new User(idToken);
 
     if (type.equals("cookbook")) {
-      user.addCookbookKey(key);
+      user.removeCookbookKey(key);
     } else if (type.equals("planner")) {
-      user.addPlanner(key);
+      user.removePlannerKey(key);
     } else {
       System.out.println("AddToListServlet: invalid type");
     }

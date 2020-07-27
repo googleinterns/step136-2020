@@ -107,9 +107,7 @@ createImage = (name, blobkey) => {
 }
 
 async function addAddToListFunctionality (id, idToken, type, name) {
-    console.log("addListFunctionality");
-  const response = await fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type);
-  const willRemove = await response.text();
+  console.log("addListFunctionality");
   // asks user to confirm before removing from planner
   if ((/true/i).test(willRemove)) {
     const remove = confirm(createAlertMessage(name, type));
