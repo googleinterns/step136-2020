@@ -54,7 +54,11 @@ public class SearchServlet extends HttpServlet {
     // TODO: Composite Query Filter will be needed to combine and add all filter to query in future
     Query query = new Query("Recipe");
     Query.Filter publicFilter = new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, "true");
-    query.setFilter(SearchUtils.getRecipeNameFilter(uQuery.getName()));
+    Query.Filter nameFilter = SearchUtils.getRecipeNameFilter(uQuery.getName());
+
+    query.setFilter(Query.CompositeFilter(
+      Query.CompositeFilterOperator.AND, Arrays.asList(publicFilter, nameFilter)
+    ));
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
