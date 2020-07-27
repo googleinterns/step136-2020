@@ -106,10 +106,7 @@ createImage = (name, blobkey) => {
 function addToList(recipe, type) {
   const params = new URLSearchParams();
   params.append("id", recipe.id);
-  params.append("publicRecipeID", recipe.publicRecipeID);
-  params.append("published", recipe.published);
   params.append("idToken", getIdToken());
   params.append("type", type);
-  console.log("type: " + type);
   fetch("/add-list", {method: "POST", body: params});
 }

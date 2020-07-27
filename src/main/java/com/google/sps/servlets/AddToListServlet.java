@@ -18,7 +18,6 @@ public class AddToListServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long id = Long.parseLong(request.getParameter("id"));
-    boolean published = Boolean.parseBoolean(request.getParameter("published"));
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
 
