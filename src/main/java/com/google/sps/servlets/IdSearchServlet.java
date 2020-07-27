@@ -56,6 +56,7 @@ public class IdSearchServlet extends HttpServlet {
       Recipe entityAsRecipe = new Recipe(
         searchedId,
         (String) datastoreRecipe.getProperty("name"),
+        (String) datastoreRecipe.getProperty("authorID"),
         (String) datastoreRecipe.getProperty("imageBlobKey"),
         (String) datastoreRecipe.getProperty("description"),
         (ArrayList<String>) datastoreRecipe.getProperty("tags"),
