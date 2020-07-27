@@ -61,6 +61,7 @@ public class IdSearchServlet extends HttpServlet {
         (ArrayList<String>) datastoreRecipe.getProperty("tags"),
         (ArrayList<String>) datastoreRecipe.getProperty("ingredients"),
         (ArrayList<String>) datastoreRecipe.getProperty("steps"),
+        (boolean) datastoreRecipe.getProperty("published"),
         (Long) datastoreRecipe.getProperty("popularity")
       );
 
