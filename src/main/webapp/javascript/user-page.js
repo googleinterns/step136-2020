@@ -56,7 +56,7 @@ async function loadUserRecipes() {
 
 // loads the recipes the user has added to cookbook
 async function loadTypeRecipes(type) {
-  // TODO: refresh planner/cookbook/user-recipes div when plannerButton or cookbookButton is clicked
+  console.log("loadTypeRecipes");
   const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
   const recipes = await response.json();
 
