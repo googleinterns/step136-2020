@@ -50,18 +50,27 @@ public class SearchServlet extends HttpServlet {
       request.getParameter("authors")
     );
     
-    // Max size for the query response
-    final int resultsPerRequest = 10;
-    
     // Creates the new Query and adds the filter to be used in Datastore
-    // The filter currently can only find exact name matches in Datastore
     Query query = new Query("Recipe");
     query.setFilter(uQuery.createSearchFilter());
+
+    // We want popular recipes first
+    query.addSort("popularity", Query.SortDirection.DESCENDING);
+
+    // Changes the size of the response
+    final int resultsToReturn;
+    
+    // If the search request came from the main page, we want the behavior to be different
+    if (request.getHeader("Referer").contains("/pages/MainPage.jsp")) {
+      resultsToReturn = 10;
+    } else {
+      resultsToReturn = 10;
+    }
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery datastoreResult = datastore.prepare(query);
-    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(resultsPerRequest));
+    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(resultsToReturn));
 
     // Create a list of recipe entity information to be sent to the client, and then iterate through
     // the datastore response to create the recipe objects and add them to the list
@@ -82,4 +91,5 @@ public class SearchServlet extends HttpServlet {
     String recipeResponse = Utils.convertToJson(clientRecipeInfo);
     response.getWriter().println(recipeResponse);
   }
+  
 }
