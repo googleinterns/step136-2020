@@ -18,7 +18,7 @@ function getIdToken() {
 /**
  * Loads the auth2 library for the g-signin API, and then initializes
  * the googleAuth object.
- * Takes a listener args, to execute when a new user signs in.
+ * Takes a listener arg, to execute when a new user signs in.
  */
 function initGoogleUserWithListener(listener) {
   gapi.load('auth2', function() {

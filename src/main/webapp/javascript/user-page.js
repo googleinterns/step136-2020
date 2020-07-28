@@ -6,7 +6,7 @@ const USER_RECIPES_DIV = "user-recipes";
 const PLANNER_RECIPES_DIV = "planner-recipes";
 const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
 
-// Can be passed to API onload to garuntee auth2 is loaded before execution.
+// Can be passed to API onload to guarantee auth2 is loaded before execution.
 function initUserPageGoogleSignin() {
   initGoogleUserWithListener(loadRecipes);
 }
