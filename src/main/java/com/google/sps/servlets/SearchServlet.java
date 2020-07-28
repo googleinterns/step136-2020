@@ -23,7 +23,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.UserQuery;
 import com.google.sps.util.Utils;
-import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,22 +43,20 @@ public class SearchServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Initializes a user query object which will seperate the query data for ease of access.
-    UserQuery uQuery = new UserQuery(request.getParameter("query"));
+    // Initializes a user query object to create the query filters
+    UserQuery uQuery = new UserQuery(
+      request.getParameter("query"),
+      request.getParameter("tags"),
+      request.getParameter("authors")
+    );
     
     // Max size for the query response
     final int resultsPerRequest = 10;
     
     // Creates the new Query and adds the filter to be used in Datastore
-    // The filter is currently only set to find an exact match name in Datastore
-    // TODO: Composite Query Filter will be needed to combine and add all filter to query in future
+    // The filter currently can only find exact name matches in Datastore
     Query query = new Query("Recipe");
-    Query.Filter publicFilter = new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, true);
-    Query.Filter nameFilter = SearchUtils.getRecipeNameFilter(uQuery.getName());
-
-    query.setFilter(new Query.CompositeFilter(
-      Query.CompositeFilterOperator.AND, Arrays.asList(publicFilter, nameFilter)
-    ));
+    query.setFilter(uQuery.createSearchFilter());
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
