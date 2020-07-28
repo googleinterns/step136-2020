@@ -40,7 +40,7 @@ public class RemoveFromListServlet extends HttpServlet {
     } else {
       contains = false;
     }
-    System.out.println("contains?: " + contains);
+    System.out.println("Remove: contains?: " + contains);
 
     // returns whether the doPost will remove the recipe or not
     response.setContentType("text/html;");

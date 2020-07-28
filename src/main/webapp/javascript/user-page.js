@@ -56,27 +56,27 @@ async function loadUserRecipes() {
 
 // loads the recipes the user has added to cookbook
 async function loadTypeRecipes(type) {
-  console.log("loadTypeRecipes");
+  console.log("loadTypeRecipes", type);
   const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
   const recipes = await response.json();
 
-  let recipesDiv = type + "-recipes";
-  document.getElementById(recipesDiv).innerHTML = "";
+  let recipesDivID = type + "-recipes";
+  document.getElementById(recipesDivID).innerHTML = "";
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
       if (type == "planner") {
-        setUpDivWithNoRecipes(recipesDiv, NO_PLANNER_RECIPES);
+        setUpDivWithNoRecipes(recipesDivID, NO_PLANNER_RECIPES);
       } else {
-        setUpDivWithNoRecipes(recipesDiv, NO_COOKBOOK_RECIPES);
+        setUpDivWithNoRecipes(recipesDivID, NO_COOKBOOK_RECIPES);
       }
     }
     else {
       for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createRecipeCard(recipesDiv, value);
+        createRecipeCard(recipesDivID, value);
       }
-      addRemoveFromListFunctionality(recipes, recipesDiv, type);
+      switchHiddenButtons(type);
     }
   }
 }
@@ -131,36 +131,20 @@ function addEditFunctionality(recipes) {
   }
 }
 
-// removes the add to list function from the recipe card in that respective list
-// adds delete functionality to the delete button in the recipe cards
-function addRemoveFromListFunctionality(recipes, recipeDiv, type){
-  const idToken = getIdToken();
-  const buttons = recipeDiv.getElementsByClassName(type + "-btn");
-  // there are as many planner/cookbook buttons
-  for (let i = 0; i < buttons.length; i++) {
-    let recipe = recipes[i];
-    buttons[i].removeEventListener('click', addAddToListFunctionality(recipe.id, idToken, type));
-    buttons[i].addEventListener('click', removeFromList(recipe.id, recipe.name, idToken, type));
-  }
-}
+// hides the add to list button and displays the remove from list button
+function switchHiddenButtons(type){
+  const recipesDiv = document.getElementById(type + "-recipes");
+  const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
+  const removeFromListButtons = recipesDiv.getElementsByClassName("remove-from-" + type + "-btn");
+  // using addToListButtons.length is ok because addToListButtons and removeFromListButtons 
+  // will always be the same length
+  for (let i = 0; i < addToListButtons.length; i++) {
+    const addToListButton = addToListButtons[i];
+    const removeFromListButton = removeFromListButtons[i];
 
-// asks the user to confirm that they want to remove the recipe from that list
-// if yes, removes the recipe
-function removeFromList(id, idToken, type) {
-  fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
-      .then(response => response.text()).then((contains) => {
-    if (!(/true/i).test(contains)) {
-      const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
-      // tells the server to remove the recipe's key from the user's cookbook/planner
-      if (confirmedRemove) {
-        const params = new URLSearchParams();
-        params.append("id", recipe.id);
-        params.append("idToken", getIdToken());
-        params.append("type", type);
-        fetch("/remove-list", {method: "POST", body: params});
-      }
-    } 
-  });
+    addToListButton.style.display = "none";
+    removeFromListButton.style.display = "inline-block";
+  }
 }
 
 // adds values of stored recipe to edit recipe form

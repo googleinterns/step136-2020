@@ -22,8 +22,10 @@ createRecipeCard = (divID, recipeInfo) => {
 
   let elementsToAddToImageDiv = [
     createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
-    createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
+    createElement("button", "Planner ", {"class": "card-button bottom more-left add-to-planner-btn"}),
+    createElement("button", "Cookbook ", {"class": "card-button bottom more-right add-to-cookbook-btn"}),
+    createElement("button", "Planner ", {"class": "card-button bottom more-left remove-from-planner-btn"}),
+    createElement("button", "Cookbook ", {"class": "card-button bottom more-right remove-from-cookbook-btn"}),
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
 
@@ -37,25 +39,31 @@ createRecipeCard = (divID, recipeInfo) => {
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
 
-  let plannerButtons = document.getElementsByClassName("planner-btn");
-  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
-  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
-  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
+  let addToPlannerButtons = document.getElementsByClassName("add-to-planner-btn");
+  let addToCookbookButtons = document.getElementsByClassName("add-to-cookbook-btn");
+  let removeFromPlannerButtons = document.getElementsByClassName("remove-from-planner-btn");
+  let removeFromToCookbookButtons = document.getElementsByClassName("remove-from-cookbook-btn");
   // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
-  for (let i = 0; i < plannerButtons.length; i++) {
-    const plannerButton = plannerButtons[i];
-    const cookbookButton = cookbookButtons[i];
+  for (let i = 0; i < addToPlannerButtons.length; i++) {
+    const addToPlannerButton = addToPlannerButtons[i];
+    const addToCookbookButton = addToCookbookButtons[i];
+    const removeFromPlannerButton = removeFromPlannerButtons[i];
+    const removeFromToCookbookButton = removeFromToCookbookButtons[i];
     // adds the plus  to planner/cookbook buttons
-    plannerButton.appendChild(add1);
-    cookbookButton.appendChild(add2);
+    addToPlannerButton.appendChild(createAddCircle());
+    addToCookbookButton.appendChild(createAddCircle());
+    removeFromPlannerButton.appendChild(createAddCircle());
+    removeFromToCookbookButton.appendChild(createAddCircle());
 
-    let type;
     const id = recipeInfo["id"];
+    const name = recipeInfo["name"];
     const idToken = getIdToken();
-
-    // where the functionality for planner/cookbook buttons will go
-    plannerButton.addEventListener('click', addAddToListFunctionality(id, idToken, "planner"));
-    cookbookButton.addEventListener('click', addAddToListFunctionality(id, idToken, "cookbook"));
+    addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
+    addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
+    removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
+    removeFromToCookbookButton.addEventListener('click', () => removeFromList(id, name, idToken, 'cookbook'));
+    removeFromPlannerButton.style.display = "none";
+    removeFromToCookbookButton.style.display = "none";
   }
 }
 
@@ -101,23 +109,50 @@ createImage = (name, blobkey) => {
 
 // lets the user know if they have already added a recipe to a particular list
 // otherwise adds the recipe
-function addAddToListFunctionality(id, idToken, type) {
+function addToList(id, name, idToken, type) {
+  console.log("addToList", name);
   fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
       .then(response => response.text()).then((contains) => {
     if ((/true/i).test(contains)) {
-      alert("You have already added this recipe to your " + type);
+      alert("You have already added the " + name + " recipe to your " + type);
     } else {
-      addToList(id, idToken, type);
+      // tells the server to add the recipe's key to the user's cookbook/planner
+      const params = new URLSearchParams();
+      params.append("id", id);
+      params.append("idToken", getIdToken());
+      params.append("type", type);
+      fetch("/add-list", {method: "POST", body: params});
     }
   });
+  if (document.URL.includes("UserPage")) {
+    location.reload();
+  }
 }
 
-// tells the server to add the recipe's key to the user's cookbook
-// input is recipe id, user's idToken, and the list type
-function addToList(id, idToken, type) {
-  const params = new URLSearchParams();
-  params.append("id", recipe.id);
-  params.append("idToken", getIdToken());
-  params.append("type", type);
-  fetch("/add-list", {method: "POST", body: params});
+// asks the user to confirm that they want to remove the recipe from that list
+// if yes, removes the recipe
+function removeFromList(id, name, idToken, type) {
+  console.log("removeFromList", name);
+  fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
+      .then(response => response.text()).then((contains) => {
+    console.log(contains, (/true/i).test(contains))
+    if ((/true/i).test(contains)) {
+      const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
+      // tells the server to remove the recipe's key from the user's cookbook/planner
+      if (confirmedRemove) {
+        const params = new URLSearchParams();
+        params.append("id", id);
+        params.append("idToken", getIdToken());
+        params.append("type", type);
+        fetch("/remove-list", {method: "POST", body: params});
+      }
+    } 
+  });
+  if (document.URL.includes("UserPage")) {
+    location.reload();
+  }
+}
+
+function createAddCircle() {
+  return createElement("i", "add_circle_outline", {"class": "material-icons"});
 }

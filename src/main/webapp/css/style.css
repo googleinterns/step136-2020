@@ -88,6 +88,9 @@ button {
 .bottom {
   top: 90%;
 }
+.remove {
+  display: none;
+}
 .text-div{
   padding: 0 10px;
 }
