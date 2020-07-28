@@ -130,7 +130,7 @@ select {
   min-width: 80px;
 }
 
-#buttons {
+.form-buttons {
   display: flex;
   justify-content: center;
 }

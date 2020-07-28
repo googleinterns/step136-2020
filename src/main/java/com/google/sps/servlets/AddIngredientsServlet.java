@@ -1,5 +1,7 @@
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -8,6 +10,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,17 +29,15 @@ public class AddIngredientsServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    long recipeID = request.getParameter("recipeID");
-    Key privateKey = KeyFactory.createKey("PrivateRecipe", privateRecipeID);
-    Key publicKey = KeyFactory.createKey("PrivateRecipe", privateRecipeID);
-    try {
-      Entity recipeEntity = datastore.get(privateKey);
-    } catch (EntityNotFoundException e) {
-      try {
-        Entity recipeEntity = datastore.get(publicKey);
-      } catch (EntityNotFoundException e) {
+    long recipeID = Long.parseLong(request.getParameter("recipeID"));
+    Key key = KeyFactory.createKey("Recipe", recipeID);
 
-      }
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    try {
+      Entity recipeEntity = datastore.get(key);
+    } catch (EntityNotFoundException e) {
+
     }
 
     response.sendRedirect("/pages/UserPage.jsp");
