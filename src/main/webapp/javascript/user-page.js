@@ -55,21 +55,35 @@ async function loadUserRecipes() {
 
 // loads the recipes the user has added to cookbook
 async function loadTypeRecipes(type) {
-  // TODO: refresh planner/cookbook/user-recipes div when plannerButton or cookbookButton is clicked
   const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
   const recipes = await response.json();
 
-  let recipesDiv = type + "-recipes";
-  document.getElementById(recipesDiv).innerHTML = "";
+  let recipesDivID = type + "-recipes";
+  document.getElementById(recipesDivID).innerHTML = "";
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      setUpDivWithNoRecipes(recipesDiv, NO_USER_RECIPES);
+      if (type == "planner") {
+        setUpDivWithNoRecipes(recipesDivID, NO_PLANNER_RECIPES);
+      } else {
+        setUpDivWithNoRecipes(recipesDivID, NO_COOKBOOK_RECIPES);
+      }
     }
     else {
       for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createRecipeCard(recipesDiv, value);
+        createRecipeCard(recipesDivID, value);
+      }
+      const recipesDiv = document.getElementById(recipesDivID);
+      const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
+      const removeFromListButtons = recipesDiv.getElementsByClassName("remove-from-" + type + "-btn");
+      // there are as many buttons as there are recipes
+      for (let i = 0; i < recipes.length; i++) {
+        const addToListButton = addToListButtons[i];
+        const removeFromListButton = removeFromListButtons[i];
+
+        addToListButton.style.display = "none";
+        removeFromListButton.style.display = "inline-block";
       }
     }
   }
@@ -209,4 +223,3 @@ function fetchBlobstoreUrl(id) {
 function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
-

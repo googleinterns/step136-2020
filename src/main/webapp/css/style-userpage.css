@@ -54,6 +54,9 @@
   .recipe-card-description {
     font-size: 2.3vw;
   }
+  .card-button {
+    font-size: 2.3vw;
+  }
 }
 /* adjusts to 1 column of recipe cards */
 @media screen and (max-width: 600px) {
@@ -77,6 +80,9 @@
   .recipe-card-description {
     font-size: 3vw;
   }
+  .card-button {
+    font-size: 3vw;
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -84,6 +90,9 @@
     font-size: 22px;
   }
   .recipe-card-description {
+    font-size: 15px;
+  }
+  .card-button {
     font-size: 15px;
   }
 }

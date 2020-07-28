@@ -56,6 +56,7 @@ button {
   border-width: 0.5px;  
   color: white;
   cursor: pointer;
+  font-size: 15px;
   padding: 5px;
   position: absolute;
   text-align: center;
@@ -64,29 +65,26 @@ button {
 .card-button:hover {
   background-color: black;
 }
-.icon {
-  font-size: 20px;
-}
-.material-icons {
-  font-size: 18px!important;
-}
 .left {
   left: 10%;
 }
 .more-left {
-  left: 17%;
+  left: 20%;
 }
 .right {
   left: 90%;
 }
 .more-right {
-  left: 81%;
+  left: 77%;
 }
 .top {
   top: 10%;
 }
 .bottom {
   top: 90%;
+}
+.remove {
+  display: none;
 }
 .text-div{
   padding: 0 10px;

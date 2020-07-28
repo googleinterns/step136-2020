@@ -20,10 +20,29 @@ createRecipeCard = (divID, recipeInfo) => {
   let imageDiv = createElement("div", "", {"class": "image-div"});
   let textDiv = createElement("div", "", {"class": "text-div"});
 
-  let elementsToAddToImageDiv = [
-    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "Planner ", {"class": "card-button bottom more-left planner-btn"}),
-    createElement("button", "Cookbook ", {"class": "card-button bottom more-right cookbook-btn"}),
+  const id = recipeInfo["id"];
+  const name = recipeInfo["name"];
+  const idToken = getIdToken();
+
+  const addToPlannerButton = createElement("button", "", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
+  addToPlannerButton.appendChild(document.createTextNode(" Planner"));
+  addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
+
+  const addToCookbookButton = createElement("button", "", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
+  addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
+  addToCookbookButton.appendChild(document.createTextNode(" Cookbook"));
+
+  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button bottom more-left fa fa-remove remove-from-planner-btn"});
+  removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
+  removeFromPlannerButton.style.display = "none";
+
+  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
+  removeFromToCookbookButton.addEventListener('click', () => removeFromList(id, name, idToken, 'cookbook'));
+  removeFromToCookbookButton.style.display = "none";
+
+  let elementsToAddToImageDiv = [ 
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]), 
+    addToPlannerButton, addToCookbookButton, removeFromPlannerButton, removeFromToCookbookButton,
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
 
@@ -36,29 +55,6 @@ createRecipeCard = (divID, recipeInfo) => {
   let allElementsToAdd = [imageDiv, textDiv];
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
-
-  let plannerButtons = document.getElementsByClassName("planner-btn");
-  let cookbookButtons = document.getElementsByClassName("cookbook-btn");
-  const add1 = createElement("i", "add_circle_outline", {"class": "material-icons"});
-  const add2 = createElement("i", "add_circle_outline", {"class": "material-icons"});
-  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
-  for (let i = 0; i < plannerButtons.length; i++) {
-    const plannerButton = plannerButtons[i];
-    const cookbookButton = cookbookButtons[i];
-    // adds the plus  to planner/cookbook buttons
-    plannerButton.appendChild(add1);
-    cookbookButton.appendChild(add2);
-
-    // where the functionality for planner/cookbook buttons will go
-    plannerButton.addEventListener('click', () => {
-      // TODO: add an alert if they are removing from planner
-      addToList(recipeInfo, "planner");
-    });
-    cookbookButton.addEventListener('click', () => {
-      // TODO: add an alert if they are removing from cookbook
-      addToList(recipeInfo, "cookbook");
-    });
-  }
 }
 
 /**
@@ -101,15 +97,48 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
-// tells the server to add the recipe's key to the user's cookbook
-// input is a recipe js object
-function addToList(recipe, type) {
-  const params = new URLSearchParams();
-  params.append("id", recipe.id);
-  params.append("publicRecipeID", recipe.publicRecipeID);
-  params.append("published", recipe.published);
-  params.append("idToken", getIdToken());
-  params.append("type", type);
-  console.log("type: " + type);
-  fetch("/add-list", {method: "POST", body: params});
+// lets the user know if they have already added a recipe to a particular list
+// otherwise adds the recipe
+function addToList(id, name, idToken, type) {
+  console.log("addToList", name);
+  fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
+      .then(response => response.text()).then((contains) => {
+    if ((/true/i).test(contains)) {
+      alert("You have already added the " + name + " recipe to your " + type);
+    } else {
+      // tells the server to add the recipe's key to the user's cookbook/planner
+      const params = new URLSearchParams();
+      params.append("id", id);
+      params.append("idToken", getIdToken());
+      params.append("type", type);
+      fetch("/add-list", {method: "POST", body: params});
+      if (document.URL.includes("UserPage")) {
+        location.reload();
+      }
+    }
+  });
+}
+
+// asks the user to confirm that they want to remove the recipe from that list
+// if yes, removes the recipe
+function removeFromList(id, name, idToken, type) {
+  console.log("removeFromList", name);
+  fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
+      .then(response => response.text()).then((contains) => {
+    console.log(contains, (/true/i).test(contains))
+    if ((/true/i).test(contains)) {
+      const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
+      // tells the server to remove the recipe's key from the user's cookbook/planner
+      if (confirmedRemove) {
+        const params = new URLSearchParams();
+        params.append("id", id);
+        params.append("idToken", getIdToken());
+        params.append("type", type);
+        fetch("/remove-list", {method: "POST", body: params});
+        if (document.URL.includes("UserPage")) {
+          location.reload();
+        }
+      }
+    } 
+  });
 }

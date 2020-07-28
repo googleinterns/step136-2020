@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet responsible for deleting recipes. */
-@WebServlet("/add-list")
-public class AddToListServlet extends HttpServlet {
+@WebServlet("/remove-list")
+public class RemoveFromListServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -56,9 +56,9 @@ public class AddToListServlet extends HttpServlet {
     User user = new User(idToken);
 
     if (type.equals("cookbook")) {
-      user.addCookbookKey(key);
+      user.removeCookbookKey(key);
     } else if (type.equals("planner")) {
-      user.addPlannerKey(key);
+      user.removePlannerKey(key);
     } else {
       System.out.println("AddToListServlet: invalid type");
     }
