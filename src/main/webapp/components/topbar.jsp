@@ -4,7 +4,7 @@
   <div id="search-bar">
     <input type="text" id="search-box" placeholder="Search">
     <input type="button" id="search-button" onclick="search()" value="Search">
-      
+
     <div id="sign-in-box" class="dropdown">
         <div id="profile-photo-container">
         <img id="profile-photo" src=../images/default_profile.jpeg>
