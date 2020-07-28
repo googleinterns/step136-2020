@@ -20,12 +20,29 @@ createRecipeCard = (divID, recipeInfo) => {
   let imageDiv = createElement("div", "", {"class": "image-div"});
   let textDiv = createElement("div", "", {"class": "text-div"});
 
-  let elementsToAddToImageDiv = [
-    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]),
-    createElement("button", "Planner ", {"class": "card-button bottom more-left add-to-planner-btn"}),
-    createElement("button", "Cookbook ", {"class": "card-button bottom more-right add-to-cookbook-btn"}),
-    createElement("button", "Planner ", {"class": "card-button bottom more-left remove-from-planner-btn"}),
-    createElement("button", "Cookbook ", {"class": "card-button bottom more-right remove-from-cookbook-btn"}),
+  const id = recipeInfo["id"];
+  const name = recipeInfo["name"];
+  const idToken = getIdToken();
+
+  const addToPlannerButton = createElement("button", "", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
+  addToPlannerButton.appendChild(document.createTextNode(" Planner"));
+  addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
+
+  const addToCookbookButton = createElement("button", "", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
+  addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
+  addToCookbookButton.appendChild(document.createTextNode(" Cookbook"));
+
+  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button bottom more-left fa fa-remove remove-from-planner-btn"});
+  removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
+  removeFromPlannerButton.style.display = "none";
+
+  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
+  removeFromToCookbookButton.addEventListener('click', () => removeFromList(id, name, idToken, 'cookbook'));
+  removeFromToCookbookButton.style.display = "none";
+
+  let elementsToAddToImageDiv = [ 
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]), 
+    addToPlannerButton, addToCookbookButton, removeFromPlannerButton, removeFromToCookbookButton,
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
 
@@ -38,33 +55,6 @@ createRecipeCard = (divID, recipeInfo) => {
   let allElementsToAdd = [imageDiv, textDiv];
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
-
-  let addToPlannerButtons = document.getElementsByClassName("add-to-planner-btn");
-  let addToCookbookButtons = document.getElementsByClassName("add-to-cookbook-btn");
-  let removeFromPlannerButtons = document.getElementsByClassName("remove-from-planner-btn");
-  let removeFromToCookbookButtons = document.getElementsByClassName("remove-from-cookbook-btn");
-  // using plannerButtons.length is ok because plannerButtons and cookbookButtons will always be the same length
-  for (let i = 0; i < addToPlannerButtons.length; i++) {
-    const addToPlannerButton = addToPlannerButtons[i];
-    const addToCookbookButton = addToCookbookButtons[i];
-    const removeFromPlannerButton = removeFromPlannerButtons[i];
-    const removeFromToCookbookButton = removeFromToCookbookButtons[i];
-    // adds the plus  to planner/cookbook buttons
-    addToPlannerButton.appendChild(createAddCircle());
-    addToCookbookButton.appendChild(createAddCircle());
-    removeFromPlannerButton.appendChild(createAddCircle());
-    removeFromToCookbookButton.appendChild(createAddCircle());
-
-    const id = recipeInfo["id"];
-    const name = recipeInfo["name"];
-    const idToken = getIdToken();
-    addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
-    addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
-    removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
-    removeFromToCookbookButton.addEventListener('click', () => removeFromList(id, name, idToken, 'cookbook'));
-    removeFromPlannerButton.style.display = "none";
-    removeFromToCookbookButton.style.display = "none";
-  }
 }
 
 /**
@@ -122,11 +112,11 @@ function addToList(id, name, idToken, type) {
       params.append("idToken", getIdToken());
       params.append("type", type);
       fetch("/add-list", {method: "POST", body: params});
+      if (document.URL.includes("UserPage")) {
+        location.reload();
+      }
     }
   });
-  if (document.URL.includes("UserPage")) {
-    location.reload();
-  }
 }
 
 // asks the user to confirm that they want to remove the recipe from that list
@@ -145,14 +135,10 @@ function removeFromList(id, name, idToken, type) {
         params.append("idToken", getIdToken());
         params.append("type", type);
         fetch("/remove-list", {method: "POST", body: params});
+        if (document.URL.includes("UserPage")) {
+          location.reload();
+        }
       }
     } 
   });
-  if (document.URL.includes("UserPage")) {
-    location.reload();
-  }
-}
-
-function createAddCircle() {
-  return createElement("i", "add_circle_outline", {"class": "material-icons"});
 }
