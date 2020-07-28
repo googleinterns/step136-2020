@@ -18,16 +18,19 @@ function getIdToken() {
 /**
  * Loads the auth2 library for the g-signin API, and then initializes
  * the googleAuth object.
- * Passed as jquery parameter, executed by API script.
+ * Takes a listener arg, to execute when a new user signs in.
  */
-function onStart() {
-  gapi.load('auth2', initSigninV2);
+function initGoogleUserWithListener(listener) {
+  gapi.load('auth2', function() {
+    initSigninV2(listener);
+  });
 }
 
 /**
  * Initializes google authentication API and preforms onload functions.
+ * Arg is an optional listener to execute when a new user logs in.
  */
-function initSigninV2() {
+function initSigninV2(listener) {
   auth2 = gapi.auth2.init({
     client_id : CLIENT_ID
   });
@@ -36,14 +39,9 @@ function initSigninV2() {
     fillSigninContainer('g-signin-container');
   }
 
-  // Sets listener to create user session if signed in, otherwise kill current session.
-  auth2.isSignedIn.listen((isSignedIn) => {
-    if (isSignedIn) {
-      createUserSession(getIdToken());
-    } else {
-      killUserSession();
-    }
-  })
+  if (listener != null) {
+    auth2.currentUser.listen(listener);
+  }
 }
 
 // Creates sign in box and sets event listeners.
@@ -80,7 +78,7 @@ function signOut() {
  */
 function insertUserInfo(googleUser) {
   // Insert user name into user-page anchor.
-  let text = googleUser.getBasicProfile().getGivenName() + '\'s Page';
+  let text = googleUser.getBasicProfile().getGivenName() + '\'s Recipes';
   const userPageAnchor = document.getElementById('user-page-anchor');
   userPageAnchor.innerText = text;
 }
@@ -105,23 +103,15 @@ function disableUserDropdown() {
 /**
  * Provides a sign-in popup if user is signed out,
  * returns a promise when user is signed in.
- * 
+ * Important: There is a delay between page loading and session restoration.
+ * Using this function in onload will force user to login because of this delay.
  */
 function confirmUser() {
   return new Promise((resolve, reject) => {
     if (!auth2.isSignedIn.get()) {
-      auth2.signIn().then(createUserSession(getIdToken())).then(resolve).catch(reject);
+      auth2.signIn().then(resolve).catch(reject);
     } else {
       resolve();
     }
   })
-}
-
-function createUserSession(idToken) {
-  params = new URLSearchParams({ "idToken" : idToken });
-  fetch("/session", { method : "POST", body : params });
-}
-
-function killUserSession() {
-  fetch("/session");
 }
