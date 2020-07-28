@@ -32,7 +32,6 @@ public class Recipe {
 
   public Recipe(long id, String name, String authorID, String imageBlobKey, String description, ArrayList<String> tags, 
       ArrayList<String> ingredients, ArrayList<String> steps, boolean published, long popularity) {
-
     this.id = id;
     this.name = name;
     this.authorID = authorID;

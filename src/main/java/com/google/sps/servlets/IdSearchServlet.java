@@ -46,7 +46,7 @@ public class IdSearchServlet extends HttpServlet {
     Long searchedId = Long.parseLong(request.getParameter("recipeId"));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Key recipeKey = KeyFactory.createKey("PublicRecipe", searchedId);
+    Key recipeKey = KeyFactory.createKey("Recipe", searchedId);
 
     // Tries to get the recipe from Datastore and send it back, otherwise sends a different response
     // the front end can handle to notify the user the recipe isn't available
@@ -56,11 +56,13 @@ public class IdSearchServlet extends HttpServlet {
       Recipe entityAsRecipe = new Recipe(
         searchedId,
         (String) datastoreRecipe.getProperty("name"),
+        (String) datastoreRecipe.getProperty("authorID"),
         (String) datastoreRecipe.getProperty("imageBlobKey"),
         (String) datastoreRecipe.getProperty("description"),
         (ArrayList<String>) datastoreRecipe.getProperty("tags"),
         (ArrayList<String>) datastoreRecipe.getProperty("ingredients"),
         (ArrayList<String>) datastoreRecipe.getProperty("steps"),
+        (boolean) datastoreRecipe.getProperty("published"),
         (Long) datastoreRecipe.getProperty("popularity")
       );
 
