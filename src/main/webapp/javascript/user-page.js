@@ -139,11 +139,6 @@ function addEditFunctionality(recipes) {
   }
 }
 
-// hides the add to list button and displays the remove from list button
-function switchHiddenButtons(type){
-
-}
-
 // adds values of stored recipe to edit recipe form
 function addExistingValuesToEditForm(recipe) {
   document.getElementById("recipeID").value = recipe.id;
@@ -222,4 +217,9 @@ function fetchBlobstoreUrl(id) {
         }
         form.action = imageUploadUrl;
       });
+}
+
+// closes the recipe form modal
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
