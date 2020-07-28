@@ -44,7 +44,7 @@ public class UserQuery {
    * TODO: implement initialization of tags and authors
    */
   public UserQuery(String query, String tags, String authors) {
-    this.recipeName = query.toLowerCase().trim();
+    this.recipeName = query;
     this.tagsAndIngredients = new ArrayList<String>();
     this.authors = new ArrayList<String>();
   }
@@ -66,7 +66,7 @@ public class UserQuery {
       searchFilters.add(createAuthorsFilter());
     }
     if (recipeName != null && !recipeName.equals("")) {
-      searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName));
+      searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName.toLowerCase().trim()));
     }
 
     // Adds a filter which makes sure the recipes being searched for are public
