@@ -23,7 +23,7 @@
           <div id="g-signin-container">
           </div>
           <div class="dropdown-content">
-            <a href="UserPage.jsp" id="user-page-anchor"></a>
+            <a href="UserPage.html" id="user-page-anchor"></a>
             <a href="#" onclick="signOut()">Sign out</a>
           </div>
         </div>
