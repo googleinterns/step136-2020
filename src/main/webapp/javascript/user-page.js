@@ -6,9 +6,9 @@ const USER_RECIPES_DIV = "user-recipes";
 const PLANNER_RECIPES_DIV = "planner-recipes";
 const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
 
-window.onload = function() {
-  onStart();
-  confirmUser().then(loadRecipes);
+// Can be passed to API onload to guarantee auth2 is loaded before execution.
+function initUserPageGoogleSignin() {
+  initGoogleUserWithListener(loadRecipes);
 }
 
 // loads all the recipes when the recipe loads

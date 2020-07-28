@@ -5,14 +5,16 @@
     <title>User Page</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
+    <link rel="stylesheet" href="../css/style-sign-in.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="../javascript/user-page.js"></script>
     <script src="../javascript/user-auth.js"></script>
     <script src="../javascript/recipe-rendering.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=onStart" defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=initUserPageGoogleSignin" async defer></script>
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body>
+    <%@ include file="../components/topbar.jsp"%>
     <div id="content">
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
