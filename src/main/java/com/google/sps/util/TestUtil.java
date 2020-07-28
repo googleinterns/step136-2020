@@ -51,7 +51,7 @@ public class TestUtil {
     for (int i = 0; i < numRecipes; i++) {
       testRecipes[i] = TestUtil.createRecipeEntity(
         entityName, recipeName, author,
-        message + String.format(". I AM RECIPE %d OF MY KIND.", i + offset),
+        message + String.format(" I AM RECIPE %d OF MY KIND.", i + offset),
         tags, ingredients, steps, true, Integer.valueOf(0));
     }
     return testRecipes;
