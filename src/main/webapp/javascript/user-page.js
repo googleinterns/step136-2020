@@ -223,9 +223,3 @@ function fetchBlobstoreUrl(id) {
         form.action = imageUploadUrl;
       });
 }
-
-// closes the recipe form modal
-function closeModal(id) {
-  document.getElementById(id).style.display = "none";
-}
-
