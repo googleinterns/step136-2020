@@ -64,11 +64,6 @@ public class NewRecipeServlet extends HttpServlet {
       recipeEntity.setProperty("published", true);
     }
 
-    // user has chosen to publish their recipe
-    if (privacy.equals("public")) {
-      recipeEntity.setProperty("published", true);
-    }
-
     // getUploads returns a set of blobs that have been uploaded 
     // the Map object is a list that associates the names of the upload fields to the blobs they contained
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
