@@ -73,7 +73,7 @@ public class UserQuery {
     searchFilters.add(new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, true));
     
     if (searchFilters.size() == 1) {
-      return searchFilters.get(1);
+      return searchFilters.get(0);
     } else {
       return new Query.CompositeFilter(
         Query.CompositeFilterOperator.AND, searchFilters
