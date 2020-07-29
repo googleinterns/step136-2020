@@ -29,7 +29,7 @@ public class EditRecipeServlet extends HttpServlet {
     String descriptionResponse = request.getParameter("edit-description").trim();
     String ingredientsResponse = request.getParameter("edit-ingredients").trim();
     String stepsResponse = request.getParameter("edit-steps").trim();
-    String privacy = request.getParameter("privacy");
+    String privacy = request.getParameter("edit-privacy");
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
