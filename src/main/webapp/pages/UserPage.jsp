@@ -14,8 +14,8 @@
     <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <%@ include file="../components/topbar.jsp"%>
     <div id="content">
+    <%@ include file="../components/topbar.jsp"%>
       <h1 class="center">My Page</h1>
       <!-- Planner content -->
       <div>
