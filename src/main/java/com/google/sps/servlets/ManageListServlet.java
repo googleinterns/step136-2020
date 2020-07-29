@@ -1,5 +1,9 @@
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.sps.data.User;
@@ -11,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for adding recipe keys to user's planner/cookbook lists. */
+/** Servlet responsible for adding/removing recipe keys to/from user's planner/cookbook lists. */
 @WebServlet("/manage-list")
 public class ManageListServlet extends HttpServlet {
 
@@ -60,17 +64,40 @@ public class ManageListServlet extends HttpServlet {
     String type = request.getParameter("type");
     String action = request.getParameter("action");
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     // creates a key based on the passed in recipe ID
     Key key = KeyFactory.createKey("Recipe", id);
     // creates a user based on the passed in user id token
     User user = new User(idToken);
 
-    // adds created key to appropriate list based on passed in list type
+    // adds or removes created key to/from appropriate list based on passed in 
+    // list type and passed in action
     if (type.equals("cookbook")) {
       if (action.equals("add")) {
         user.addCookbookKey(key);
+        try {
+          Entity recipeEntity = datastore.get(key);
+          long popularity = (long) recipeEntity.getProperty("popularity");
+          recipeEntity.setProperty("popularity", popularity++);
+          datastore.put(recipeEntity);
+        } catch (EntityNotFoundException e) {
+          System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
+        }
       } else if (action.equals("remove")) {
         user.removeCookbookKey(key);
+        try {
+          Entity recipeEntity = datastore.get(key);
+          long popularity = (long) recipeEntity.getProperty("popularity");
+          popularity--;
+          if (popularity < 0) {
+            popularity = 0;
+          }
+          recipeEntity.setProperty("popularity", popularity);
+          datastore.put(recipeEntity);
+        } catch (EntityNotFoundException e) {
+          System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
+        }
       } else {
         System.out.println("ManageListServlet: invalid action " + action);
       }
