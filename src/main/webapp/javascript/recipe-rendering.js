@@ -25,17 +25,17 @@ createRecipeCard = (divID, recipeInfo) => {
   const idToken = getIdToken();
 
   const addToPlannerButton = createElement("button", " Planner", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
-  addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
+  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, idToken, 'planner'));
 
   const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
-  addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
+  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, idToken, 'cookbook'));
 
   const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button bottom more-left fa fa-remove remove-from-planner-btn"});
-  removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
+  removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'planner'));
   removeFromPlannerButton.style.display = "none";
 
   const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
-  removeFromToCookbookButton.addEventListener('click', () => removeFromList(id, name, idToken, 'cookbook'));
+  removeFromToCookbookButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'cookbook'));
   removeFromToCookbookButton.style.display = "none";
 
   let elementsToAddToImageDiv = [ 
@@ -97,20 +97,43 @@ createImage = (name, blobkey) => {
 
 // lets the user know if they have already added a recipe to a particular list
 // otherwise adds the recipe
-function addToList(id, name, idToken, type) {
-  fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
+function manageList(action, id, name, idToken, type) {
+  fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
       .then(response => response.text()).then((contains) => {
     if ((/true/i).test(contains)) {
-      alert("You have already added the " + name + " recipe to your " + type);
+      if (action == "add") {
+        // if the user is trying to add a recipe and the list already contains it
+        // alerts the user that the recipe is already in the list
+        alert("You have already added the " + name + " recipe to your " + type);
+      } else {
+        // if the user is trying to remove a precipe and the list contains it
+        // asks the user to confirm that they wish to remove the recipe
+        const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
+        // tells the server to remove the recipe's key from the user's cookbook/planner
+        if (confirmedRemove) {
+          const params = new URLSearchParams();
+          params.append("action", action);
+          params.append("id", id);
+          params.append("idToken", getIdToken());
+          params.append("type", type);
+          fetch("/manage-list", {method: "POST", body: params});
+          if (document.URL.includes("UserPage")) {
+            location.reload();
+          }
+        }
+      }
     } else {
-      // tells the server to add the recipe's key to the user's cookbook/planner
-      const params = new URLSearchParams();
-      params.append("id", id);
-      params.append("idToken", getIdToken());
-      params.append("type", type);
-      fetch("/add-list", {method: "POST", body: params});
-      if (document.URL.includes("UserPage")) {
-        location.reload();
+      if (action == "add") {
+        // if the user is trying to add a recipe not already in the list
+        const params = new URLSearchParams();
+        params.append("action", action);
+        params.append("id", id);
+        params.append("idToken", getIdToken());
+        params.append("type", type);
+        fetch("/manage-list", {method: "POST", body: params});
+        if (document.URL.includes("UserPage")) {
+            location.reload();
+        }
       }
     }
   });
