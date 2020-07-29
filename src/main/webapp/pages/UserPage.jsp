@@ -16,12 +16,12 @@
   <body>
     <%@ include file="../components/topbar.jsp"%>
     <div id="content">
+      <h1 class="center">My Page</h1>
       <div class="tab">
-        <button class="tablinks" onclick="openTab(recipes)">Saved Recipes</button>
-        <button class="tablinks" onlick="openTab(shopping-list)">Shopping List</button>
+        <button class="tablinks active" onclick="openTab(recipes, shopping-list)">Saved Recipes</button>
+        <button class="tablinks" onlick="openTab(shopping-list, recipes)">Shopping List</button>
       </div>
       <div class="tab-content" id="recipes">
-        <h1 class="center">My Page</h1>
         <!-- Planner content -->
         <div>
           <div id="header">
