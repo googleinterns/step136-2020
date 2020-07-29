@@ -11,19 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for deleting recipes. */
+/** Servlet responsible for adding recipe keys to user's planner/cookbook lists. */
 @WebServlet("/add-list")
 public class AddToListServlet extends HttpServlet {
 
+  // checks whether the recipe already exists in the user's list
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // gets values from request
     long id = Long.parseLong(request.getParameter("id"));
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
 
     boolean contains = false;
 
+    // creates a user based on the passed in user id token
     User user = new User(idToken);
+    // gets the appropriate list based on the passed in list type
     List<Key> keys;
     if (type.equals("cookbook")) {
       keys = user.getCookbookList();
@@ -34,27 +38,33 @@ public class AddToListServlet extends HttpServlet {
       System.out.println("AddToListServlet: invalid type");
     }
 
+    // creates a key based on the passed in recipe ID
     Key key = KeyFactory.createKey("Recipe", id);
+    // checks whether the key already exists in list
     if (keys.contains(key)) {
       contains = true;
     } else {
       contains = false;
     }
 
-    // returns whether the doPost will remove the recipe or not
     response.setContentType("text/html;");
     response.getWriter().println(String.valueOf(contains));  
   }
 
+  // adds a recipe key to user's list
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // gets values from request
     long id = Long.parseLong(request.getParameter("id"));
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type");
 
+    // creates a key based on the passed in recipe ID
     Key key = KeyFactory.createKey("Recipe", id);
+    // creates a user based on the passed in user id token
     User user = new User(idToken);
 
+    // adds created key to appropriate list based on passed in list type
     if (type.equals("cookbook")) {
       user.addCookbookKey(key);
     } else if (type.equals("planner")) {
