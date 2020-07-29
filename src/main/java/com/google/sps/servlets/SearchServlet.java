@@ -62,7 +62,7 @@ public class SearchServlet extends HttpServlet {
     
     // If the search request came from the main page, we want the behavior to be different
     if (request.getHeader("Referer").contains("/pages/MainPage.jsp")) {
-      resultsToReturn = 10;
+      resultsToReturn = 12;
     } else {
       resultsToReturn = 10;
     }
