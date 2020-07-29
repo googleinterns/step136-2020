@@ -79,9 +79,7 @@ public class ManageListServlet extends HttpServlet {
         try {
           Entity recipeEntity = datastore.get(key);
           long popularity = (long) recipeEntity.getProperty("popularity");
-          System.out.println(popularity);
           popularity++;
-          System.out.println(popularity);
           recipeEntity.setProperty("popularity", popularity);
           datastore.put(recipeEntity);
         } catch (EntityNotFoundException e) {
