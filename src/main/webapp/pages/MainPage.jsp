@@ -9,7 +9,7 @@
     <script src="../javascript/user-auth.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
-  <body onload="initGoogleUserWithListener()">
+  <body onload="mainPageLoad(); initGoogleUserWithListener();">
       <%@ include file="../components/topbar.jsp"%>
       <div id="content">
         
