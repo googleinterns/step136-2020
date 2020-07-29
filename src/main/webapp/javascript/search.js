@@ -4,8 +4,6 @@
  * TODO: implement redirect to search page
  */
 async function search() {
-    let userQuery =  document.getElementById("search-box").value;
-    document.getElementById("content").innerHTML = "";
     // Uncomment to initialize test data for search testing
     /*let tempForm = new FormData();
     tempForm.append("action", "initialize");
@@ -16,11 +14,21 @@ async function search() {
     };
     fetch("/adminAuth_test_congifureTestData?", myInit);*/
 
-    let response = await fetch("/search?query=" + userQuery);
+    const searchQuery = (new URL(document.location)).searchParams.get("query");
+
+    let response = await fetch("/search?query=" + searchQuery);
     let responseText = await response.text();
     let recipeList = JSON.parse(responseText);
 
     recipeList.forEach(elem => createRecipeCard("content", elem));
+}
+
+/**
+ * Redirects to the search page with the query in the URL search params.
+ */
+function redirectSearchPage() {
+  let userQuery =  document.getElementById("search-box").value;
+  window.location.assign("/pages/Search.jsp?query=" + userQuery);
 }
 
 /**

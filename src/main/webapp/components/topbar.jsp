@@ -3,7 +3,7 @@
 <div id="top-bar">
   <div id="search-bar">
     <input type="text" id="search-box" placeholder="Search">
-    <input type="button" id="search-button" onclick="search()" value="Search">
+    <input type="button" id="search-button" onclick="redirectSearchPage()" value="Search">
 
     <div id="sign-in-box" class="dropdown">
       <div id="profile-photo-container">
