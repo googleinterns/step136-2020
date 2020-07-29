@@ -29,10 +29,12 @@ async function search() {
 async function mainPageLoad() {
   // TODO: implement the call to search and rendering functions here for the intial load of the
   // search page. This will be called everytime the page is refreshed.
+
   let response = await fetch("/search");
-  console.log(response);
   let responseText = await response.text();
   let recipeList = JSON.parse(responseText);
-
-  recipeList.forEach(elem => createRecipeCard("content", elem));
+  
+  recipeList.forEach(recipeData => {
+    createRecipeCard("main-recipes-container", recipeData);
+  });
 }
