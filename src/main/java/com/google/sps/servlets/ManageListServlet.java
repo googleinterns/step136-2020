@@ -79,7 +79,10 @@ public class ManageListServlet extends HttpServlet {
         try {
           Entity recipeEntity = datastore.get(key);
           long popularity = (long) recipeEntity.getProperty("popularity");
-          recipeEntity.setProperty("popularity", popularity++);
+          System.out.println(popularity);
+          popularity++;
+          System.out.println(popularity);
+          recipeEntity.setProperty("popularity", popularity);
           datastore.put(recipeEntity);
         } catch (EntityNotFoundException e) {
           System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
