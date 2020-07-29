@@ -22,16 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
 /** Servlet responsible for listing private recipes. */
-@WebServlet("/list-type-recipes")
-public class ListTypeRecipesServlet extends HttpServlet {
+@WebServlet("/list-shopping-list")
+public class ListShoppingListServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idToken = request.getParameter("idToken");
-    String type = request.getParameter("type");
     User user = new User(idToken);
+    String authorID = user.getId();
 
-    List<Key> keys;
+    List<Ingredients> ingredients = {new Ingredient()};
     if (type.equals("cookbook")) {
       keys = user.getCookbookList();
     } else if (type.equals("planner")) {
