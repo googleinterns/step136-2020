@@ -99,7 +99,7 @@
             <textarea id="edit-steps" name="edit-steps" rows="4"></textarea>
             <br><br>
            <label for="privacy">Choose a privacy setting:</label>
-            <select id="edit-privacy" name="privacy">
+            <select id="edit-privacy" name="edit-privacy">
               <option id="first"></option>
               <option id="second"></option>
             </select>
