@@ -24,13 +24,11 @@ createRecipeCard = (divID, recipeInfo) => {
   const name = recipeInfo["name"];
   const idToken = getIdToken();
 
-  const addToPlannerButton = createElement("button", "", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
-  addToPlannerButton.appendChild(document.createTextNode(" Planner"));
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
   addToPlannerButton.addEventListener('click', () => addToList(id, name, idToken, 'planner'));
 
-  const addToCookbookButton = createElement("button", "", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
   addToCookbookButton.addEventListener('click', () => addToList(id, name, idToken, 'cookbook'));
-  addToCookbookButton.appendChild(document.createTextNode(" Cookbook"));
 
   const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button bottom more-left fa fa-remove remove-from-planner-btn"});
   removeFromPlannerButton.addEventListener('click', () => removeFromList(id, name, idToken, 'planner'));
@@ -100,7 +98,6 @@ createImage = (name, blobkey) => {
 // lets the user know if they have already added a recipe to a particular list
 // otherwise adds the recipe
 function addToList(id, name, idToken, type) {
-  console.log("addToList", name);
   fetch('/add-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
       .then(response => response.text()).then((contains) => {
     if ((/true/i).test(contains)) {
@@ -122,10 +119,8 @@ function addToList(id, name, idToken, type) {
 // asks the user to confirm that they want to remove the recipe from that list
 // if yes, removes the recipe
 function removeFromList(id, name, idToken, type) {
-  console.log("removeFromList", name);
   fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
       .then(response => response.text()).then((contains) => {
-    console.log(contains, (/true/i).test(contains))
     if ((/true/i).test(contains)) {
       const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
       // tells the server to remove the recipe's key from the user's cookbook/planner
