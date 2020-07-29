@@ -1,4 +1,4 @@
-#header {
+.header {
   align-items: center;
   display: flex;
   height: 30px;
@@ -8,7 +8,7 @@
 }
 
 .recipes-container {
-  background-color: #B6E6F9;
+  background-color: #DBF2FC;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -204,18 +204,26 @@ select {
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #DBF2FC;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #B6E6F9;
 }
 
 /* Style the tab content */
-.tabcontent {
+.tab-content {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+  background-color: white;
   display: none;
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

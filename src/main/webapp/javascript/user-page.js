@@ -13,6 +13,7 @@ function initUserPageGoogleSignin() {
 
 // loads all the recipes when the recipe loads
 async function loadRecipes() {
+  document.getElementById("default-open").click();
   loadUserRecipes();
   loadTypeRecipes("planner");
   loadTypeRecipes("cookbook");
@@ -224,7 +225,7 @@ function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
 
-function openTab(activeTab) {
+function openTab(evt, activeTab) {
   // Get all elements with class="tabcontent" and hide them
   const tabcontents = document.getElementsByClassName("tab-content");
   for (let i = 0; i < tabcontents.length; i++) {
@@ -240,5 +241,4 @@ function openTab(activeTab) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(activeTab).style.display = "block";
   evt.currentTarget.className += " active";
-
 }
