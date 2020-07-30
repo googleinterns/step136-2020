@@ -61,6 +61,8 @@ public class SearchServlet extends HttpServlet {
     final int resultsToReturn;
     
     // If the search request came from the main page, we want the behavior to be different
+    // TODO: implement the cursor from Datastore to control which results are sent to the client
+    // This involves encoding and decoding a cursor based on the behavior
     if (request.getHeader("Referer").contains("/pages/MainPage.jsp")) {
       resultsToReturn = 10;
     } else {
