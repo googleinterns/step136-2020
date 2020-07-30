@@ -95,9 +95,15 @@ button {
   padding: 0 10px;
 }
 .recipe-card-name {
+  background: none!important;
+  border: none;
+  color: #069;
+  cursor: pointer;
   font-size: 22px;
   font-weight: bold;
   margin: 15px 0 10px;
+  padding: 0!important;
+  text-decoration: underline;
 }
 .recipe-card-description {
   font-size: 15px;
