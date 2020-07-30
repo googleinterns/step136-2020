@@ -69,9 +69,9 @@ public class ManageListServlet extends HttpServlet {
     // adds or removes created key to/from appropriate list based on passed in 
     // list type and passed in action
     if (type.equals("cookbook")) {
-      actionOnPlanner(user, key, action);
-    } else if (type.equals("planner")) {
       actionOnCookbook(user, key, action);
+    } else if (type.equals("planner")) {
+      actionOnPlanner(user, key, action);
     } else {
       System.out.println("AddToListServlet: invalid type " + type);
     }
