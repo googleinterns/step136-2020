@@ -69,15 +69,15 @@ public class ManageListServlet extends HttpServlet {
     // adds or removes created key to/from appropriate list based on passed in 
     // list type and passed in action
     if (type.equals("cookbook")) {
-      actionOnPlanner(user, key, action);
-    } else if (type.equals("planner")) {
       actionOnCookbook(user, key, action);
+    } else if (type.equals("planner")) {
+      actionOnPlanner(user, key, action);
     } else {
       System.out.println("AddToListServlet: invalid type " + type);
     }
   }
 
-  public void actionOnPlanner(User user, Key key, String action) {
+  public void actionOnCookbook(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addCookbookKey(key);
       increasePopularity(key);
@@ -97,10 +97,10 @@ public class ManageListServlet extends HttpServlet {
       popularity++;
       recipeEntity.setProperty("popularity", popularity);
       datastore.put(recipeEntity);
-      } catch (EntityNotFoundException e) {
-        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
-            "This should never happen.");
-      }
+    } catch (EntityNotFoundException e) {
+      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+          "This should never happen.");
+    }
   }
 
   public void decreasePopularity(Key key) {
@@ -114,13 +114,13 @@ public class ManageListServlet extends HttpServlet {
       }
       recipeEntity.setProperty("popularity", popularity);
       datastore.put(recipeEntity);
-      } catch (EntityNotFoundException e) {
-        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
-            "This should never happen.");
-      }
+    } catch (EntityNotFoundException e) {
+      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+          "This should never happen.");
+    }
   }
 
-  public void actionOnCookbook(User user, Key key, String action) {
+  public void actionOnPlanner(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addPlannerKey(key);
     } else if (action.equals("remove")) {
