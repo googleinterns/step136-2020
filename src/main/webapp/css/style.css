@@ -56,7 +56,6 @@ button {
   border-width: 0.5px;  
   color: white;
   cursor: pointer;
-  font-size: 15px;
   padding: 5px;
   position: absolute;
   text-align: center;
@@ -64,6 +63,12 @@ button {
 }
 .card-button:hover {
   background-color: black;
+}
+.action-button {
+  font-size: 15px;
+}
+.icon {
+  font-size: 20px;
 }
 .left {
   left: 10%;

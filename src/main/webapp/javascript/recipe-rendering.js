@@ -24,17 +24,17 @@ createRecipeCard = (divID, recipeInfo) => {
   const name = recipeInfo["name"];
   const idToken = getIdToken();
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button bottom more-left fas fa-plus add-to-planner-btn"});
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left fas fa-plus add-to-planner-btn"});
   addToPlannerButton.addEventListener('click', () => manageList("add", id, name, idToken, 'planner'));
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button bottom more-right fas fa-plus add-to-cookbook-btn"});
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right fas fa-plus add-to-cookbook-btn"});
   addToCookbookButton.addEventListener('click', () => manageList("add", id, name, idToken, 'cookbook'));
 
-  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button bottom more-left fa fa-remove remove-from-planner-btn"});
+  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
   removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'planner'));
   removeFromPlannerButton.style.display = "none";
 
-  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
+  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button action-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
   removeFromToCookbookButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'cookbook'));
   removeFromToCookbookButton.style.display = "none";
 
