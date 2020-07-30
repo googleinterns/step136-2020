@@ -132,7 +132,7 @@ function manageList(action, id, name, idToken, type) {
         params.append("type", type);
         fetch("/manage-list", {method: "POST", body: params});
         if (document.URL.includes("UserPage")) {
-            location.reload();
+          location.reload();
         }
       }
     }
