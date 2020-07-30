@@ -23,8 +23,8 @@ public class TestData {
         Arrays.asList("none"));
     public static final ArrayList<String> STEPS_LIST = new ArrayList<String>(
         Arrays.asList("none"));
-    public static final String ENTITY_NAME = "PublicRecipe";
-    public static final String ENTITY_DESCRIPTION = "THIS IS A TEST RECIPE FOR THE SEARCH BY NAME TEST";
+    public static final String ENTITY_NAME = "Recipe";
+    public static final String ENTITY_DESCRIPTION = "THIS IS A TEST RECIPE FOR THE SEARCH BY NAME TEST.";
     
     // Specifies the number of test sets that should be made
     public static final int NUM_SETS = 2;
@@ -49,7 +49,7 @@ public class TestData {
           for (int setNum = 0; setNum < NUM_SETS; setNum++) {
               Entity[] tempEntityList = TestUtil.generateTestRecipes(
                   TEST_SET_SIZES[setNum], offset, ENTITY_DESCRIPTION, TAG_LIST, INGREDIENT_LIST,
-                  STEPS_LIST, ENTITY_NAME, TEST_SET_NAMES[setNum]
+                  STEPS_LIST, ENTITY_NAME, TEST_SET_NAMES[setNum], "Mathew-Testing"
               
               );
               offset += TEST_SET_SIZES[setNum];

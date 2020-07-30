@@ -22,15 +22,17 @@ public class TestUtil {
   /**
    * Takes in the info for a recipe and returns an entity with set properties based on the recipe object
    */
-  public static Entity createRecipeEntity(String entityName, String name, String description, ArrayList<String> tags,
-    ArrayList<String> ingredients, ArrayList<String> steps, int popularity) {
+  public static Entity createRecipeEntity(String entityName, String name, String author, String description, 
+    ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps, boolean published, int popularity) {
     Entity recipeEntity = new Entity(entityName);
     recipeEntity.setProperty("name", name);
+    recipeEntity.setProperty("author", author);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
     recipeEntity.setProperty("popularity", popularity);
+    recipeEntity.setProperty("published", published);
     return recipeEntity;
    }
 
@@ -41,16 +43,16 @@ public class TestUtil {
    */
   public static Entity[] generateTestRecipes(int numRecipes, int offset, String message,
     ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps,
-    String entityName, String recipeName) {
+    String entityName, String recipeName, String author) {
     
     Entity[] testRecipes = new Entity[numRecipes];
     
     // Goes though creating recipe entities and adding them to the array at the given index
     for (int i = 0; i < numRecipes; i++) {
       testRecipes[i] = TestUtil.createRecipeEntity(
-        entityName, recipeName, 
+        entityName, recipeName, author,
         message + String.format(" I AM RECIPE %d OF MY KIND.", i + offset),
-        tags, ingredients, steps, -1);
+        tags, ingredients, steps, true, Integer.valueOf(0));
     }
     return testRecipes;
   }

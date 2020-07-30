@@ -19,18 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/manage-list")
 public class ManageListServlet extends HttpServlet {
 
-  // checks whether the recipe already exists in the user's list
+  /** Checks whether the recipe already exists in the user's list. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // gets values from request
-    long id = Long.parseLong(request.getParameter("id"));
-    String idToken = request.getParameter("idToken");
-    String type = request.getParameter("type");
+    long recipeID = Long.parseLong(request.getParameter("id"));
+    String userIdToken = request.getParameter("idToken");
+    String type = request.getParameter("type").toLowerCase();
 
     boolean contains = false;
 
     // creates a user based on the passed in user id token
-    User user = new User(idToken);
+    User user = new User(userIdToken);
     // gets the appropriate list based on the passed in list type
     List<Key> keys;
     if (type.equals("cookbook")) {
@@ -43,75 +43,70 @@ public class ManageListServlet extends HttpServlet {
     }
 
     // creates a key based on the passed in recipe ID
-    Key key = KeyFactory.createKey("Recipe", id);
-    // checks whether the key already exists in list
-    if (keys.contains(key)) {
-      contains = true;
-    } else {
-      contains = false;
-    }
-
+    Key key = KeyFactory.createKey("Recipe", recipeID);
+    
+    // returns whether the key already exists in list
     response.setContentType("text/html;");
-    response.getWriter().println(String.valueOf(contains));  
+    response.getWriter().println(String.valueOf(keys.contains(key)));  
   }
 
-  // adds a recipe key to user's list
+  /** Adds a recipe key to user's list. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // gets values from request
-    long id = Long.parseLong(request.getParameter("id"));
-    String idToken = request.getParameter("idToken");
-    String type = request.getParameter("type");
-    String action = request.getParameter("action");
+    long recipeID = Long.parseLong(request.getParameter("id"));
+    String userIdToken = request.getParameter("idToken");
+    String type = request.getParameter("type").toLowerCase();
+    String action = request.getParameter("action").toLowerCase();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     // creates a key based on the passed in recipe ID
-    Key key = KeyFactory.createKey("Recipe", id);
+    Key key = KeyFactory.createKey("Recipe", recipeID);
     // creates a user based on the passed in user id token
-    User user = new User(idToken);
+    User user = new User(userIdToken);
 
     // adds or removes created key to/from appropriate list based on passed in 
     // list type and passed in action
     if (type.equals("cookbook")) {
-      if (action.equals("add")) {
-        user.addCookbookKey(key);
-        try {
-          Entity recipeEntity = datastore.get(key);
-          long popularity = (long) recipeEntity.getProperty("popularity");
-          popularity++;
-          recipeEntity.setProperty("popularity", popularity);
-          datastore.put(recipeEntity);
-        } catch (EntityNotFoundException e) {
-          System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
-        }
-      } else if (action.equals("remove")) {
-        user.removeCookbookKey(key);
-        try {
-          Entity recipeEntity = datastore.get(key);
-          long popularity = (long) recipeEntity.getProperty("popularity");
-          popularity--;
-          if (popularity < 0) {
-            popularity = 0;
-          }
-          recipeEntity.setProperty("popularity", popularity);
-          datastore.put(recipeEntity);
-        } catch (EntityNotFoundException e) {
-          System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
-        }
-      } else {
-        System.out.println("ManageListServlet: invalid action " + action);
-      }
+      actionOnPlanner(user, key, action);
     } else if (type.equals("planner")) {
-      if (action.equals("add")) {
-        user.addPlannerKey(key);
-      } else if (action.equals("remove")) {
-        user.removePlannerKey(key);
-      } else {
-        System.out.println("ManageListServlet: invalid action " + action);
-      }
+      actionOnCookbook(user, key, action);
     } else {
       System.out.println("AddToListServlet: invalid type " + type);
+    }
+  }
+
+  public void actionOnPlanner(User user, Key key, String action) {
+    if (action.equals("add")) {
+      user.addCookbookKey(key);
+      increasePopularity(key);
+    } else if (action.equals("remove")) {
+      user.removeCookbookKey(key);
+    } else {
+      System.out.println("ManageListServlet: invalid action " + action);
+    }
+  }
+
+  public void increasePopularity(Key key) {
+    try {
+        Entity recipeEntity = datastore.get(key);
+        long popularity = (long) recipeEntity.getProperty("popularity");
+        popularity++;
+        recipeEntity.setProperty("popularity", popularity);
+        datastore.put(recipeEntity);
+      } catch (EntityNotFoundException e) {
+        System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
+      }
+  }
+
+  public void actionOnCookbook(User user, Key key, String action) {
+    if (action.equals("add")) {
+      user.addPlannerKey(key);
+    } else if (action.equals("remove")) {
+      user.removePlannerKey(key);
+    } else {
+      System.out.println("ManageListServlet: invalid action " + action);
     }
   }
 }
