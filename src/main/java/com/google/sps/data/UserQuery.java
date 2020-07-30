@@ -59,10 +59,10 @@ public class UserQuery {
     ArrayList<Query.Filter> searchFilters = new ArrayList<Query.Filter>();
     
     // Creates and adds filters to the list if there is data to make the filter
-    if (tagsAndIngredients.size() > 0){
+    if (!tagsAndIngredients.isEmpty()){
       searchFilters.add(createTagsFilter());
     }
-    if (authors.size() > 0) {
+    if (!authors.isEmpty()) {
       searchFilters.add(createAuthorsFilter());
     }
     if (recipeName != null && !recipeName.equals("")) {
