@@ -16,11 +16,13 @@ createRecipeCard = (divID, recipeInfo) => {
   const name = recipeInfo["name"];
   const idToken = getIdToken();
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left fas fa-plus add-to-planner-btn"});
-  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, idToken, 'planner'));
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas"});
+  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, idToken, "planner"));
+  setIcon(addToPlannerButton, id, idToken, "planner");
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right fas fa-plus add-to-cookbook-btn"});
-  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, idToken, 'cookbook'));
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas"});
+  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, idToken, "cookbook"));
+  setIcon(addToCookbookButton, id, idToken, "cookbook");
 
   const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
   removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'planner'));
@@ -159,6 +161,23 @@ createImage = (name, blobkey) => {
   imageElement.className = "recipe-card-image";
   imageElement.src = "/serve?blobkey="+blobkey;
   return imageElement;
+}
+
+/**
+ * Sets the icon of the button to a check if already added to list
+ * and a plus otherwise
+ */
+function setIcon(button, id, idToken, type) {
+  // checks if the current recipe is in the user's planner
+  fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
+      .then(response => response.text()).then((contains) => {
+    console.log("contains in " + type + "? " + contains);
+    if ((/true/i).test(contains)) {
+      button.classList.add("fa-check");
+    } else {
+      button.classList.add("fa-plus");
+    }
+  });
 }
 
 // lets the user know if they have already added a recipe to a particular list
