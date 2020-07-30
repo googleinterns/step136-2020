@@ -83,20 +83,40 @@ public class ManageListServlet extends HttpServlet {
       increasePopularity(key);
     } else if (action.equals("remove")) {
       user.removeCookbookKey(key);
+      decreasePopularity(key);
     } else {
       System.out.println("ManageListServlet: invalid action " + action);
     }
   }
 
   public void increasePopularity(Key key) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
-        Entity recipeEntity = datastore.get(key);
-        long popularity = (long) recipeEntity.getProperty("popularity");
-        popularity++;
-        recipeEntity.setProperty("popularity", popularity);
-        datastore.put(recipeEntity);
+      Entity recipeEntity = datastore.get(key);
+      long popularity = (long) recipeEntity.getProperty("popularity");
+      popularity++;
+      recipeEntity.setProperty("popularity", popularity);
+      datastore.put(recipeEntity);
       } catch (EntityNotFoundException e) {
-        System.out.println("ManageListServlet: Private recipe entity not found with saved recipe id. This should never happen.");
+        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+            "This should never happen.");
+      }
+  }
+
+  public void decreasePopularity(Key key) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    try {
+      Entity recipeEntity = datastore.get(key);
+      long popularity = (long) recipeEntity.getProperty("popularity");
+      popularity--;
+      if (popularity < 0) {
+        popularity = 0;
+      }
+      recipeEntity.setProperty("popularity", popularity);
+      datastore.put(recipeEntity);
+      } catch (EntityNotFoundException e) {
+        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+            "This should never happen.");
       }
   }
 
