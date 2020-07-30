@@ -77,7 +77,7 @@ public class ManageListServlet extends HttpServlet {
     }
   }
 
-  public void actionOnPlanner(User user, Key key, String action) {
+  public void actionOnCookbook(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addCookbookKey(key);
       increasePopularity(key);
@@ -120,7 +120,7 @@ public class ManageListServlet extends HttpServlet {
     }
   }
 
-  public void actionOnCookbook(User user, Key key, String action) {
+  public void actionOnPlanner(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addPlannerKey(key);
     } else if (action.equals("remove")) {
