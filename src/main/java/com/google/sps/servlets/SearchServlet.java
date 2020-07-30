@@ -26,6 +26,7 @@ import com.google.sps.util.Utils;
 import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,8 +53,13 @@ public class SearchServlet extends HttpServlet {
     // Creates the new Query and adds the filter to be used in Datastore
     // The filter is currently only set to find an exact match name in Datastore
     // TODO: Composite Query Filter will be needed to combine and add all filter to query in future
-    Query query = new Query("PublicRecipe");
-    query.setFilter(SearchUtils.getRecipeNameFilter(uQuery.getName()));
+    Query query = new Query("Recipe");
+    Query.Filter publicFilter = new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, true);
+    Query.Filter nameFilter = SearchUtils.getRecipeNameFilter(uQuery.getName());
+
+    query.setFilter(new Query.CompositeFilter(
+      Query.CompositeFilterOperator.AND, Arrays.asList(publicFilter, nameFilter)
+    ));
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

@@ -1,12 +1,4 @@
 /**
- * The function to load the main page and display content properly 
- */
-mainPageLoad = () => {
-  // TODO: implement the call to search and rendering functions here for the intial load of the
-  // search page. This will be called everytime the page is refreshed.
-}
-
-/**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
  * recipeInfo is expected to have the following data saved as properties,
@@ -43,9 +35,10 @@ createRecipeCard = (divID, recipeInfo) => {
     addToPlannerButton, addToCookbookButton, removeFromPlannerButton, removeFromToCookbookButton,
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
-
   let elementsToAddToTextDiv = [
-    createElement("p", recipeInfo["name"], {"class": "recipe-card-name"}),
+    createElement("button", recipeInfo["name"], 
+      {"class": "recipe-card-name", 
+      "onClick": "redirectRecipePage(" + recipeInfo["id"].toString() + ")"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
   elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
@@ -53,6 +46,79 @@ createRecipeCard = (divID, recipeInfo) => {
   let allElementsToAdd = [imageDiv, textDiv];
   allElementsToAdd.forEach(elem => recipeDiv.appendChild(elem));
   docDiv.appendChild(recipeDiv);
+}
+
+/**
+ * Takes the id for a recipe in Datastore, and redirects to the recipe page template
+ * with the recipe ID as a search param.
+ */
+function redirectRecipePage(id) {
+  window.location.assign("/pages/RecipePageTemplate.jsp?id=" + id.toString());
+}
+
+/**
+ * Function for loading the recipe template page based on the id in the URL
+ * search params.
+ */
+async function fillRecipeTemplate() { 
+  const recipeId = (new URL(document.location)).searchParams.get("id");
+
+  // Gets the servlet data for the recipe
+  // TODO: put this code in an if statement to handle recipe not found scenarios
+  let response = await fetch("/search-id?recipeId=" + recipeId.toString());
+  let responseText = await response.text();
+  let recipeInfo = JSON.parse(responseText);
+
+  let detailsSection = document.getElementById("details");
+  let imageSection = document.getElementById("image-container");
+  let descriptionSection = document.getElementById("description");
+  let ingredientSection = document.getElementById("ingredients");
+  let stepsSection = document.getElementById("steps");
+
+  addRecipeInfo(recipeInfo, detailsSection);
+  imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
+  descriptionSection.appendChild(createElement(
+      "p", recipeInfo["description"], {"id": "description-text"}));
+  addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients");
+  addAsList(recipeInfo["steps"], stepsSection, "Steps");
+}
+
+/**
+ * Creates the HTML for the information about the recipe and adds it to the div.
+ * Current implementation adds the recipe name and the author.
+ * Takes the recipe object and div (not div name) being used.
+ */
+addRecipeInfo = (recipeObj, infoDiv) => {
+  let elementsForDiv = [
+    createElement("h1", recipeObj["name"], {"id": "recipe-name"})/*,
+    createElement("h3", recipeObj["author"], {"id": "recipe-author"})*/
+    // Uncomment once the backend can handle sending author info too
+  ];
+  
+  // Adds all the recipe info to the passed div
+  elementsForDiv.forEach(elem => infoDiv.appendChild(elem));
+}
+
+/**
+ * Creates the HTML for some part of the recipe which needs to shown as a list
+ * (ingredients, steps, etc.) and adds it to the given div.
+ * Takes a list and div (not div name) being used.
+ */
+addAsList = (listObj, listDiv, listName) => {
+  // Constructs the base of how all item created in the function will be 
+  // named for CSS
+  let cssRef = listName.toLowerCase() + "-list";
+
+  // Creates the title for the list, and the list element
+  let listForDiv = createElement("ol", "", {"id": cssRef})
+  let listTitle = createElement("h2", listName, {"id": cssRef + "-title"});
+  
+  // Goes through all the objects in listObj and adds them as items to listForDiv
+  listObj.forEach(item => listForDiv.appendChild(
+    createElement("li", item, {"class": cssRef + "-item"})));
+  
+  listDiv.appendChild(listTitle);
+  listDiv.appendChild(listForDiv);
 }
 
 /**
@@ -66,18 +132,18 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
   // Create an HTML element with the given tag
   let htmlElement = document.createElement(htmlTag.toLowerCase());
 
-  // If the object parameter is not undefined or an empty string, it 
+  // If the object parameter is not null or an empty string, it 
   // creates a textnode and adds it to the HTML element
-  if (object !== undefined && object !== "") {
+  if (object !== null && object !== "") {
     let htmlText = document.createTextNode(object);
     htmlElement.appendChild(htmlText);
   }
 
-  // If the tagOptions object is not undefined or empty, it goes through each 
+  // If the tagOptions object is not null or empty, it goes through each 
   // option and adds the attribute to the new HTML element.
-  if (tagOptions !== undefined && Object.keys(tagOptions).length > 0) {
+  if (tagOptions !== null && Object.keys(tagOptions).length > 0) {
     for (opt in tagOptions) {   
-        htmlElement.setAttribute(opt, tagOptions[opt]); 
+      htmlElement.setAttribute(opt, tagOptions[opt]); 
     }
   }
   return htmlElement;
@@ -136,27 +202,5 @@ function manageList(action, id, name, idToken, type) {
         }
       }
     }
-  });
-}
-
-// asks the user to confirm that they want to remove the recipe from that list
-// if yes, removes the recipe
-function removeFromList(id, name, idToken, type) {
-  fetch('/remove-list?id=' + id + "&idToken=" + idToken + "&type=" + type)
-      .then(response => response.text()).then((contains) => {
-    if ((/true/i).test(contains)) {
-      const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
-      // tells the server to remove the recipe's key from the user's cookbook/planner
-      if (confirmedRemove) {
-        const params = new URLSearchParams();
-        params.append("id", id);
-        params.append("idToken", getIdToken());
-        params.append("type", type);
-        fetch("/remove-list", {method: "POST", body: params});
-        if (document.URL.includes("UserPage")) {
-          location.reload();
-        }
-      }
-    } 
   });
 }

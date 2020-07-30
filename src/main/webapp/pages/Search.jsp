@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
-    <script src="../javascript/recipe-rendering.js"></script>
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
   <body>
