@@ -97,10 +97,10 @@ public class ManageListServlet extends HttpServlet {
       popularity++;
       recipeEntity.setProperty("popularity", popularity);
       datastore.put(recipeEntity);
-      } catch (EntityNotFoundException e) {
-        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
-            "This should never happen.");
-      }
+    } catch (EntityNotFoundException e) {
+      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+          "This should never happen.");
+    }
   }
 
   public void decreasePopularity(Key key) {
@@ -114,10 +114,10 @@ public class ManageListServlet extends HttpServlet {
       }
       recipeEntity.setProperty("popularity", popularity);
       datastore.put(recipeEntity);
-      } catch (EntityNotFoundException e) {
-        System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
-            "This should never happen.");
-      }
+    } catch (EntityNotFoundException e) {
+      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+          "This should never happen.");
+    }
   }
 
   public void actionOnCookbook(User user, Key key, String action) {
