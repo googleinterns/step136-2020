@@ -5,6 +5,7 @@
     <title>User Page</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
+    <link rel="stylesheet" href="../css/style-recipecards.css">
     <link rel="stylesheet" href="../css/style-sign-in.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="../javascript/user-page.js"></script>
