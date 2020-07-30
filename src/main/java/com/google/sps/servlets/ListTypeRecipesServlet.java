@@ -28,9 +28,8 @@ public class ListTypeRecipesServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idToken = request.getParameter("idToken");
-    String type = request.getParameter("type");
+    String type = request.getParameter("type").toLowerCase();
     User user = new User(idToken);
-    String authorID = user.getId();
 
     List<Key> keys;
     if (type.equals("cookbook")) {
@@ -55,7 +54,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
 
         Recipe recipe = new Recipe(id, name, blobkey, description);
         recipes.add(recipe);
-      } catch (EntityNotFoundException e ) {
+      } catch (EntityNotFoundException e) {
         System.out.println("ListTypeRecipesServlet: Entity not found with key from user key list. This should never happen.");
       }
     }
