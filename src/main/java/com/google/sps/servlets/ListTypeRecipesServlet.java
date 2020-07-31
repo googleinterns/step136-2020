@@ -48,7 +48,6 @@ public class ListTypeRecipesServlet extends HttpServlet {
     List<Key> deletedKeys = new ArrayList<>();
     for (Key key : keys) {
       try {
-        // TODO: do not inlude private recipes
         Entity entity = datastore.get(key);
         long id = key.getId();
         String name = (String) entity.getProperty("name");
