@@ -7,7 +7,7 @@
 
   <div id="search-bar">
     <input type="text" id="search-box" placeholder="Search Recipes">
-    <input type="button" id="search-button" onclick="search()" value="Search">
+    <input type="button" id="search-button" onclick="redirectSearchPage()" value="Search">
   </div>
 
   <div id="sign-in-box" class="dropdown">
