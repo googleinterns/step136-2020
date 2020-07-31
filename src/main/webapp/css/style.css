@@ -105,18 +105,19 @@ button {
 }
 
 #top-bar {
-  background-color: #195e83;
   margin: auto;
   max-width: 800px;
   padding: 10px 10% 10px 10%;
 }
 #color-bar {
   background-color: #195e83;
-  border-radius: 5px;
+  border-radius: 10px;
+  padding: 0 8px 0 8px;
   display: flex;
 }
 #logo {
   align-self: center;
+  color: white;
   font-size: 20px;
   font-family: 'Pacifico', cursive;
 }
@@ -127,6 +128,7 @@ button {
   padding: 0 10px 0 10px;
 }
 #search-bar input {
+  border-color: rgb(0, 0, 0, 0.25);
   box-sizing: border-box;
   font-size: large;
   height: 36px;
@@ -142,7 +144,6 @@ button {
   flex-grow: 1;
 }
 #search-box {
-  border-color: black;
   border-radius: 10px 0 0 10px;
   border-width: 1px;
   width: 100%;
