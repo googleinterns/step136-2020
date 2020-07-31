@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** 
  * Handles requests for a Datastore search based on a query string with filters to use.
+ * If a distrinction of where the request came from ever needs to be made, e.g. Search page or main
+ * page, use request.getHeader("Referer").contains(<insert page path>) to do so.
  **/
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
@@ -57,15 +59,8 @@ public class SearchServlet extends HttpServlet {
     // We want popular recipes first
     query.addSort("popularity", Query.SortDirection.DESCENDING);
 
-    // Changes the size of the response
-    final int resultsToReturn;
-    
-    // If the search request came from the main page, we want the behavior to be different
-    if (request.getHeader("Referer").contains("/pages/MainPage.jsp")) {
-      resultsToReturn = 10;
-    } else {
-      resultsToReturn = 10;
-    }
+    // Sets the size of the results to return
+    final int resultsToReturn = 12;
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

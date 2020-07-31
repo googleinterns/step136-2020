@@ -59,11 +59,25 @@ public class UserQuery {
     ArrayList<Query.Filter> searchFilters = new ArrayList<Query.Filter>();
     
     // Creates and adds filters to the list if there is data to make the filter
-    if (tagsAndIngredients.size() > 0){
+    if (tagsAndIngredients.size() > 1) {
       searchFilters.add(createTagsFilter());
+    } else if (tagsAndIngredients.size() == 1) {
+      // We check for size equal to 1 because we cannot create a composite filter when we only 
+      // have one filter to pass. The same implementatoin is used for the author filters
+      // Use of collection interface methods only to allow for future flexibility
+      String tempTag = tagsAndIngredients.iterator().next();
+      searchFilters.add(createSingleTagFilter(tempTag));
     }
-    if (authors.size() > 0) {
+    if (authors.size() > 1) {
       searchFilters.add(createAuthorsFilter());
+    } else if (authors.size() == 1) {
+      // Check for size equal to 1 so we don't try to create a composite filter with one param
+      // Use of collection interface methods only to allow for future flexibility
+      String onlyAuthor = authors.iterator().next();
+      Query.Filter tempAuthorFilter = new Query.FilterPredicate(
+        "authorID", Query.FilterOperator.EQUAL, onlyAuthor
+      );
+      searchFilters.add(tempAuthorFilter);
     }
     if (recipeName != null && !recipeName.equals("")) {
       searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName.toLowerCase().trim()));
@@ -103,19 +117,17 @@ public class UserQuery {
    * present.
    */
   private Query.CompositeFilter createTagsFilter() {
-    // Implementation of collection interface methods to handle future change of ArrayList to set
-    Iterator<String> tagsAndIngredientsIterator = tagsAndIngredients.iterator();
-    
     // An array list of all the filters for tags/ingredients which can then be passed as a 
     // param to the composite filter constructor
     ArrayList<Query.Filter> tagsAndIngredientsFilters = new ArrayList<Query.Filter>();
     
     // Fills the arraylist with all the filters
-    while (tagsAndIngredientsIterator.hasNext()) {
+    for (String tag : tagsAndIngredients) {
       tagsAndIngredientsFilters.add(
-        createSingleTagFilter(tagsAndIngredientsIterator.next())
+        createSingleTagFilter(tag)
       );
     }
+
     return new Query.CompositeFilter(Query.CompositeFilterOperator.AND, tagsAndIngredientsFilters);
   }
 
@@ -123,17 +135,14 @@ public class UserQuery {
    * Returns a filter for recipes which match one of the authors present in the search
    */
   private Query.CompositeFilter createAuthorsFilter() {
-    // Implementation of collection interface methods to handle future change of ArrayList to set
-    Iterator<String> authorIterator = authors.iterator();
-    
     // An array list of all the filters for authors which can then be passed as a param to 
     // the composite filter constructor
     ArrayList<Query.Filter> authorsFilters = new ArrayList<Query.Filter>();
     
     // Fills the arraylist with all the filters
-    while(authorIterator.hasNext()) {
+    for (String author : authors) {
       authorsFilters.add(
-        new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, authorIterator.next())
+        new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, author)
       );
     }
     return new Query.CompositeFilter(Query.CompositeFilterOperator.OR, authorsFilters);
