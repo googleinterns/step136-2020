@@ -71,6 +71,7 @@ public class UserQuery {
     if (authors.size() > 1) {
       searchFilters.add(createAuthorsFilter());
     } else if (authors.size() == 1) {
+      // Check for size equal to 1 so we don't try to create a composite filter with one param
       // Use of collection interface methods only to allow for future flexibility
       String tempAuthor = authors.iterator().next();
       Query.Filter tempAuthorFilter = new Query.FilterPredicate(
