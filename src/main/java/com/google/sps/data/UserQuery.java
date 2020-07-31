@@ -73,9 +73,9 @@ public class UserQuery {
     } else if (authors.size() == 1) {
       // Check for size equal to 1 so we don't try to create a composite filter with one param
       // Use of collection interface methods only to allow for future flexibility
-      String tempAuthor = authors.iterator().next();
+      String onlyAuthor = authors.iterator().next();
       Query.Filter tempAuthorFilter = new Query.FilterPredicate(
-        "authorID", Query.FilterOperator.EQUAL, tempAuthor
+        "authorID", Query.FilterOperator.EQUAL, onlyAuthor
       );
       searchFilters.add(tempAuthorFilter);
     }
@@ -122,9 +122,9 @@ public class UserQuery {
     ArrayList<Query.Filter> tagsAndIngredientsFilters = new ArrayList<Query.Filter>();
     
     // Fills the arraylist with all the filters
-    for (String loopTag : tagsAndIngredients) {
+    for (String tag : tagsAndIngredients) {
       tagsAndIngredientsFilters.add(
-        createSingleTagFilter(loopTag)
+        createSingleTagFilter(tag)
       );
     }
 
@@ -140,9 +140,9 @@ public class UserQuery {
     ArrayList<Query.Filter> authorsFilters = new ArrayList<Query.Filter>();
     
     // Fills the arraylist with all the filters
-    for (String loopAuthor : authors) {
+    for (String author : authors) {
       authorsFilters.add(
-        new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, loopAuthor)
+        new Query.FilterPredicate("authorID", Query.FilterOperator.EQUAL, author)
       );
     }
     return new Query.CompositeFilter(Query.CompositeFilterOperator.OR, authorsFilters);
