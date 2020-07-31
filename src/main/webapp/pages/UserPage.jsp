@@ -3,16 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>User Page</title>
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
-    <link rel="stylesheet" href="../css/style-recipecards.css">
-    <link rel="stylesheet" href="../css/style-sign-in.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <%@ include file="../components/GlobalConfig.jsp"%>
     <script src="../javascript/user-page.js"></script>
     <script src="../javascript/user-auth.js"></script>
-    <script src="../javascript/recipe-rendering.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=initUserPageGoogleSignin" async defer></script>
-    <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <%@ include file="../components/topbar.jsp"%>
