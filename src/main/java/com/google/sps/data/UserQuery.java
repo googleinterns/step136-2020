@@ -59,9 +59,11 @@ public class UserQuery {
     ArrayList<Query.Filter> searchFilters = new ArrayList<Query.Filter>();
     
     // Creates and adds filters to the list if there is data to make the filter
-    if (tagsAndIngredients.size() > 1){
+    if (tagsAndIngredients.size() > 1) {
       searchFilters.add(createTagsFilter());
-    } else if (tagsAndIngredients.size() == 1){
+    } else if (tagsAndIngredients.size() == 1) {
+      // We check for size equal to 1 because we cannot create a composite filter when we only 
+      // have one filter to pass. The same implementatoin is used for the author filters
       // Use of collection interface methods only to allow for future flexibility
       String tempTag = tagsAndIngredients.iterator().next();
       searchFilters.add(createSingleTagFilter(tempTag));
