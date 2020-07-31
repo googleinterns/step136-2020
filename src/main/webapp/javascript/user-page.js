@@ -1,10 +1,6 @@
 // constants
-const NO_PLANNER_RECIPES = "You have not added any recipes to your planner yet.";
-const NO_COOKBOOK_RECIPES = "You have not added any recipes to your cookbook yet.";
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
-const USER_RECIPES_DIV = "user-recipes";
-const PLANNER_RECIPES_DIV = "planner-recipes";
-const COOKBOOK_RECIPES_DIV = "cookbook-recipes";
+const USER_RECIPES_ID = "user-recipes";
 
 // Can be passed to API onload to guarantee auth2 is loaded before execution.
 function initUserPageGoogleSignin() {
@@ -25,17 +21,17 @@ async function loadUserRecipes() {
   const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
-  let recipesDiv = document.getElementById(USER_RECIPES_DIV);
+  let recipesDiv = document.getElementById(USER_RECIPES_ID);
   recipesDiv.innerHTML = "";
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
+      setUpDivWithNoRecipes(USER_RECIPES_ID, NO_USER_RECIPES);
     }
     else {
       for (let key of Object.keys(recipes)) {
         let value = recipes[key];
-        createRecipeCard(USER_RECIPES_DIV, value);
+        createRecipeCard(USER_RECIPES_ID, value);
 
         // since these cards are the user recipe cards, they need edit/delete buttons
         let elementsToAddToImageDiv = [
@@ -63,11 +59,7 @@ async function loadTypeRecipes(type) {
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
-      if (type == "planner") {
-        setUpDivWithNoRecipes(recipesDivID, NO_PLANNER_RECIPES);
-      } else {
-        setUpDivWithNoRecipes(recipesDivID, NO_COOKBOOK_RECIPES);
-      }
+      setUpDivWithNoRecipes(recipesDivID, "You have not added any recipes to your " + type + " yet.");
     }
     else {
       for (let key of Object.keys(recipes)) {
@@ -91,12 +83,15 @@ async function loadTypeRecipes(type) {
 
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){
+  let recipeDiv = document.getElementById(USER_RECIPES_ID);
+  const recipeCards = recipeDiv.getElementsByClassName('recipe-card');
   const deleteButtons = document.getElementsByClassName('fa-trash-alt');
-  const recipeCards = document.getElementsByClassName('recipe-card');
   // there are as many delete buttons as there are recipe cards
   for (let i = 0; i < deleteButtons.length; i++) {
     let recipe = recipes[i];
     let recipeCard = recipeCards[i];
+    let recipeID = recipeCard.getElementsByClassName("recipe-id")[0];
+
     deleteButtons[i].addEventListener('click', () => {
       let message = "Are you sure you want to delete the " + recipe.name + " recipe?\n";
       if (recipe.published) {
@@ -107,12 +102,34 @@ function addDeleteFunctionality(recipes){
       if (deleteConfirmed) {
         deleteRecipe(recipe);
         // Remove the recipe from the DOM.
-        recipeCard.remove();
+        removeRecipeCardFromLists(recipeID, "planner");
+        removeRecipeCardFromLists(recipeID, "cookbook");
+        recipeCard.remove();       
       }
       if (recipeCards.length == 0) {
-        setUpDivWithNoRecipes(USER_RECIPES_DIV, NO_USER_RECIPES);
+        setUpDivWithNoRecipes(USER_RECIPES_ID, NO_USER_RECIPES);
       }
     });
+  }
+}
+
+// input is recipe id and type of list
+// removes the recipe card from the DOM
+function removeRecipeCardFromLists(id, type) {
+  const recipeDivID = type + "-recipes";
+  let recipeDiv = document.getElementById(recipeDivID);
+  let recipeCards = recipeDiv.getElementsByClassName('recipe-card');
+
+  for (let i = 0; i < recipeCards.length; i++) {
+    let recipeCard = recipeCards[i];
+    let recipeID = recipeCard.getElementsByClassName("recipe-id")[0];
+    if (recipeID == id) {
+      recipeCard.remove();
+    }
+  }
+
+  if (recipeCards.length == 0) {
+    setUpDivWithNoRecipes(recipeDivID, "You have not added any recipes to your " + type + " yet.");
   }
 }
 

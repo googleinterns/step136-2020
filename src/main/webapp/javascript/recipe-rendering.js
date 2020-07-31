@@ -41,6 +41,7 @@ createRecipeCard = (divID, recipeInfo) => {
     createElement("button", recipeInfo["name"], 
       {"class": "recipe-card-name", 
       "onClick": "redirectRecipePage(" + recipeInfo["id"].toString() + ")"}),
+    createElement("p", recipeInfo["id"], {"class": "hidden recipe-id"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
   elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
@@ -171,7 +172,6 @@ function setIcon(button, id, idToken, type) {
   // checks if the current recipe is in the user's planner
   fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
       .then(response => response.text()).then((contains) => {
-    console.log("contains in " + type + "? " + contains);
     if ((/true/i).test(contains)) {
       button.classList.add("fa-check");
     } else {

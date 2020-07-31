@@ -30,6 +30,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type").toLowerCase();
     User user = new User(idToken);
+    String loggedInAuthorID = user.getId();
 
     List<Key> keys;
     if (type.equals("cookbook")) {
@@ -44,19 +45,36 @@ public class ListTypeRecipesServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
     List<Recipe> recipes = new ArrayList<>();
+    List<Key> deletedKeys = new ArrayList<>();
     for (Key key : keys) {
       try {
-        // TODO: do not include private recipes
+        // TODO: do not inlude private recipes
         Entity entity = datastore.get(key);
         long id = key.getId();
         String name = (String) entity.getProperty("name");
         String description = (String) entity.getProperty("description");
         String blobkey = (String) entity.getProperty("imageBlobKey");
-
-        Recipe recipe = new Recipe(id, name, blobkey, description);
-        recipes.add(recipe);
+        boolean published = (boolean) entity.getProperty("published");
+        String authorID = (String) entity.getProperty("authorID");
+        // will add the recipe if the recipe belongs to the user or if it's published
+        if (published || loggedInAuthorID.equals(authorID)) {
+          Recipe recipe = new Recipe(id, name, blobkey, description);
+          recipes.add(recipe);
+        }
       } catch (EntityNotFoundException e) {
-        System.out.println("ListTypeRecipesServlet: Entity not found with key from user key list. This can happen when the recipe is deleted.");
+        // this happens when a recipe was deleted.
+        deletedKeys.add(key);
+      }
+    }
+
+    for (Key key: deletedKeys) {
+      // TODO: inform user how many recipes were deleted
+      if (type.equals("cookbook")) {
+        user.removeCookbookKey(key);
+      } else if (type.equals("planner")) {
+        user.removePlannerKey(key);
+      } else {
+         System.out.println("ListTypeRecipesServlet: invalid type");
       }
     }
  
