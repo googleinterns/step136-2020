@@ -52,8 +52,9 @@ public class ListUserRecipesServlet extends HttpServlet {
       ArrayList<String> ingredients = (ArrayList<String>) entity.getProperty("ingredients");
       ArrayList<String> steps = (ArrayList<String>) entity.getProperty("steps");
       boolean published = (boolean) entity.getProperty("published");
+      long popularity = (long) entity.getProperty("popularity");
 
-      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, 0);
+      Recipe recipe = new Recipe(id, name, authorID, blobkey, description, tags, ingredients, steps, published, popularity);
       recipes.add(recipe);
     }
  

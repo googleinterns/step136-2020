@@ -1,5 +1,9 @@
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.sps.data.User;
@@ -60,26 +64,51 @@ public class ManageListServlet extends HttpServlet {
     // creates a user based on the passed in user id token
     User user = new User(userIdToken);
 
-    // adds created key to appropriate list based on passed in list type
+    // adds or removes created key to/from appropriate list based on passed in 
+    // list type and passed in action
     if (type.equals("cookbook")) {
-      actionOnPlanner(user, key, action);
-    } else if (type.equals("planner")) {
       actionOnCookbook(user, key, action);
+    } else if (type.equals("planner")) {
+      actionOnPlanner(user, key, action);
     } else {
       System.out.println("AddToListServlet: invalid type " + type);
     }
   }
 
-  public void actionOnPlanner(User user, Key key, String action) {
+  public void actionOnCookbook(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addCookbookKey(key);
+      updatePopularity(key, true);
     } else if (action.equals("remove")) {
       user.removeCookbookKey(key);
+      updatePopularity(key, false);
     } else {
       System.out.println("ManageListServlet: invalid action " + action);
     }
   }
-  public void actionOnCookbook(User user, Key key, String action) {
+
+  public void updatePopularity(Key key, boolean increase) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    try {
+      Entity recipeEntity = datastore.get(key);
+      long popularity = (long) recipeEntity.getProperty("popularity");
+      if (increase) {
+        popularity++;
+      } else {
+        popularity--;
+        if (popularity < 0) {
+          popularity = 0;
+        }
+      }
+      recipeEntity.setProperty("popularity", popularity);
+      datastore.put(recipeEntity);
+    } catch (EntityNotFoundException e) {
+      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
+          "This should never happen.");
+    }
+  }
+
+  public void actionOnPlanner(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addPlannerKey(key);
     } else if (action.equals("remove")) {
