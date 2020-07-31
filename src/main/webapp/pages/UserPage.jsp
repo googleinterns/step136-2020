@@ -8,7 +8,6 @@
     <script src="../javascript/user-page.js"></script>
     <script src="../javascript/user-auth.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=initUserPageGoogleSignin" async defer></script>
-    <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <%@ include file="../components/topbar.jsp"%>
