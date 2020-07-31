@@ -81,7 +81,6 @@ public class EditRecipeServlet extends HttpServlet {
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
-        recipeEntity.setProperty("popularity", popularity++);
       }
 
       datastore.put(recipeEntity);
