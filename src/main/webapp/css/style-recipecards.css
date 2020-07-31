@@ -1,4 +1,3 @@
-
 .recipe-card {
   background-color: #F6F7F7;
   border: groove;
@@ -13,6 +12,7 @@
 .image-div {
   position: relative;
 }
+
 .recipe-card-image {
   height: 215px;
   min-width: 200px;
@@ -22,6 +22,7 @@
   width: 100%;
   /* border-radius: 10px; */
 }
+
 .card-button {
   -ms-transform: translate(-50%, -50%);
   background-color: #555;
@@ -36,39 +37,51 @@
   text-align: center;
   transform: translate(-50%, -50%);
 }
+
 .card-button:hover {
   background-color: black;
 }
+
 .action-button {
   font-size: 15px;
 }
+
 .icon {
   font-size: 20px;
 }
+
 .left {
   left: 10%;
 }
+
 .more-left {
   left: 20%;
 }
+
 .right {
   left: 90%;
 }
+
 .more-right {
   left: 77%;
 }
+
 .top {
   top: 10%;
 }
+
 .bottom {
   top: 90%;
 }
+
 .remove {
   display: none;
 }
+
 .text-div{
   padding: 0 10px;
 }
+
 .recipe-card-name {
   background: none!important;
   border: none;
@@ -80,6 +93,7 @@
   padding: 0!important;
   text-decoration: underline;
 }
+
 .recipe-card-description {
   font-size: 15px;
   margin: 0 0 15px;
@@ -114,6 +128,7 @@
     height: 23vw;
   }
 }
+
 /* adjusts to 2 column of recipe cards */
 @media screen and (max-width: 890px) {
   .recipe-card {
@@ -139,6 +154,7 @@
     font-size: 2.7vw;
   }
 }
+
 /* adjusts to 1 column of recipe cards */
 @media screen and (max-width: 600px) {
   .recipes-container {
@@ -168,6 +184,7 @@
     font-size: 4vw;
   }
 }
+
 /* fixed values, no longer adjusting*/
 @media screen and (max-width: 425px) {
   .recipe-card-name {
