@@ -5,7 +5,7 @@
     <title>Search Results</title>
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
-  <body>
+  <body onload="search()">
       <%@ include file="../components/topbar.jsp"%>
       <!--Use content to center page and mantain consistency-->
       <div id="content">
