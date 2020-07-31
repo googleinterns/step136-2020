@@ -59,8 +59,6 @@ public class ManageListServlet extends HttpServlet {
     String type = request.getParameter("type").toLowerCase();
     String action = request.getParameter("action").toLowerCase();
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     // creates a key based on the passed in recipe ID
     Key key = KeyFactory.createKey("Recipe", recipeID);
     // creates a user based on the passed in user id token
@@ -80,21 +78,21 @@ public class ManageListServlet extends HttpServlet {
   public void actionOnCookbook(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addCookbookKey(key);
-      updatePopularity(key, "increase");
+      updatePopularity(key, true);
     } else if (action.equals("remove")) {
       user.removeCookbookKey(key);
-      updatePopularity(key, "decrease");
+      updatePopularity(key, false);
     } else {
       System.out.println("ManageListServlet: invalid action " + action);
     }
   }
 
-  public void updatePopularity(Key key, String action) {
+  public void updatePopularity(Key key, boolean increase) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
       Entity recipeEntity = datastore.get(key);
       long popularity = (long) recipeEntity.getProperty("popularity");
-      if (action.equals("increase")) {
+      if (increase) {
         popularity++;
       } else {
         popularity--;
