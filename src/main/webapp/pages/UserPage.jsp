@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>User Page</title>
+    <%@ include file="../components/GlobalConfig.jsp"%>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
     <link rel="stylesheet" href="../css/style-sign-in.css">
