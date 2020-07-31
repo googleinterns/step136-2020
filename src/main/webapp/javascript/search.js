@@ -16,9 +16,9 @@ async function search() {
 
     const searchQuery = (new URL(document.location)).searchParams.get("query");
 
-    let response = await fetch("/search?query=" + searchQuery);
-    let responseText = await response.text();
-    let recipeList = JSON.parse(responseText);
+    const response = await fetch("/search?query=" + searchQuery);
+    const responseText = await response.text();
+    const recipeList = JSON.parse(responseText);
 
     recipeList.forEach(elem => createRecipeCard("content", elem));
 }
@@ -27,7 +27,7 @@ async function search() {
  * Redirects to the search page with the query in the URL search params.
  */
 function redirectSearchPage() {
-  let userQuery =  document.getElementById("search-box").value;
+  const userQuery =  document.getElementById("search-box").value;
   window.location.assign("/pages/Search.jsp?query=" + userQuery);
 }
 
