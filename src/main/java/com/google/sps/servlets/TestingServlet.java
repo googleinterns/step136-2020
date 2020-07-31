@@ -25,7 +25,6 @@ import com.google.sps.data.Recipe;
 import com.google.sps.data.TestData;
 import com.google.sps.data.UserQuery;
 import com.google.sps.util.Utils;
-import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

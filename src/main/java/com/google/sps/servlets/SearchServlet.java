@@ -23,7 +23,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.UserQuery;
 import com.google.sps.util.Utils;
-import com.google.sps.util.SearchUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** 
  * Handles requests for a Datastore search based on a query string with filters to use.
+ * If a distrinction of where the request came from ever needs to be made, e.g. Search page or main
+ * page, use request.getHeader("Referer").contains(<insert page path>) to do so.
  **/
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
@@ -44,27 +45,27 @@ public class SearchServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Initializes a user query object which will seperate the query data for ease of access.
-    UserQuery uQuery = new UserQuery(request.getParameter("query"));
-    
-    // Max size for the query response
-    final int resultsPerRequest = 10;
+    // Initializes a user query object to create the query filters
+    UserQuery uQuery = new UserQuery(
+      request.getParameter("query"),
+      request.getParameter("tags"),
+      request.getParameter("authors")
+    );
     
     // Creates the new Query and adds the filter to be used in Datastore
-    // The filter is currently only set to find an exact match name in Datastore
-    // TODO: Composite Query Filter will be needed to combine and add all filter to query in future
     Query query = new Query("Recipe");
-    Query.Filter publicFilter = new Query.FilterPredicate("published", Query.FilterOperator.EQUAL, true);
-    Query.Filter nameFilter = SearchUtils.getRecipeNameFilter(uQuery.getName());
+    query.setFilter(uQuery.createSearchFilter());
 
-    query.setFilter(new Query.CompositeFilter(
-      Query.CompositeFilterOperator.AND, Arrays.asList(publicFilter, nameFilter)
-    ));
+    // We want popular recipes first
+    query.addSort("popularity", Query.SortDirection.DESCENDING);
+
+    // Sets the size of the results to return
+    final int resultsToReturn = 12;
 
     // Makes the query to the datastore and converts it to a list so it can operated on.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery datastoreResult = datastore.prepare(query);
-    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(resultsPerRequest));
+    List<Entity> recipes = datastoreResult.asList(FetchOptions.Builder.withLimit(resultsToReturn));
 
     // Create a list of recipe entity information to be sent to the client, and then iterate through
     // the datastore response to create the recipe objects and add them to the list
@@ -85,4 +86,5 @@ public class SearchServlet extends HttpServlet {
     String recipeResponse = Utils.convertToJson(clientRecipeInfo);
     response.getWriter().println(recipeResponse);
   }
+  
 }
