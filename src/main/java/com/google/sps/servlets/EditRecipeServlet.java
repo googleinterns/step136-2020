@@ -46,6 +46,7 @@ public class EditRecipeServlet extends HttpServlet {
       ArrayList<String> steps = (ArrayList<String>) recipeEntity.getProperty("steps");
       String imageBlobKey = (String) recipeEntity.getProperty("imageBlobKey");
       String authorID = (String) recipeEntity.getProperty("authorID");
+      long popularity = (long) recipeEntity.getProperty("popularity");
 
       // if the name input in the form is not empty, the form value will be saved
       if (!nameResponse.equals("")) {
@@ -75,15 +76,17 @@ public class EditRecipeServlet extends HttpServlet {
       recipeEntity.setProperty("ingredients", ingredients);
       recipeEntity.setProperty("steps", steps);
       recipeEntity.setProperty("tags", tags);
+      recipeEntity.setProperty("popularity", popularity);
       recipeEntity.setProperty("published", false);
 
       if (privacy.equals("public")) {
         recipeEntity.setProperty("published", true);
+        recipeEntity.setProperty("popularity", popularity++);
       }
 
       datastore.put(recipeEntity);
     } catch (EntityNotFoundException e) {
-      System.out.println("EditRecipeServlet: Private recipe entity not found with saved recipe id. This should never happen.");
+      System.out.println("EditRecipeServlet: Recipe entity not found with saved recipe id. This should never happen.");
     }
     response.sendRedirect("/pages/UserPage.jsp");
   }
