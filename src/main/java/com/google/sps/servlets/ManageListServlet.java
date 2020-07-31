@@ -80,37 +80,27 @@ public class ManageListServlet extends HttpServlet {
   public void actionOnCookbook(User user, Key key, String action) {
     if (action.equals("add")) {
       user.addCookbookKey(key);
-      increasePopularity(key);
+      updatePopularity(key, "increase");
     } else if (action.equals("remove")) {
       user.removeCookbookKey(key);
-      decreasePopularity(key);
+      updatePopularity(key, "decrease");
     } else {
       System.out.println("ManageListServlet: invalid action " + action);
     }
   }
 
-  public void increasePopularity(Key key) {
+  public void updatePopularity(Key key, String action) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
       Entity recipeEntity = datastore.get(key);
       long popularity = (long) recipeEntity.getProperty("popularity");
-      popularity++;
-      recipeEntity.setProperty("popularity", popularity);
-      datastore.put(recipeEntity);
-    } catch (EntityNotFoundException e) {
-      System.out.println("ManageListServlet: Recipe entity not found with saved recipe key in cookbook. " +
-          "This should never happen.");
-    }
-  }
-
-  public void decreasePopularity(Key key) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    try {
-      Entity recipeEntity = datastore.get(key);
-      long popularity = (long) recipeEntity.getProperty("popularity");
-      popularity--;
-      if (popularity < 0) {
-        popularity = 0;
+      if (action.equals("increase")) {
+        popularity++;
+      } else {
+        popularity--;
+        if (popularity < 0) {
+          popularity = 0;
+        }
       }
       recipeEntity.setProperty("popularity", popularity);
       datastore.put(recipeEntity);
