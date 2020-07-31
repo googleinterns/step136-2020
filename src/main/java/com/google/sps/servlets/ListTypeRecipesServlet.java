@@ -46,6 +46,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
     List<Recipe> recipes = new ArrayList<>();
     for (Key key : keys) {
       try {
+        // TODO: do not include private recipes
         Entity entity = datastore.get(key);
         long id = key.getId();
         String name = (String) entity.getProperty("name");
@@ -55,7 +56,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
         Recipe recipe = new Recipe(id, name, blobkey, description);
         recipes.add(recipe);
       } catch (EntityNotFoundException e) {
-        System.out.println("ListTypeRecipesServlet: Entity not found with key from user key list. This should never happen.");
+        System.out.println("ListTypeRecipesServlet: Entity not found with key from user key list. This can happen when the recipe is deleted.");
       }
     }
  
