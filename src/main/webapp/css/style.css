@@ -103,3 +103,60 @@ button {
   font-size: 15px;
   margin: 0 0 15px;
 }
+
+#top-bar {
+  background-color: #195e83;
+  margin: auto;
+  max-width: 800px;
+  padding: 10px 10% 10px 10%;
+}
+#color-bar {
+  background-color: #195e83;
+  border-radius: 5px;
+  display: flex;
+}
+#logo {
+  align-self: center;
+  font-size: 20px;
+  font-family: 'Pacifico', cursive;
+}
+#search-bar {
+  align-self: center;
+  display: flex;
+  flex-grow: 1;
+  padding: 0 10px 0 10px;
+}
+#search-bar input {
+  box-sizing: border-box;
+  font-size: large;
+  height: 36px;
+}
+#search-bar input:focus {
+  outline: none;
+}
+#sign-in-box {
+  background-color: white;
+  margin-left: auto;
+}
+#search-box-flex-container {
+  flex-grow: 1;
+}
+#search-box {
+  border-color: black;
+  border-radius: 10px 0 0 10px;
+  border-width: 1px;
+  width: 100%;
+}
+#search-button {
+  background: url(../components/icons/search-24px.svg) no-repeat;
+  background-color: white;
+  background-position: center;
+  border-left: 1px;
+  border-radius: 0 10px 10px 0;
+  border-width: 1px;
+  width: 42px;
+}
+#search-button:hover {
+  background-color: #5dbcd2;
+  cursor: pointer;
+}

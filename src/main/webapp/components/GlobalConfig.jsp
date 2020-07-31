@@ -7,3 +7,5 @@
 <script src="../javascript/recipe-rendering.js"></script>
 <!--JQuery CDN is neccessary here so search and recipe-rendering can handle proper redirects-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Pacifico font for logo. -->
+<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'>
