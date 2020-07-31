@@ -123,7 +123,7 @@ function removeRecipeCardFromLists(id, type) {
   for (let i = 0; i < recipeCards.length; i++) {
     let recipeCard = recipeCards[i];
     let recipeID = recipeCard.getElementsByClassName("recipe-id")[0];
-    if (recipeID == id) {
+    if (recipeID.innerText == id.innerText) {
       recipeCard.remove();
     }
   }
