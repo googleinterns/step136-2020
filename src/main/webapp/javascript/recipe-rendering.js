@@ -168,15 +168,19 @@ createImage = (name, blobkey) => {
  * and a plus otherwise
  */
 function setIcon(button, id, idToken, type) {
-  // checks if the current recipe is in the user's planner
-  fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
-      .then(response => response.text()).then((contains) => {
-    if ((/true/i).test(contains)) {
-      button.classList.add("fa-check");
-    } else {
-      button.classList.add("fa-plus");
-    }
-  });
+  if (auth2 != null && auth2.isSignedIn.get()) {
+    // checks if the current recipe is in the user's planner
+    fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
+        .then(response => response.text()).then((contains) => {
+      if ((/true/i).test(contains)) {
+        button.classList.add("fa-check");
+      } else {
+        button.classList.add("fa-plus");
+      }
+    });
+  } else {
+    button.classList.add("fa-plus");
+  }
 }
 
 // lets the user know if they have already added a recipe to a particular list
