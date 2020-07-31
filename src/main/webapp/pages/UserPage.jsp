@@ -63,16 +63,16 @@
             <br><br>
             <label for="privacy">Choose a privacy setting:</label>
             <select id="privacy" name="privacy">
-            <option value="private">private</option>
-            <option value="public">public</option>
+              <option value="private">private</option>
+              <option value="public">public</option>
             </select>
             <br><br>
             <label for="image">Upload an image</label>
             <input type="file"  accept="image/*" name="image" id="image">
             <br><br>
             <div id="buttons">
-              <button class="modal-btn" id="cancel-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
-              <input class="modal-btn" type="submit" id="submit-btn" value="Create Recipe">
+              <button class="modal-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
+              <input class="modal-btn" type="submit" value="Create Recipe">
             </div>
           </form>
         </div>
@@ -99,14 +99,14 @@
             <textarea id="edit-steps" name="edit-steps" rows="4"></textarea>
             <br><br>
            <label for="privacy">Choose a privacy setting:</label>
-            <select id="privacy" name="privacy">
+            <select id="edit-privacy" name="edit-privacy">
               <option id="first"></option>
               <option id="second"></option>
             </select>
             <br><br>
             <div id="buttons">
-              <button type="button" class="modal-btn" id="cancel-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
-              <input class="modal-btn" type="submit" id="submit-btn" value="Submit Changes">
+              <button type="button" class="modal-btn" onclick="closeModal('edit-recipe-modal')">Cancel</button>
+              <input class="modal-btn" type="submit" value="Submit Changes">
             </div>
           </form>
       </div>
