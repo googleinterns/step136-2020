@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="../css/style-recipecards.css">
 <script src="../javascript/search.js"></script>
 <script src="../javascript/recipe-rendering.js"></script>
+<script src="../javascript/user-auth.js"></script>
 <!-- Script necessary for icons on recipe cards. -->
 <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
 <!--JQuery CDN is neccessary here so search and recipe-rendering can handle proper redirects-->
