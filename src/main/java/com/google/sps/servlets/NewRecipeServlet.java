@@ -57,8 +57,8 @@ public class NewRecipeServlet extends HttpServlet {
     recipeEntity.setProperty("ingredients", ingredients);
     recipeEntity.setProperty("steps", steps);
     recipeEntity.setProperty("authorID", user.getId());
-    recipeEntity.setProperty("published", false);
     recipeEntity.setProperty("popularity", 0);
+    recipeEntity.setProperty("published", false);
 
     // user has chosen to publish their recipe
     if (privacy.equals("public")) {

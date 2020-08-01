@@ -5,7 +5,7 @@
     <title>Search Results</title>
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
-  <body>
+  <body onload="search()">
       <%@ include file="../components/topbar.jsp"%>
       <div id="extended search">
       </div>
