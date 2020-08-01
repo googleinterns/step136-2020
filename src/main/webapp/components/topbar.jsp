@@ -1,7 +1,7 @@
 <!--To use this top bar in other parts of the application, use the jsp @include directive
   in another jsp file to merge this html into that file.-->
 <div id="top-bar">
-  <div id-"logo">
+  <div id="logo">
     <p>Simpler Eats</p>
   </div>
 
