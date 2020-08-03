@@ -166,9 +166,20 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
+
 function setIcons() {
-  let recipeIDs = document.getElementsByClassName('recipe-id');
+  const recipeIDs = document.getElementsByClassName("recipe-id");
+  const addToPlannerButtons = document.getElementsByClassName("add-to-planner-btn");
+  const addToCookbookButtons = document.getElementsByClassName("add-to-cookbook-btn");
+//   there are as many buttons as there are recipeIDs
+  for (let i = 0; i < recipeIDs.length; i++) {
+    const recipeID = recipeIDs[i].innerText;
+    const addToPlannerButton = addToPlannerButtons[i];
+    const addToCookbookButton = addToCookbookButtons[i];
     
+    setIcon(addToPlannerButton, recipeID, "planner");
+    setIcon(addToCookbookButton, recipeID, "cookbook");
+  }    
 }
 
 /**

@@ -90,7 +90,6 @@ async function loadTypeRecipes(type) {
 }
 
 function changeIcons(recipesDiv, type) {
-  // TODO: check if they're logged in
   const recipeIDs = recipesDiv.getElementsByClassName("recipe-id");
   const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
   // there are as many buttons as there are recipeIDs
