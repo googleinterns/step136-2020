@@ -82,6 +82,10 @@
   padding: 0 10px;
 }
 
+.hidden {
+  display: none;
+}
+
 .recipe-card-name {
   background: none!important;
   border: none;
