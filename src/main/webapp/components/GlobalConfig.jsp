@@ -3,6 +3,7 @@
   Use this JSP file to easily include scripts that are present on every page-->
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/style-sign-in.css">
+<link rel="stylesheet" href="../css/style-topbar.css">
 <link rel="stylesheet" href="../css/style-recipecards.css">
 <script src="../javascript/search.js"></script>
 <script src="../javascript/user-auth.js"></script>
@@ -11,3 +12,5 @@
 <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
 <!--JQuery CDN is neccessary here so search and recipe-rendering can handle proper redirects-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Pacifico font for logo. -->
+<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'>
