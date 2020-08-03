@@ -1,7 +1,7 @@
 .recipe-card {
   background-color: #F6F7F7;
   border: groove;
-  margin: 10px;
+  margin: 1%;
   width: 22%;
   /* border-radius: 25px; */
   /* TODO: figure out how to round the recipe card
@@ -123,7 +123,7 @@
 }
 
 /* adjusts to 2 column of recipe cards */
-@media screen and (max-width: 890px) {
+@media screen and (max-width: 800px) {
   .recipe-card {
     margin: 1.5vw;
     width: 34vw;
@@ -135,10 +135,10 @@
     padding: 1vw 2vw;
   }
   .recipe-card-name {
-    font-size: 3vw;
+    font-size: 100%;
   }
   .recipe-card-description {
-    font-size: 2.3vw;
+    font-size: 100%;
   }
   .action-button {
     font-size: 2.3vw;
@@ -163,12 +163,6 @@
     min-height: 280px;
     min-width: 280px;
     width: 100%;
-  }
-  .recipe-card-name {
-    font-size: 5vw;
-  }
-  .recipe-card-description {
-    font-size: 3vw;
   }
   .action-button {
     font-size: 3vw;
