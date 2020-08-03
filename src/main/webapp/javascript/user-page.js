@@ -58,7 +58,8 @@ async function loadTypeRecipes(type) {
 
   let recipesDivID = type + "-recipes";
   document.getElementById(recipesDivID).innerHTML = "";
-
+  
+  // other will be used to set up the icon of the other add to list button
   let other;
   if (type == "planner") {
     other = "cookbook";
@@ -86,6 +87,7 @@ async function loadTypeRecipes(type) {
         addToListButton.style.display = "none";
         removeFromListButton.style.display = "inline-block";
       }
+      // sets up the icon of the other add to list button to a checkmark if it is contained
       changeIcons(recipesDiv, other);
     }
   }
