@@ -9,4 +9,4 @@
 <!-- Script necessary for icons on recipe cards. -->
 <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
 <!--JQuery CDN is neccessary here so search and recipe-rendering can handle proper redirects-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
