@@ -1,0 +1,206 @@
+.recipe-card {
+  background-color: #F6F7F7;
+  border: groove;
+  margin: 10px;
+  min-width: 200px;
+  width: 215px;
+  /* border-radius: 25px; */
+  /* TODO: figure out how to round the recipe card
+  while keeping the picture pretty */
+}
+
+.image-div {
+  position: relative;
+}
+
+.recipe-card-image {
+  height: 215px;
+  min-width: 200px;
+  min-height: 200px;
+  object-fit: cover;
+  overflow: hidden;
+  width: 100%;
+  /* border-radius: 10px; */
+}
+
+.card-button {
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  border-color: white;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 0.5px;  
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  position: absolute;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.card-button:hover {
+  background-color: black;
+}
+
+.action-button {
+  font-size: 15px;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.left {
+  left: 10%;
+}
+
+.more-left {
+  left: 20%;
+}
+
+.right {
+  left: 90%;
+}
+
+.more-right {
+  left: 77%;
+}
+
+.top {
+  top: 10%;
+}
+
+.bottom {
+  top: 90%;
+}
+
+.remove {
+  display: none;
+}
+
+.text-div{
+  padding: 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.recipe-card-name {
+  background: none!important;
+  border: none;
+  color: #069;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 15px 0 10px;
+  padding: 0!important;
+  text-decoration: underline;
+}
+
+.recipe-card-description {
+  font-size: 15px;
+  margin: 0 0 15px;
+}
+
+.recipes-container {
+  background-color: #B6E6F9;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 305px;
+  padding: 1vw;
+}
+
+/* adjusts to 3 columns of recipe cards */
+@media screen and (max-width: 1250px) {
+  .recipe-card {
+    width: 23.3vw;
+  }
+  .recipe-card-image {
+    height: 23.3vw;
+  }
+  .recipe-name {
+    font-size: 2vw;
+  }
+}
+@media screen and (max-width: 965px) {
+  .recipe-card {
+    width: 23vw;
+  }
+  .recipe-card-image {
+    height: 23vw;
+  }
+}
+
+/* adjusts to 2 column of recipe cards */
+@media screen and (max-width: 890px) {
+  .recipe-card {
+    margin: 1.5vw;
+    width: 34vw;
+  }
+  .recipe-card-image {
+    height: 34vw;
+  }
+  .recipes-container {
+    padding: 1vw 2vw;
+  }
+  .recipe-card-name {
+    font-size: 3vw;
+  }
+  .recipe-card-description {
+    font-size: 2.3vw;
+  }
+  .action-button {
+    font-size: 2.3vw;
+  }
+  .icon {
+    font-size: 2.7vw;
+  }
+}
+
+/* adjusts to 1 column of recipe cards */
+@media screen and (max-width: 600px) {
+  .recipes-container {
+    padding: 10px 15px;
+  }
+  .recipe-card {
+    margin: 10px;
+    min-width: 280px;
+    width: 73vw;
+  }
+  .recipe-card-image {
+    height: 67.5vw;
+    min-height: 280px;
+    min-width: 280px;
+    width: 100%;
+  }
+  .recipe-card-name {
+    font-size: 5vw;
+  }
+  .recipe-card-description {
+    font-size: 3vw;
+  }
+  .action-button {
+    font-size: 3vw;
+  }
+  .icon {
+    font-size: 4vw;
+  }
+}
+
+/* fixed values, no longer adjusting*/
+@media screen and (max-width: 425px) {
+  .recipe-card-name {
+    font-size: 22px;
+  }
+  .recipe-card-description {
+    font-size: 15px;
+  }
+  .action-button {
+    font-size: 15px;
+  }
+  .icon {
+    font-size: 20px;
+  }
+}
