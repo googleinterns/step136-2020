@@ -39,7 +39,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
       keys = user.getPlannerList();
     } else {
       keys = Collections.emptyList();
-      System.out.println("ListTypeRecipesServlet: invalid type");
+      System.out.println("ListTypeRecipesServlet: invalid type " + type);
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -76,7 +76,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
       } else if (type.equals("planner")) {
         user.removePlannerKey(key);
       } else {
-         System.out.println("ListTypeRecipesServlet: invalid type");
+         System.out.println("ListTypeRecipesServlet: invalid type " + type);
       }
     }
  

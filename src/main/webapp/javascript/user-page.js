@@ -59,14 +59,6 @@ async function loadTypeRecipes(type) {
   let recipesDivID = type + "-recipes";
   document.getElementById(recipesDivID).innerHTML = "";
   
-  // other will be used to set up the icon of the other add to list button
-  let other;
-  if (type == "planner") {
-    other = "cookbook";
-  } else {
-    other = "planner";
-  }
-  
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
       setUpDivWithNoRecipes(recipesDivID, "You have not added any recipes to your " + type + " yet.");
@@ -88,22 +80,24 @@ async function loadTypeRecipes(type) {
         removeFromListButton.style.display = "inline-block";
       }
       // sets up the icon of the other add to list button to a checkmark if it is contained
-      changeIcons(recipesDiv, other);
+      if (type == "planner") {
+        changeIcons(recipesDiv, "cookbook");
+      } else {
+        changeIcons(recipesDiv, "planner");
+      }
     }
   }
 }
 
 function changeIcons(recipesDiv, type) {
-    console.log("changeIcons");
   // TODO: check if they're logged in
   const recipeIDs = recipesDiv.getElementsByClassName("recipe-id");
   const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
-  const removeFromListButtons = recipesDiv.getElementsByClassName("remove-from-" + type + "-btn");
-  // there are as many buttons as there are recipes
+  // there are as many buttons as there are recipeIDs
   for (let i = 0; i < recipeIDs.length; i++) {
     const recipeID = recipeIDs[i].innerText;
     const addToListButton = addToListButtons[i];
-
+    
     setIcon(addToListButton, recipeID, type);
   }
 }
