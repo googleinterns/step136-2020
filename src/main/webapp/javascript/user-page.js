@@ -13,7 +13,6 @@ async function loadRecipes() {
   loadTypeRecipes("planner");
   loadTypeRecipes("cookbook");
   document.getElementById("idToken").value = getIdToken();
-  changeIcons();
 }
 
 // loads the user made/uploaded recipes specifically from the 
@@ -46,6 +45,8 @@ async function loadUserRecipes() {
       }
       addDeleteFunctionality(recipes);
       addEditFunctionality(recipes);
+      changeIcons(recipesDiv, "planner");
+      changeIcons(recipesDiv, "cookbook");
     }
   }
 }
@@ -57,6 +58,13 @@ async function loadTypeRecipes(type) {
 
   let recipesDivID = type + "-recipes";
   document.getElementById(recipesDivID).innerHTML = "";
+
+  let other;
+  if (type == "planner") {
+    other = "cookbook";
+  } else {
+    other = "planner";
+  }
   
   if (Object.keys(recipes)) {
     if (Object.keys(recipes).length == 0) {
@@ -78,9 +86,26 @@ async function loadTypeRecipes(type) {
         addToListButton.style.display = "none";
         removeFromListButton.style.display = "inline-block";
       }
+      changeIcons(recipesDiv, other);
     }
   }
 }
+
+function changeIcons(recipesDiv, type) {
+    console.log("changeIcons");
+  // TODO: check if they're logged in
+  const recipeIDs = recipesDiv.getElementsByClassName("recipe-id");
+  const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
+  const removeFromListButtons = recipesDiv.getElementsByClassName("remove-from-" + type + "-btn");
+  // there are as many buttons as there are recipes
+  for (let i = 0; i < recipeIDs.length; i++) {
+    const recipeID = recipeIDs[i].innerText;
+    const addToListButton = addToListButtons[i];
+
+    setIcon(addToListButton, recipeID, type);
+  }
+}
+
 
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){

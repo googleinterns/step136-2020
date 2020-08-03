@@ -165,8 +165,9 @@ createImage = (name, blobkey) => {
  * Sets the icon of the button to a check if already added to list
  * and a plus otherwise
  */
-function setIcon(button, id, idToken, type) {
+function setIcon(button, id, type) {
   if (auth2 != null && auth2.isSignedIn.get()) {
+    const idToken = getIdToken();
     // checks if the current recipe is in the user's planner
     fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
         .then(response => response.text()).then((contains) => {
