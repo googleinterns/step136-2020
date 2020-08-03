@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>User Page</title>
+    <title>My Recipes</title>
     <link rel="stylesheet" href="../css/style-userpage.css">
     <%@ include file="../components/GlobalConfig.jsp"%>
     <script src="../javascript/user-page.js"></script>
@@ -12,7 +12,7 @@
   <body>
     <%@ include file="../components/topbar.jsp"%>
     <div id="content">
-      <h1 class="center">My Page</h1>
+      <h1 class="center">My Recipes</h1>
       <!-- Planner content -->
       <div>
         <div id="header">
@@ -32,7 +32,7 @@
       <!-- User Recipes content -->
       <div>
         <div id="header">
-          <h2>My Recipes</h2>
+          <h2>Uploads</h2>
           <button type="button" onClick="openModal('new-recipe-modal')">Add Recipe</button>
         </div>
         <div class="recipes-container" id="user-recipes">

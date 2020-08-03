@@ -14,20 +14,19 @@ createRecipeCard = (divID, recipeInfo) => {
 
   const id = recipeInfo["id"];
   const name = recipeInfo["name"];
-  const idToken = getIdToken();
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left fas fa-plus add-to-planner-btn"});
-  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, idToken, 'planner'));
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
+  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, "planner"));
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right fas fa-plus add-to-cookbook-btn"});
-  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, idToken, 'cookbook'));
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
+  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, "cookbook"));
 
   const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
-  removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'planner'));
+  removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, "planner"));
   removeFromPlannerButton.style.display = "none";
 
   const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button action-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
-  removeFromToCookbookButton.addEventListener('click', () => manageList("remove", id, name, idToken, 'cookbook'));
+  removeFromToCookbookButton.addEventListener('click', () => manageList("remove", id, name, "cookbook"));
   removeFromToCookbookButton.style.display = "none";
 
   let elementsToAddToImageDiv = [ 
@@ -39,6 +38,7 @@ createRecipeCard = (divID, recipeInfo) => {
     createElement("button", recipeInfo["name"], 
       {"class": "recipe-card-name", 
       "onClick": "redirectRecipePage(" + recipeInfo["id"].toString() + ")"}),
+    createElement("p", recipeInfo["id"], {"class": "hidden recipe-id"}),
     createElement("p", recipeInfo["description"], {"class": "recipe-card-description"}),
   ];
   elementsToAddToTextDiv.forEach(elem => textDiv.appendChild(elem));
@@ -161,22 +161,59 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
+/**
+ * Sets the icon of the button to a checkmark if already added to list
+ * and a plus otherwise
+ * Takes in button you wish to change, the id of the recipe its part of, and which
+ * list the button is adding to
+ */
+function setIcon(button, id, type) {
+  if (auth2 != null && auth2.isSignedIn.get()) {
+    const idToken = getIdToken();
+    // checks if the current recipe is in the user's planner
+    fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
+        .then(response => response.text()).then((contains) => {
+      if ((/true/i).test(contains)) {
+        button.classList.remove("fa-plus");
+        button.classList.add("fa-check");
+      }
+    });
+  } 
+}
+
 // lets the user know if they have already added a recipe to a particular list
 // otherwise adds the recipe
-function manageList(action, id, name, idToken, type) {
-  fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
-      .then(response => response.text()).then((contains) => {
-    if ((/true/i).test(contains)) {
-      if (action == "add") {
-        // if the user is trying to add a recipe and the list already contains it
-        // alerts the user that the recipe is already in the list
-        alert("You have already added the " + name + " recipe to your " + type);
+function manageList(action, id, name, type) {
+  let idToken;
+  confirmUser().then((googleUser) => {
+    idToken = getIdToken();
+    fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
+        .then(response => response.text()).then((contains) => {
+      if ((/true/i).test(contains)) {
+        if (action == "add") {
+          // if the user is trying to add a recipe and the list already contains it
+          // alerts the user that the recipe is already in the list
+          alert("You have already added the " + name + " recipe to your " + type);
+        } else {
+          // if the user is trying to remove a precipe and the list contains it
+          // asks the user to confirm that they wish to remove the recipe
+          const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
+          // tells the server to remove the recipe's key from the user's cookbook/planner
+          if (confirmedRemove) {
+            const params = new URLSearchParams();
+            params.append("action", action);
+            params.append("id", id);
+            params.append("idToken", getIdToken());
+            params.append("type", type);
+            fetch("/manage-list", {method: "POST", body: params});
+            if (document.URL.includes("UserPage")) {
+              location.reload();
+            }
+          }
+        }
       } else {
-        // if the user is trying to remove a precipe and the list contains it
-        // asks the user to confirm that they wish to remove the recipe
-        const confirmedRemove = confirm("Are you sure you want to remove the " + name + " recipe from your " + type + "?");
-        // tells the server to remove the recipe's key from the user's cookbook/planner
-        if (confirmedRemove) {
+        if (action == "add") {
+          // if the user is trying to add a recipe not already in the list
           const params = new URLSearchParams();
           params.append("action", action);
           params.append("id", id);
@@ -188,19 +225,6 @@ function manageList(action, id, name, idToken, type) {
           }
         }
       }
-    } else {
-      if (action == "add") {
-        // if the user is trying to add a recipe not already in the list
-        const params = new URLSearchParams();
-        params.append("action", action);
-        params.append("id", id);
-        params.append("idToken", getIdToken());
-        params.append("type", type);
-        fetch("/manage-list", {method: "POST", body: params});
-        if (document.URL.includes("UserPage")) {
-          location.reload();
-        }
-      }
-    }
+    });
   });
 }

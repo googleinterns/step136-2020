@@ -39,7 +39,7 @@ public class ManageListServlet extends HttpServlet {
       keys = user.getPlannerList();
     } else {
       keys = Collections.emptyList();
-      System.out.println("AddToListServlet: invalid type");
+      System.out.println("AddToListServlet: invalid type " + type);
     }
 
     // creates a key based on the passed in recipe ID
