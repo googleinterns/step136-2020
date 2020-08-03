@@ -112,21 +112,13 @@
 /* adjusts to 3 columns of recipe cards */
 @media screen and (max-width: 1125px) {
   .recipe-card {
-    width: 30vw;
-  }
-  .recipe-card-image {
-    height: 23.3vw;
-  }
-  .recipe-name {
-    font-size: 2vw;
-  }
-}
-@media screen and (max-width: 965px) {
-  .recipe-card {
-    width: 23vw;
+    width: 30%;
   }
   .recipe-card-image {
     height: 23vw;
+  }
+  .recipe-name {
+    font-size: 2vw;
   }
 }
 
