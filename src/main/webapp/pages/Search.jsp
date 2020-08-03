@@ -20,19 +20,17 @@
             params for authors, tags, and ingredients-->
           <div id="tag-box">
             <!--MVP implementation of additional search uses text areas and CSP-->
-            <textarea id="tags-input">
-            </textarea>
+            <textarea id="tags-input" placeholder="Type tags to search"></textarea>
             <!--MVP implementation of additional search uses text areas and CSP-->
-            <textarea id="author-input">
-            </textarea>
+            <textarea id="author-input" placeholder="Type authors to search"></textarea>
             <!--Buttons implemented to make use of the tag box clear and easy-->
             <div id="tag-box-buttons">
-              <!--Button that will allow the user to clear all the tags the have 
+              <!--Button that allows the user to clear all the tags the have 
                 chosen for the query-->
-              <input type="button" id="clear-tag-box" value="Clear">
-              <!--Button that will allow the user to apply all the search options
+              <input type="button" id="clear-tag-box" value="Clear" onclick="clearSearchOptions()">
+              <!--Button that allows the user to apply all the search options
                 they typed to the query-->
-              <input type="button" id="update-query" value="Update">
+              <input type="button" id="update-query" value="Update" onclick="updateSearchResults()">
             </div>
           </div>
           <!--Area where actual recipe results are rendered on the page-->
