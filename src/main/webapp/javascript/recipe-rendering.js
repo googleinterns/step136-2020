@@ -15,13 +15,11 @@ createRecipeCard = (divID, recipeInfo) => {
   const id = recipeInfo["id"];
   const name = recipeInfo["name"];
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas"});
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
   addToPlannerButton.addEventListener('click', () => manageList("add", id, name, "planner"));
-  setIcon(addToPlannerButton, id, idToken, "planner");
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas"});
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
   addToCookbookButton.addEventListener('click', () => manageList("add", id, name, "cookbook"));
-  setIcon(addToCookbookButton, id, idToken, "cookbook");
 
   const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
   removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, 'planner'));
@@ -173,14 +171,11 @@ function setIcon(button, id, idToken, type) {
     fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
         .then(response => response.text()).then((contains) => {
       if ((/true/i).test(contains)) {
+        button.classList.remove("fa-plus");
         button.classList.add("fa-check");
-      } else {
-        button.classList.add("fa-plus");
       }
     });
-  } else {
-    button.classList.add("fa-plus");
-  }
+  } 
 }
 
 // lets the user know if they have already added a recipe to a particular list

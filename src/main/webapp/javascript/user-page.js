@@ -13,6 +13,7 @@ async function loadRecipes() {
   loadTypeRecipes("planner");
   loadTypeRecipes("cookbook");
   document.getElementById("idToken").value = getIdToken();
+  changeIcons();
 }
 
 // loads the user made/uploaded recipes specifically from the 
