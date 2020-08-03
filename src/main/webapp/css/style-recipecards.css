@@ -2,8 +2,7 @@
   background-color: #F6F7F7;
   border: groove;
   margin: 10px;
-  min-width: 200px;
-  width: 215px;
+  width: 22%;
   /* border-radius: 25px; */
   /* TODO: figure out how to round the recipe card
   while keeping the picture pretty */
@@ -15,8 +14,6 @@
 
 .recipe-card-image {
   height: 215px;
-  min-width: 200px;
-  min-height: 200px;
   object-fit: cover;
   overflow: hidden;
   width: 100%;
@@ -113,9 +110,9 @@
 }
 
 /* adjusts to 3 columns of recipe cards */
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1125px) {
   .recipe-card {
-    width: 23.3vw;
+    width: 30vw;
   }
   .recipe-card-image {
     height: 23.3vw;
