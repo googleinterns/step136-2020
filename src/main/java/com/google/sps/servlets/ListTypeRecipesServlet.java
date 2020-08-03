@@ -44,7 +44,9 @@ public class ListTypeRecipesServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
+    // recipes that will be listed
     List<Recipe> recipes = new ArrayList<>();
+    // keys to be deleted
     List<Key> deletedKeys = new ArrayList<>();
     for (Key key : keys) {
       try {
@@ -61,11 +63,12 @@ public class ListTypeRecipesServlet extends HttpServlet {
           recipes.add(recipe);
         }
       } catch (EntityNotFoundException e) {
-        // this happens when a recipe was deleted.
+        // this happens when a recipe was deleted
         deletedKeys.add(key);
       }
     }
 
+    // deletes keys of deleted recipes
     for (Key key: deletedKeys) {
       // TODO: inform user how many recipes were deleted
       if (type.equals("cookbook")) {
