@@ -162,8 +162,10 @@ createImage = (name, blobkey) => {
 }
 
 /**
- * Sets the icon of the button to a check if already added to list
+ * Sets the icon of the button to a checkmark if already added to list
  * and a plus otherwise
+ * Takes in button you wish to change, the id of the recipe its part of, and which
+ * list the button is adding to
  */
 function setIcon(button, id, type) {
   if (auth2 != null && auth2.isSignedIn.get()) {
