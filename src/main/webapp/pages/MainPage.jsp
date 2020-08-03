@@ -10,6 +10,7 @@
     <script src="../javascript/recipe-rendering.js"></script>
     <script src="../javascript/user-auth.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=initGoogleUserWithListener" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=initPageGoogleSignin" async defer></script>
   </head>
   <body onload="mainPageLoad();">
       <%@ include file="../components/topbar.jsp"%>

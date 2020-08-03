@@ -1,3 +1,8 @@
+// Can be passed to API onload to guarantee auth2 is loaded before execution.
+function initPageGoogleSignin() {
+  initGoogleUserWithListener(setIcons);
+}
+
 /**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
@@ -159,6 +164,11 @@ createImage = (name, blobkey) => {
   imageElement.className = "recipe-card-image";
   imageElement.src = "/serve?blobkey="+blobkey;
   return imageElement;
+}
+
+function setIcons() {
+  let recipeIDs = document.getElementsByClassName('recipe-id');
+    
 }
 
 /**
