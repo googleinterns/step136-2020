@@ -125,14 +125,14 @@
 /* adjusts to 2 column of recipe cards */
 @media screen and (max-width: 800px) {
   .recipe-card {
-    margin: 1.5vw;
-    width: 34vw;
+    margin: 2%;
+    width: 44%;
   }
   .recipe-card-image {
     height: 34vw;
   }
   .recipes-container {
-    padding: 1vw 2vw;
+    padding: 15px 20px;
   }
   .recipe-card-name {
     font-size: 100%;
@@ -149,10 +149,7 @@
 }
 
 /* adjusts to 1 column of recipe cards */
-@media screen and (max-width: 600px) {
-  .recipes-container {
-    padding: 10px 15px;
-  }
+@media screen and (max-width: 550px) {
   .recipe-card {
     margin: 10px;
     min-width: 280px;
