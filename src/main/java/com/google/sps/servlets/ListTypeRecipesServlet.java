@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.User;
 import java.io.IOException;
+import java.lang.IllegalArgumentException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,14 @@ public class ListTypeRecipesServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idToken = request.getParameter("idToken");
     String type = request.getParameter("type").toLowerCase();
-    User user = new User(idToken);
+    User user;
+    // if user is not logged in, redirects back to Home
+    try {
+      user = new User(idToken);
+    } catch (IllegalArgumentException e) {
+       response.sendRedirect("/pages/MainPage.jsp");
+      return;
+    }
     String loggedInAuthorID = user.getId();
 
     List<Key> keys;

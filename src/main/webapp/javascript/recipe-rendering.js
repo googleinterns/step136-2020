@@ -1,16 +1,22 @@
-// Set listeners for rendering based on user status,
-// except for User Page, which has special listeners.
-if (document.title != "My Recipes") {
-  // Listener that triggers when a new or different user signs in.
-  let userChanged = setIcons;
+// Set listeners for rendering based on user status.
+// Listener that triggers when a new or different user signs in.
+var userChanged = setIcons;
 
-  // Listener that triggers when sign-in status changes (but not when user changes).
-  let signInChanged = function(signedIn) {
-    if (signedIn) {
-      console.log("Now signed in");
-    } else {
-      console.log("Now signed out");
+// Listener that triggers when sign-in status changes (but not when user changes).
+var signInChanged = function(signedIn) {
+  if (!signedIn) {
+    console.log("Now signed out");
+    checkmarkButtons = document.getElementsByClassName("fa-check");
+    const length = checkmarkButtons.length;
+    console.log(length);
+    let i;
+    for (i = 0; i < length; i++) {
+      let button = checkmarkButtons[i];
+      button.classList.remove("fa-check");
+      button.classList.add("fa-plus");
+      console.log(i, button.classList);
     }
+    console.log(i);
   }
 }
 
@@ -179,18 +185,16 @@ createImage = (name, blobkey) => {
 
 
 function setIcons() {
-  const recipeIDs = document.getElementsByClassName("recipe-id");
-  const addToPlannerButtons = document.getElementsByClassName("add-to-planner-btn");
-  const addToCookbookButtons = document.getElementsByClassName("add-to-cookbook-btn");
-//   there are as many buttons as there are recipeIDs
-  for (let i = 0; i < recipeIDs.length; i++) {
-    const recipeID = recipeIDs[i].innerText;
-    const addToPlannerButton = addToPlannerButtons[i];
-    const addToCookbookButton = addToCookbookButtons[i];
+  const recipeCards = document.getElementsByClassName("recipe-card");
+  for (let i = 0; i < recipeCards.length; i++) {
+    const recipeCard = recipeCards[i];
+    const recipeID = recipeCard.getElementsByClassName("recipe-id")[0].innerText;
+    const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
+    const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
     
     setIcon(addToPlannerButton, recipeID, "planner");
     setIcon(addToCookbookButton, recipeID, "cookbook");
-  }    
+  }       
 }
 
 /**
@@ -238,7 +242,9 @@ function manageList(action, id, name, type) {
             params.append("idToken", getIdToken());
             params.append("type", type);
             fetch("/manage-list", {method: "POST", body: params});
-            location.reload();
+            if (document.title == "My Recipes") {
+              location.reload();
+            }
           }
         }
       } else {
@@ -250,7 +256,9 @@ function manageList(action, id, name, type) {
           params.append("idToken", getIdToken());
           params.append("type", type);
           fetch("/manage-list", {method: "POST", body: params});
-          location.reload();
+          if (document.title == "My Recipes") {
+            location.reload();
+          }
         }
       }
     });

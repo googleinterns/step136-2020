@@ -17,6 +17,7 @@ import com.google.sps.data.User;
 import com.google.sps.util.FormHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +33,16 @@ public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String idToken = request.getParameter("idToken");
-    User user = new User(idToken);
+    String idToken = null;
+    idToken = request.getParameter("idToken");
+    User user;
+    // if user is not logged in, redirects back to Home
+    try {
+      user = new User(idToken);
+    } catch (IllegalArgumentException e) {
+      response.sendRedirect("/pages/MainPage.jsp");
+      return;
+    }
     String authorID = user.getId();
 
     Filter authorFilter = new FilterPredicate("authorID", FilterOperator.EQUAL, authorID);
