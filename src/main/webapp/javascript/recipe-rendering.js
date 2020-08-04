@@ -241,9 +241,7 @@ function manageList(action, id, name, type) {
             params.append("idToken", getIdToken());
             params.append("type", type);
             fetch("/manage-list", {method: "POST", body: params});
-            if (document.URL.includes("UserPage")) {
-              location.reload();
-            }
+            location.reload();
           }
         }
       } else {
@@ -255,9 +253,7 @@ function manageList(action, id, name, type) {
           params.append("idToken", getIdToken());
           params.append("type", type);
           fetch("/manage-list", {method: "POST", body: params});
-          if (document.URL.includes("UserPage")) {
-            location.reload();
-          }
+          location.reload();
         }
       }
     });
