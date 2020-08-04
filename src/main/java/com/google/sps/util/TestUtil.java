@@ -26,7 +26,7 @@ public class TestUtil {
     ArrayList<String> tags, ArrayList<String> ingredients, ArrayList<String> steps, boolean published, int popularity) {
     Entity recipeEntity = new Entity(entityName);
     recipeEntity.setProperty("name", name);
-    recipeEntity.setProperty("author", author);
+    recipeEntity.setProperty("authorID", author);
     recipeEntity.setProperty("tags", tags);
     recipeEntity.setProperty("description", description);
     recipeEntity.setProperty("ingredients", ingredients);
