@@ -34,6 +34,14 @@ function initSigninV2() {
   if (document.getElementById('g-signin-container') != null) {
     fillSigninContainer('g-signin-container');
   }
+
+  // functions refs for these events should be assigned according to a pages needs.
+  if (userChanged != undefined) {
+    auth2.currentUser.listen(userChanged);
+  }
+  if (signInChanged != undefined) {
+    auth2.isSignedIn.listen(signInChanged);
+  }
 }
 
 // Creates sign in box and sets event listeners.
