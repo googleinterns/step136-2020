@@ -20,7 +20,7 @@ async function search() {
     const responseText = await response.text();
     const recipeList = JSON.parse(responseText);
 
-    recipeList.forEach(elem => createRecipeCard("content", elem));
+    recipeList.forEach(elem => createRecipeCard("search-recipes-container", elem));
 }
 
 /**
@@ -53,6 +53,10 @@ async function updateSearchResults() {
   const response = await fetch("/search?" + query + "&" + authors + "&" + tags);
   const responseText = await response.text();
   const recipeList = JSON.parse(responseText);
+  
+  // Updates the div with recipe info
+  document.getElementById("search-recipes-container").innerHTML = "";
+  recipeList.forEach(elem => createRecipeCard("search-recipes-container", elem));
 }
 
 /**

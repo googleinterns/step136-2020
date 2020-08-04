@@ -94,6 +94,7 @@ public class UserQuery {
     } else {
       Query.CompositeFilter allFilters = new Query.CompositeFilter(
         Query.CompositeFilterOperator.AND, searchFilters);
+      Utils.SOP(allFilters);
       return allFilters;
     }
   }

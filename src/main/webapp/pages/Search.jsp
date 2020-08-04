@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
+    <link rel="stylesheet" href="../css/style-search.css">
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
   <body onload="search()">
@@ -34,7 +35,7 @@
             </div>
           </div>
           <!--Area where actual recipe results are rendered on the page-->
-          <div id="recipes-container">
+          <div id="search-recipes-container">
           </div>
         </div>
       </div>
