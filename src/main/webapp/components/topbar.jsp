@@ -10,7 +10,7 @@
       <div id="search-box-flex-container">
         <input type="text" id="search-box" placeholder="Search Recipes">
       </div>
-        <input type="button" id="search-button" onclick="search()" >
+        <input type="button" id="search-button" onclick="redirectSearchPage()">
     </div>
 
     <input type="button" onclick="window.location.replace('MainPage.jsp')" id="home-button">
