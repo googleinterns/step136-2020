@@ -179,7 +179,6 @@ createImage = (name, blobkey) => {
 
 
 function setIcons() {
-  console.log("setIcons");
   const recipeIDs = document.getElementsByClassName("recipe-id");
   const addToPlannerButtons = document.getElementsByClassName("add-to-planner-btn");
   const addToCookbookButtons = document.getElementsByClassName("add-to-cookbook-btn");
@@ -201,14 +200,12 @@ function setIcons() {
  * list the button is adding to
  */
 function setIcon(button, id, type) {
-  console.log("setIcon");
   if (auth2 != null && auth2.isSignedIn.get()) {
     const idToken = getIdToken();
     // checks if the current recipe is in the user's planner
     fetch("/manage-list?id=" + id + "&idToken=" + idToken + "&type=" + type)
         .then(response => response.text()).then((contains) => {
       if ((/true/i).test(contains)) {
-        console.log("does contain");
         button.classList.remove("fa-plus");
         button.classList.add("fa-check");
       }
