@@ -242,7 +242,7 @@ function manageList(action, id, name, type) {
             params.append("idToken", getIdToken());
             params.append("type", type);
             fetch("/manage-list", {method: "POST", body: params});
-            if (document.title == "My Recipes") {
+            if (document.URL.includes("UserPage")) {
               location.reload();
             }
           }
@@ -256,7 +256,19 @@ function manageList(action, id, name, type) {
           params.append("idToken", getIdToken());
           params.append("type", type);
           fetch("/manage-list", {method: "POST", body: params});
-          if (document.title == "My Recipes") {
+          // finds the button that was clicked using the recipe id
+          let recipeCards = document.getElementsByClassName("recipe-card");
+          for (let i = 0; i < recipeCards.length; i++) {
+            let recipeID = recipeCards[i].getElementsByClassName("recipe-id")[0].innerText;
+            let button = recipeCards[i].getElementsByClassName("add-to-" + type + "-btn")[0];
+            if (recipeID == id) {
+              // makes the icon a checkmark
+              button.classList.remove("fa-plus");
+              button.classList.add("fa-check");
+              break;
+            }
+          }
+          if (document.URL.includes("UserPage")) {
             location.reload();
           }
         }
