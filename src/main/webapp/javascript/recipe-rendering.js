@@ -5,18 +5,18 @@ var userChanged = setIcons;
 // Listener that triggers when sign-in status changes (but not when user changes).
 var signInChanged = function(signedIn) {
   if (!signedIn) {
-    console.log("Now signed out");
-    checkmarkButtons = document.getElementsByClassName("fa-check");
-    const length = checkmarkButtons.length;
-    console.log(length);
-    let i;
-    for (i = 0; i < length; i++) {
-      let button = checkmarkButtons[i];
-      button.classList.remove("fa-check");
-      button.classList.add("fa-plus");
-      console.log(i, button.classList);
+    const recipeCards = document.getElementsByClassName("recipe-card");
+    for (let i = 0; i < recipeCards.length; i++) {
+      let recipeCard = recipeCards[i];
+      const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
+      const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
+      // removes the checkmark (nothing happens if the class does not exist)
+      addToCookbookButton.classList.remove("fa-check");
+      addToPlannerButton.classList.remove("fa-check");
+      // adds the plus sign (nothing is added if it already exists)
+      addToCookbookButton.classList.add("fa-plus");
+      addToPlannerButton.classList.add("fa-plus");
     }
-    console.log(i);
   }
 }
 
