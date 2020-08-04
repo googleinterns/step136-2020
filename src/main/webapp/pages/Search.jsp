@@ -5,11 +5,12 @@
     <title>Search Results</title>
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
-  <body onload="search()">
+  <body>
       <%@ include file="../components/topbar.jsp"%>
       <div id="extended search">
       </div>
       <div id="content">
       </div>
+      <script>search()</script>
   </body>
 </html>
