@@ -45,9 +45,6 @@ public class SearchServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Utils.SOP("authors are: " + request.getParameter("authors"));
-    Utils.SOP("tags are: " + request.getParameter("tags"));
-    Utils.SOP("query is: " + request.getParameter("query"));
     // Initializes a user query object to create the query filters
     UserQuery uQuery = new UserQuery(
       request.getParameter("query"),

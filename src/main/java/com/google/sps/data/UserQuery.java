@@ -69,8 +69,6 @@ public class UserQuery {
       Query.Filter tempAuthorFilter = new Query.FilterPredicate(
         "authorID", Query.FilterOperator.EQUAL, onlyAuthor
       );
-      Utils.SOP("I got to the filter for author line, author is: " + onlyAuthor);
-      Utils.SOP(tempAuthorFilter.toString());
       searchFilters.add(tempAuthorFilter);
     }
 
@@ -96,7 +94,6 @@ public class UserQuery {
     } else {
       Query.CompositeFilter allFilters = new Query.CompositeFilter(
         Query.CompositeFilterOperator.AND, searchFilters);
-      Utils.SOP(allFilters);
       return allFilters;
     }
   }
@@ -112,7 +109,6 @@ public class UserQuery {
     Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, convertToCollection(tag));
       
     // Filter for whether the tag is in the tag list
-    Utils.SOP(tag);
     Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, convertToCollection(tag));
 
     // Returns a composite filter for whether the tag is in one of the arraylists

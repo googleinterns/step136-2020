@@ -53,7 +53,6 @@ async function updateSearchResults() {
   const response = await fetch("/search?" + query + "&" + authors + "&" + tags);
   const responseText = await response.text();
   const recipeList = JSON.parse(responseText);
-  console.log(recipeList);
 }
 
 /**
