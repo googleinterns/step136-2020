@@ -21,8 +21,6 @@ async function loadRecipes() {
   setIcons();
 }
 
-
-
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
@@ -96,19 +94,6 @@ async function loadTypeRecipes(type) {
   }
   setIcons();
 }
-
-// function changeIcons(recipesDiv, type) {
-//   const recipeIDs = recipesDiv.getElementsByClassName("recipe-id");
-//   const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
-//   // there are as many buttons as there are recipeIDs
-//   for (let i = 0; i < recipeIDs.length; i++) {
-//     const recipeID = recipeIDs[i].innerText;
-//     const addToListButton = addToListButtons[i];
-    
-//     setIcon(addToListButton, recipeID, type);
-//   }
-// }
-
 
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){
