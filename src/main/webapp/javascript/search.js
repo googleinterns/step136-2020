@@ -35,7 +35,7 @@ redirectSearchPage = () => {
  * This function is the onclick function for the Update button in the tag box.
  * This function does the following (with helper functions):
  * Gets the text from text areas -> seperates everything by commas and formats
- * the sring list -> makes new fetch request for query -> updates the query 
+ * the string list -> makes new fetch request for query -> updates the query 
  * details section -> clears the search results div -> uses the parsed response
  * to fill in the cleared area with new recipe cards.
  */
