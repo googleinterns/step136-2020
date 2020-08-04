@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>My Recipes</title>
+    <%@ include file="../components/GlobalConfig.jsp"%>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
     <%@ include file="../components/GlobalConfig.jsp"%>
     <script src="../javascript/user-page.js"></script>

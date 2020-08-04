@@ -80,11 +80,9 @@ public class SearchServlet extends HttpServlet {
         )
       );
     }
-
     // Sets the response type,converts the data into JSON, and sends the response
     response.setContentType("application:json");
     String recipeResponse = Utils.convertToJson(clientRecipeInfo);
     response.getWriter().println(recipeResponse);
   }
-  
 }

@@ -15,6 +15,7 @@
 package com.google.sps.data;
 
 import com.google.appengine.api.datastore.Query;
+import com.google.sps.util.Utils;
 import java.lang.UnsupportedOperationException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +46,8 @@ public class UserQuery {
    */
   public UserQuery(String query, String tags, String authors) {
     this.recipeName = query;
-    this.tagsAndIngredients = new ArrayList<String>();
-    this.authors = new ArrayList<String>();
+    this.tagsAndIngredients = convertToArrayList(tags);
+    this.authors = convertToArrayList(authors);
   }
 
   /**
@@ -59,15 +60,6 @@ public class UserQuery {
     ArrayList<Query.Filter> searchFilters = new ArrayList<Query.Filter>();
     
     // Creates and adds filters to the list if there is data to make the filter
-    if (tagsAndIngredients.size() > 1) {
-      searchFilters.add(createTagsFilter());
-    } else if (tagsAndIngredients.size() == 1) {
-      // We check for size equal to 1 because we cannot create a composite filter when we only 
-      // have one filter to pass. The same implementatoin is used for the author filters
-      // Use of collection interface methods only to allow for future flexibility
-      String tempTag = tagsAndIngredients.iterator().next();
-      searchFilters.add(createSingleTagFilter(tempTag));
-    }
     if (authors.size() > 1) {
       searchFilters.add(createAuthorsFilter());
     } else if (authors.size() == 1) {
@@ -79,8 +71,19 @@ public class UserQuery {
       );
       searchFilters.add(tempAuthorFilter);
     }
-    if (recipeName != null && !recipeName.equals("")) {
-      searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName.toLowerCase().trim()));
+
+    if (tagsAndIngredients.size() > 1) {
+      searchFilters.add(createTagsFilter());
+    } else if (tagsAndIngredients.size() == 1) {
+      // We check for size equal to 1 because we cannot create a composite filter when we only 
+      // have one filter to pass. The same implementatoin is used for the author filters
+      // Use of collection interface methods only to allow for future flexibility
+      String tempTag = tagsAndIngredients.iterator().next();
+      searchFilters.add(createSingleTagFilter(tempTag));
+    }
+
+    if (recipeName != null && !recipeName.equals("null") && !recipeName.equals("")) {
+      searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName.trim()));
     }
 
     // Adds a filter which makes sure the recipes being searched for are public
@@ -89,9 +92,9 @@ public class UserQuery {
     if (searchFilters.size() == 1) {
       return searchFilters.get(0);
     } else {
-      return new Query.CompositeFilter(
-        Query.CompositeFilterOperator.AND, searchFilters
-      );
+      Query.CompositeFilter allFilters = new Query.CompositeFilter(
+        Query.CompositeFilterOperator.AND, searchFilters);
+      return allFilters;
     }
   }
 
@@ -101,10 +104,12 @@ public class UserQuery {
    */
   private Query.CompositeFilter createSingleTagFilter(String tag) {
     // Filter for whether the tag is in the ingredient list
-    Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, tag);
+    // Has to be converted to collection to avoid Illegal argument exception; a collection of tags expected
+    // I suspect it has to do with ingredients being a list in datastore
+    Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, convertToArrayList(tag));
       
     // Filter for whether the tag is in the tag list
-    Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, tag);
+    Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, convertToArrayList(tag));
 
     // Returns a composite filter for whether the tag is in one of the arraylists
     return new Query.CompositeFilter(
@@ -146,5 +151,18 @@ public class UserQuery {
       );
     }
     return new Query.CompositeFilter(Query.CompositeFilterOperator.OR, authorsFilters);
+  }
+
+  /**
+   * Takes in a string which has commas and returns an arrayList<string>
+   * which contans all the substrings which were separated by commas. Can take a null parameter
+   * and empty string, and should return a collection with no elements in both cases. 
+   */
+  private ArrayList<String> convertToArrayList(String params) {
+    if (params == null || params.equals("")) {
+      return new ArrayList<String>();
+    } else {
+      return new ArrayList<String>(Arrays.asList(params.split(",")));
+    }
   }
 }

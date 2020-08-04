@@ -85,10 +85,15 @@ function insertUserInfo(googleUser) {
 
 function enableUserDropdown() {
   const dropdown = document.querySelector('.dropdown');
+  const signInBox = document.getElementById('sign-in-box');
   dropdown.addEventListener('mouseover', showDropdown = function() {
+    signInBox.style.borderBottomColor = 'white';
+    signInBox.style.borderRadius = '10px 10px 0 0';
     dropdown.querySelector('.dropdown-content').style.display = 'block';
   });
   dropdown.addEventListener('mouseleave', hideDropdown = function() {
+    signInBox.style.borderBottomColor = 'rgb(0, 0, 0, 0.25)';
+    signInBox.style.borderRadius = '10px';
     dropdown.querySelector('.dropdown-content').style.display = 'none';
   });
 }
