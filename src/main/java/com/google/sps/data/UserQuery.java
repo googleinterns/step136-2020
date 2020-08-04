@@ -82,7 +82,7 @@ public class UserQuery {
       searchFilters.add(createSingleTagFilter(tempTag));
     }
 
-    if (!recipeName.equals("null") && !recipeName.equals("")) {
+    if (recipeName != null && !recipeName.equals("null") && !recipeName.equals("")) {
       searchFilters.add(new Query.FilterPredicate("name", Query.FilterOperator.EQUAL, recipeName.trim()));
     }
 
