@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <%@ include file="../components/GlobalConfig.jsp"%>
+    <script src="../javascript/user-auth.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=initGoogleUserWithListener" async defer></script>
     <!--The script below makes sure that the template isn't filled until the
       page is ready-->
     <script>

@@ -83,7 +83,15 @@ csvToURLParam = (paramName, csvString) => {
 /**
  * The function to load the main page and display content properly 
  */
-mainPageLoad = () => {
+async function mainPageLoad() {
   // TODO: implement the call to search and rendering functions here for the intial load of the
   // search page. This will be called everytime the page is refreshed.
+
+  let response = await fetch("/search");
+  let responseText = await response.text();
+  let recipeList = JSON.parse(responseText);
+  
+  recipeList.forEach(recipeData => {
+    createRecipeCard("main-recipes-container", recipeData);
+  });
 }

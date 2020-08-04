@@ -45,10 +45,6 @@ select {
   justify-content: center;
 }
 
-.hidden {
-  display: none;
-}
-
 #note {
   margin: 2px 0 0;
 }
