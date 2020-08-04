@@ -46,8 +46,8 @@ public class UserQuery {
    */
   public UserQuery(String query, String tags, String authors) {
     this.recipeName = query;
-    this.tagsAndIngredients = convertToCollection(tags);
-    this.authors = convertToCollection(authors);
+    this.tagsAndIngredients = convertToArrayList(tags);
+    this.authors = convertToArrayList(authors);
   }
 
   /**
@@ -106,10 +106,10 @@ public class UserQuery {
     // Filter for whether the tag is in the ingredient list
     // Has to be converted to collection to avoid Illegal argument exception; a collection of tags expected
     // I suspect it has to do with ingredients being a list in datastore
-    Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, convertToCollection(tag));
+    Query.Filter ingredientFilter = new Query.FilterPredicate("ingredients", Query.FilterOperator.IN, convertToArrayList(tag));
       
     // Filter for whether the tag is in the tag list
-    Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, convertToCollection(tag));
+    Query.Filter tagFilter = new Query.FilterPredicate("tags", Query.FilterOperator.IN, convertToArrayList(tag));
 
     // Returns a composite filter for whether the tag is in one of the arraylists
     return new Query.CompositeFilter(
@@ -154,11 +154,11 @@ public class UserQuery {
   }
 
   /**
-   * Takes in a string which ha commas and returns a collection (currently an arrayList<string>)
+   * Takes in a string which has commas and returns an arrayList<string>
    * which contans all the substrings which were separated by commas. Can take a null parameter
    * and empty string, and should return a collection with no elements in both cases. 
    */
-  private ArrayList<String> convertToCollection(String params) {
+  private ArrayList<String> convertToArrayList(String params) {
     if (params == null || params.equals("")) {
       return new ArrayList<String>();
     } else {
