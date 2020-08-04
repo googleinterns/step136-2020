@@ -2,9 +2,16 @@
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_ID = "user-recipes";
 
-// Can be passed to API onload to guarantee auth2 is loaded before execution.
-function initUserPageGoogleSignin() {
-  initGoogleUserWithListener(loadRecipes);
+// Listener that triggers when a new or different user signs in.
+var userChanged = loadRecipes;
+
+// Listener that triggers when sign-in status changes (but not when user changes).
+var signInChanged = function(signedIn) {
+  if (signedIn) {
+    console.log("Now signed in");
+  } else {
+    console.log("Now signed out");
+  }
 }
 
 // loads all the recipes when the recipe loads
