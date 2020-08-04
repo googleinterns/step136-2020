@@ -7,7 +7,7 @@
 <script src="../javascript/search.js"></script>
 <script src="../javascript/user-auth.js"></script>
 <script src="../javascript/recipe-rendering.js"></script>
-<script src="https://apis.google.com/js/platform.js?onload=initGoogleUser" async defer></script>
+<script src="https://apis.google.com/js/platform.js?onload=initGoogleUser" defer></script>
 <!-- Script necessary for icons on recipe cards. -->
 <script src="https://kit.fontawesome.com/9d7d4957c5.js" crossorigin="anonymous"></script>
 <!--JQuery CDN is neccessary here so search and recipe-rendering can handle proper redirects-->
