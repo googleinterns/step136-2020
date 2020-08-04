@@ -2,10 +2,10 @@
 // except for User Page, which has special listeners.
 if (document.title != "My Recipes") {
   // Listener that triggers when a new or different user signs in.
-  var userChanged = setIcons;
+  let userChanged = setIcons;
 
   // Listener that triggers when sign-in status changes (but not when user changes).
-  var signInChanged = function(signedIn) {
+  let signInChanged = function(signedIn) {
     if (signedIn) {
       console.log("Now signed in");
     } else {
