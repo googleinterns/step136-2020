@@ -5,14 +5,14 @@
  */
 async function search() {
     // Uncomment to initialize test data for search testing
-    /*let tempForm = new FormData();
+    let tempForm = new FormData();
     tempForm.append("action", "initialize");
     let myInit = {
         body: new URLSearchParams(tempForm),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         method: "POST",
     };
-    fetch("/adminAuth_test_congifureTestData?", myInit);*/
+    fetch("/adminAuth_test_congifureTestData?", myInit);
 
     const searchQuery = (new URL(document.location)).searchParams.get("query");
 
@@ -49,6 +49,7 @@ async function updateSearchResults() {
   const authors = csvToURLParam("authors", authorsText);
   const tags = csvToURLParam("tags", tagsText);
   const query = "query=" + (new URL(document.location)).searchParams.get("query");
+
   const response = await fetch("/search?" + query + "&" + authors + "&" + tags);
   const responseText = await response.text();
   const recipeList = JSON.parse(responseText);
@@ -70,7 +71,7 @@ clearSearchOptions = () => {
  * csvToURLParm("tags", "easy, meat") => "tags=easy%2Cmeat"
  */
 csvToURLParam = (paramName, csvString) => {
-  const csvAsList = csvString.toLowerCase().split(",").map(str => str.trim());
+  const csvAsList = csvString.split(",").map(str => str.trim());
   /**
    * We want to convert the CSV values in the list to a single string where each
    * new element is joined by a ",", and can be used to send params in a fetch request
