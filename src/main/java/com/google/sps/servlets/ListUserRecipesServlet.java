@@ -33,8 +33,7 @@ public class ListUserRecipesServlet extends HttpServlet {
    
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String idToken = null;
-    idToken = request.getParameter("idToken");
+    String idToken = request.getParameter("idToken");
     User user;
     // if user is not logged in, redirects back to Home
     try {
