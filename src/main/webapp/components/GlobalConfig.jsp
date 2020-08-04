@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="../css/style-sign-in.css">
 <link rel="stylesheet" href="../css/style-topbar.css">
 <link rel="stylesheet" href="../css/style-recipecards.css">
-<script src="../javascript/user-auth.js"></script>
 <script src="../javascript/search.js"></script>
 <script src="../javascript/user-auth.js"></script>
 <script src="../javascript/recipe-rendering.js"></script>

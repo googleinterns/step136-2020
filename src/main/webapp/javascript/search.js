@@ -5,14 +5,14 @@
  */
 async function search() {
     // Uncomment to initialize test data for search testing
-    let tempForm = new FormData();
+    /*let tempForm = new FormData();
     tempForm.append("action", "initialize");
     let myInit = {
         body: new URLSearchParams(tempForm),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         method: "POST",
     };
-    fetch("/adminAuth_test_congifureTestData?", myInit);
+    fetch("/adminAuth_test_congifureTestData?", myInit);*/
 
     const searchQuery = (new URL(document.location)).searchParams.get("query");
 
