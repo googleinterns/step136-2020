@@ -1,16 +1,17 @@
 
 #top-bar {
+  background-color: #195e83;
   margin: auto;
-  max-width: 800px;
-  padding: 10px 10% 10px 10%;
+  max-width: 1000px;
+  min-width: 400px;
+  padding: 0 20px;
+  width: 80%;
 }
 
 #color-bar {
   align-items: center;
-  background-color: #195e83;
-  border-radius: 10px;
   display: flex;
-  padding: 0 8px 0 8px;
+  padding: 0 8px;
 }
 
 #logo {
@@ -32,7 +33,6 @@
   border-width: 1px;
   box-sizing: border-box;
   font-size: large;
-
 }
 
 #top-bar input:focus {

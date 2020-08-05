@@ -6,13 +6,12 @@
     <%@ include file="../components/GlobalConfig.jsp"%>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-userpage.css">
-    <%@ include file="../components/GlobalConfig.jsp"%>
     <script src="../javascript/user-page.js"></script>
   </head>
   <body>
     <%@ include file="../components/topbar.jsp"%>
     <div id="content">
-      <h1 class="center">My Recipes</h1>
+      <h1 class="center" id="title">My Recipes</h1>
       <!-- Planner content -->
       <div>
         <div id="header">
@@ -67,7 +66,7 @@
             <input type="file"  accept="image/*" name="image" id="image">
             <br><br>
             <div id="buttons">
-              <button class="modal-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
+              <button type="button" class="modal-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
               <input class="modal-btn" type="submit" value="Create Recipe">
             </div>
           </form>
