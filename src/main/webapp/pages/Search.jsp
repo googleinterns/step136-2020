@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../css/style-search.css">
     <%@ include file="../components/GlobalConfig.jsp"%>
   </head>
-  <body onload="search()">
+  <body>
       <%@ include file="../components/topbar.jsp"%>
       <!--Use content to center page and mantain consistency-->
       <div id="content">
@@ -39,5 +39,6 @@
           </div>
         </div>
       </div>
+      <script>search()</script>
   </body>
 </html>

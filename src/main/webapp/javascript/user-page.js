@@ -2,9 +2,14 @@
 const NO_USER_RECIPES = "You have not uploaded any recipes yet.";
 const USER_RECIPES_ID = "user-recipes";
 
-// Can be passed to API onload to guarantee auth2 is loaded before execution.
-function initUserPageGoogleSignin() {
-  initGoogleUserWithListener(loadRecipes);
+// Listener that triggers when a new or different user signs in.
+var userChanged = loadRecipes;
+
+// Listener that triggers when sign-in status changes (but not when user changes).
+var signInChanged = function(signedIn) {
+  if (!signedIn) {
+    window.location.href = "/pages/MainPage.jsp";
+  }
 }
 
 // loads all the recipes when the recipe loads
@@ -13,11 +18,15 @@ async function loadRecipes() {
   loadTypeRecipes("planner");
   loadTypeRecipes("cookbook");
   document.getElementById("idToken").value = getIdToken();
+  setIcons();
 }
 
 // loads the user made/uploaded recipes specifically from the 
 // general createRecipeCard function and adds the necessary buttons
 async function loadUserRecipes() {
+  if (!getIdToken()) {
+    window.location.href = "/pages/MainPage.jsp";
+  }
   const response = await fetch('/list-user-recipes?idToken='+ getIdToken());
   const recipes = await response.json();
 
@@ -45,14 +54,16 @@ async function loadUserRecipes() {
       }
       addDeleteFunctionality(recipes);
       addEditFunctionality(recipes);
-      changeIcons(recipesDiv, "planner");
-      changeIcons(recipesDiv, "cookbook");
     }
   }
+  setIcons();
 }
 
 // loads the recipes the user has added to cookbook
 async function loadTypeRecipes(type) {
+  if (!getIdToken()) {
+    window.location.href = "/pages/MainPage.jsp";
+  }
   const response = await fetch('/list-type-recipes?idToken='+ getIdToken() + "&type="+type);
   const recipes = await response.json();
 
@@ -79,29 +90,10 @@ async function loadTypeRecipes(type) {
         addToListButton.style.display = "none";
         removeFromListButton.style.display = "inline-block";
       }
-      // sets up the icon of the other add to list button to a checkmark if it is contained
-      if (type == "planner") {
-        changeIcons(recipesDiv, "cookbook");
-      } else {
-        changeIcons(recipesDiv, "planner");
-      }
     }
   }
+  setIcons();
 }
-
-function changeIcons(recipesDiv, type) {
-  // TODO: check if they're logged in
-  const recipeIDs = recipesDiv.getElementsByClassName("recipe-id");
-  const addToListButtons = recipesDiv.getElementsByClassName("add-to-" + type + "-btn");
-  // there are as many buttons as there are recipeIDs
-  for (let i = 0; i < recipeIDs.length; i++) {
-    const recipeID = recipeIDs[i].innerText;
-    const addToListButton = addToListButtons[i];
-    
-    setIcon(addToListButton, recipeID, type);
-  }
-}
-
 
 // adds delete functionality to the delete button in the recipe cards
 function addDeleteFunctionality(recipes){

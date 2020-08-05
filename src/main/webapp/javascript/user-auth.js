@@ -1,6 +1,6 @@
 var auth2;
 // client ID is generated from my google APIs credentials page.
-const CLIENT_ID = '1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com'
+const SIGNIN_CLIENT_ID = '1034390229233-u07o0iaas2oql8l4jhe7fevpfsbrtv7n.apps.googleusercontent.com'
 
 // googleUser is generated with auth2.currentUser.get().
 // Further Google Sign in documentation is available at:
@@ -18,29 +18,29 @@ function getIdToken() {
 /**
  * Loads the auth2 library for the g-signin API, and then initializes
  * the googleAuth object.
- * Takes a listener arg, to execute when a new user signs in.
  */
-function initGoogleUserWithListener(listener) {
-  gapi.load('auth2', function() {
-    initSigninV2(listener);
-  });
+function initGoogleUser() {
+  gapi.load('auth2', initSigninV2);
 }
 
 /**
  * Initializes google authentication API and preforms onload functions.
- * Arg is an optional listener to execute when a new user logs in.
  */
-function initSigninV2(listener) {
+function initSigninV2() {
   auth2 = gapi.auth2.init({
-    client_id : CLIENT_ID
+    client_id : SIGNIN_CLIENT_ID
   });
 
   if (document.getElementById('g-signin-container') != null) {
     fillSigninContainer('g-signin-container');
   }
 
-  if (listener != null) {
-    auth2.currentUser.listen(listener);
+  // functions refs for these events should be assigned according to a pages needs.
+  if (userChanged != undefined) {
+    auth2.currentUser.listen(userChanged);
+  }
+  if (signInChanged != undefined) {
+    auth2.isSignedIn.listen(signInChanged);
   }
 }
 

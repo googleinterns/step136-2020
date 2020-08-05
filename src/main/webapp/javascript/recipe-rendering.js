@@ -1,3 +1,25 @@
+// Set listeners for rendering based on user status.
+// Listener that triggers when a new or different user signs in.
+var userChanged = setIcons;
+
+// Listener that triggers when sign-in status changes (but not when user changes).
+var signInChanged = function(signedIn) {
+  if (!signedIn) {
+    const recipeCards = document.getElementsByClassName("recipe-card");
+    for (let i = 0; i < recipeCards.length; i++) {
+      let recipeCard = recipeCards[i];
+      const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
+      const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
+      // removes the checkmark (nothing happens if the class does not exist)
+      addToCookbookButton.classList.remove("fa-check");
+      addToPlannerButton.classList.remove("fa-check");
+      // adds the plus sign (nothing is added if it already exists)
+      addToCookbookButton.classList.add("fa-plus");
+      addToPlannerButton.classList.add("fa-plus");
+    }
+  }
+}
+
 /**
  * Takes the recipe info of a recipe as a JS object and the div that the recipe
  * card will be added to. Creates only one recipe card. For the method to work,
@@ -161,6 +183,20 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
+
+function setIcons() {
+  const recipeCards = document.getElementsByClassName("recipe-card");
+  for (let i = 0; i < recipeCards.length; i++) {
+    const recipeCard = recipeCards[i];
+    const recipeID = recipeCard.getElementsByClassName("recipe-id")[0].innerText;
+    const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
+    const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
+    
+    setIcon(addToPlannerButton, recipeID, "planner");
+    setIcon(addToCookbookButton, recipeID, "cookbook");
+  }       
+}
+
 /**
  * Sets the icon of the button to a checkmark if already added to list
  * and a plus otherwise
@@ -220,6 +256,18 @@ function manageList(action, id, name, type) {
           params.append("idToken", getIdToken());
           params.append("type", type);
           fetch("/manage-list", {method: "POST", body: params});
+          // finds the button that was clicked using the recipe id
+          let recipeCards = document.getElementsByClassName("recipe-card");
+          for (let i = 0; i < recipeCards.length; i++) {
+            let recipeID = recipeCards[i].getElementsByClassName("recipe-id")[0].innerText;
+            let button = recipeCards[i].getElementsByClassName("add-to-" + type + "-btn")[0];
+            if (recipeID == id) {
+              // makes the icon a checkmark
+              button.classList.remove("fa-plus");
+              button.classList.add("fa-check");
+              break;
+            }
+          }
           if (document.URL.includes("UserPage")) {
             location.reload();
           }
