@@ -14,17 +14,17 @@ public class Users {
    * returns the display name of the user with the provided ID.
    * @param authorID
    */
+  // Not very efficient but works for now.
   public static String getAuthorName(String authorID) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Key userKey = KeyFactory.createKey("User", authorID);
     Entity user;
     try {
-      user = datastore.get(userKey)
-    } catch {
-      System.out.println("Invalid ID");
-      return;
+      user = datastore.get(userKey);
+    } catch(EntityNotFoundException e) {
+      return "Unknown Author";
     }
 
-    return user.getName();
+    return (String) user.getProperty("name");
   }
 }
