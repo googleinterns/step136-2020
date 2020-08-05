@@ -36,8 +36,7 @@ public class UserSettingsServlet extends HttpServlet {
     User user = new User(idToken);
     JsonObject json = new JsonObject();
 
-    String nameInput = (String) request.getParameter("nameInput");
-    nameInput.trim();
+    String nameInput = ((String) request.getParameter("nameInput")).trim();
 
     // No change.
     if (nameInput.equals(user.getName())) {
