@@ -10,7 +10,7 @@
   </head>
   <body>
       <%@ include file="../components/topbar.jsp"%>
-      <div id="settings-content">
+      <div id="content">
         <p>Names are limited to Alphanumeric characters, spaces, dashes and underscores</p>
         <label for="name-input">Display Name: </label>
         <input type="text" name="name-input" id="name-input-field">
