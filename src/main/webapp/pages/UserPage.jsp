@@ -66,7 +66,7 @@
             <input type="file"  accept="image/*" name="image" id="image">
             <br><br>
             <div id="buttons">
-              <button class="modal-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
+              <button type="button" class="modal-btn" onclick="closeModal('new-recipe-modal')">Cancel</button>
               <input class="modal-btn" type="submit" value="Create Recipe">
             </div>
           </form>
