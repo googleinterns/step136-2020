@@ -82,7 +82,7 @@ public class User {
     } catch(EntityNotFoundException e) {
       // Create initial User instance, default name from idToken payload.
       entity = new Entity(userKey);
-      setName((String) payload.get("name"));
+      setName("Anonymous Chef");
     }
   }
 
