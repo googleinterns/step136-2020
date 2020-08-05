@@ -46,7 +46,6 @@ public class User {
       "name" : String,
       "cookbook" : ArrayList<Key)>,    *May contain public or private recipe kind.
       "planner" : ArrayList<Key)>,    *May contain public or private recipe kind.
-      "drafts" : ArrayList<Key>    *May contain private recipe kind.
     }
 
     * Recipe lists maintain the order they were added in.
@@ -110,10 +109,6 @@ public class User {
     return getRecipeListValue("planner");
   }
 
-  public List<Key> getDraftList() {
-    return getRecipeListValue("drafts");
-  }
-
   public void addCookbookKey(Key key) {
     addKey(key, "cookbook");
   }
@@ -122,20 +117,12 @@ public class User {
     addKey(key, "planner");
   }
 
-  public void addDraftKey(Key key) {
-    addKey(key,"drafts");
-  }
-
   public void removeCookbookKey(Key key) {
     removeKey(key, "cookbook");
   }
 
   public void removePlannerKey(Key key) {
     removeKey(key, "planner");
-  }
-
-  public void removeDraftKey(Key key) {
-    removeKey(key, "drafts");
   }
 
   // PUBLIC METHODS END HERE
