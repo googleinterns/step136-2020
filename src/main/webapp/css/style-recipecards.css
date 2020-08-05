@@ -97,8 +97,8 @@
 }
 
 .recipe-card-description {
-  font-size: 15px;
-  margin: 0 0 15px;
+  font-size: 17px;
+  margin: 0 0 10px;
 }
 
 .recipes-container {
@@ -107,19 +107,6 @@
   flex-wrap: wrap;
   min-width: 305px;
   padding: 1vw;
-}
-
-/* adjusts to 4 columns of recipe cards */
-@media screen and (max-width: 1125px) {
-  .recipe-card {
-    width: 30%;
-  }
-  .recipe-card-image {
-    height: 23vw;
-  }
-  .recipe-name {
-    font-size: 2vw;
-  }
 }
 
 /* adjusts to 3 columns of recipe cards */
@@ -133,10 +120,22 @@
   .recipe-name {
     font-size: 2vw;
   }
+  .action-button {
+    font-size: 100%;
+  }
+  .bottom {
+    top: 88%;
+  }
+  .more-left {
+    left: 22%;
+  }
+  .more-right {
+    left: 73%;
+  }
 }
 
 /* adjusts to 2 column of recipe cards */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 825px) {
   .recipe-card {
     margin: 2%;
     width: 44%;
@@ -145,16 +144,22 @@
     height: 34vw;
   }
   .recipe-card-name {
-    font-size: 100%;
+    font-size: 140%;
   }
   .recipe-card-description {
-    font-size: 100%;
+    font-size: 110%;
   }
   .action-button {
-    font-size: 2.3vw;
+    font-size: 2.6vw;
   }
   .icon {
     font-size: 2.7vw;
+  }
+  .more-left {
+    left: 21%;
+  }
+  .more-right {
+    left: 74.5%;
   }
 }
 
@@ -169,10 +174,19 @@
     width: 100%;
   }
   .action-button {
-    font-size: 3vw;
+    font-size: 4vw;
   }
   .icon {
     font-size: 4vw;
+  }
+  .bottom {
+    top: 90%;
+  }
+  .more-left {
+    left: 16%;
+  }
+  .more-right {
+    left: 80%;
   }
 }
 
@@ -188,7 +202,7 @@
     font-size: 22px;
   }
   .recipe-card-description {
-    font-size: 15px;
+    font-size: 17px;
   }
   .action-button {
     font-size: 20px;
