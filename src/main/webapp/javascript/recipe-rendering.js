@@ -97,6 +97,15 @@ async function fillRecipeTemplate() {
   let ingredientSection = document.getElementById("ingredients");
   let stepsSection = document.getElementById("steps");
 
+  const id = recipeInfo["id"];
+  const name = recipeInfo["name"];
+
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
+  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, "planner"));
+
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
+  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, "cookbook"));
+
   addRecipeInfo(recipeInfo, detailsSection);
   imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
   descriptionSection.appendChild(createElement(
