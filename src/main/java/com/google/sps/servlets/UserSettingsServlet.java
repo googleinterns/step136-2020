@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/settings")
 public class UserSettingsServlet extends HttpServlet {
   // This regex checks that user names are alphanumeric and (5 - 25) characters.
-  static final String namePattern = "^[\\w_ -]{5,25}";
+  static final String NAMEPATTERN = "^[\\w_ -]{5,25}";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -43,39 +43,20 @@ public class UserSettingsServlet extends HttpServlet {
       return;
     }
 
-    // Check against regular expression, determine if error message.
-    if (nameInput.matches(namePattern) && !hasRepeatingSpaces(nameInput)) {
+    // Check agains regular expression, check for consecutive spaces, determine return message.
+    if (!nameInput.matches(NAMEPATTERN)) {
+      json.addProperty("success", false);
+      json.addProperty("message", "Invalid character in requested name");
+    } else if (nameInput.contains("  ")) {
+      json.addProperty("success", false);
+      json.addProperty("message", "Consecutive spaces not allowed.");
+    } else {
       user.setName(nameInput);
       json.addProperty("success", true);
       json.addProperty("message", "Display name succesfully changed to: " + nameInput);
-    } else {
-      if (!nameInput.matches(namePattern)) {
-        json.addProperty("message", "Invalid character in requested name");
-      } else if (hasRepeatingSpaces(nameInput)) {
-        json.addProperty("message", "Consecutive spaces not allowed.");
-      } else {
-        json.addProperty("message", "Invalid name input");
-      }
-      json.addProperty("success", false);
     }
 
     response.setContentType("application/json");
     response.getWriter().print(json.toString());
-  }
-
-  boolean hasRepeatingSpaces(String word) {
-    boolean spaceEncountered = false;
-    for (int i = 0; i < word.length(); i++) {
-      if (word.charAt(i) == ' ') {
-        if (spaceEncountered) {
-          return true;
-        } else {
-          spaceEncountered = true;
-        }
-      } else {
-        spaceEncountered = false;
-      }
-    }
-    return false;
   }
 }
