@@ -29,5 +29,7 @@ let postName = function() {
       messageArea.style.color = "red";
     }
     messageArea.innerText = json["message"];
-  }).catch(() => console.log("no change"));
+  }).catch(() => {
+    messageArea.innerText = "";
+  });
 }
