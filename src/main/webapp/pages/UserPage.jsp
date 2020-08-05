@@ -12,7 +12,7 @@
   <body>
     <%@ include file="../components/topbar.jsp"%>
     <div id="content">
-      <h1 class="center">My Recipes</h1>
+      <h1 class="center" id="title">My Recipes</h1>
       <!-- Planner content -->
       <div>
         <div id="header">

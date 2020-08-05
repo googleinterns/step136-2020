@@ -1,8 +1,14 @@
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
 }
 
 #content {
+  background-color: #B6E6F9;
   margin: 0 auto;
   max-width: 1000px;
   min-width: 300px;

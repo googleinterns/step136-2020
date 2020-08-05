@@ -12,7 +12,7 @@
   <body>
       <%@ include file="../components/topbar.jsp"%>
       <div id="content">
-        <div id="main-recipes-container">
+        <div id="main-recipes-container" class="recipes-container">
         </div>
       </div>
       <script>mainPageLoad();</script>

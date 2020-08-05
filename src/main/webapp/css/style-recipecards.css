@@ -105,7 +105,6 @@
 
 .recipes-container {
   background-color: #B6E6F9;
-  border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   min-width: 305px;
