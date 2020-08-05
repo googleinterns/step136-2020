@@ -5,17 +5,17 @@
     <title>Settings</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="../javascript/user-settings.js"></script>
     <%@ include file="../components/GlobalConfig.jsp"%>
+    <script src="../javascript/user-settings.js"></script>
   </head>
   <body>
       <%@ include file="../components/topbar.jsp"%>
-      <div id="content">
-        <form id="user-settings-form">
-          <input id="name-input-field" type="text" name="name-input">
-          <input type="submit" value="Save">
-          <input type="hidden" name="idToken" id="idTokenField">
-        </form>
+      <div id="settings-content">
+        <p>Names are limited to Alphanumeric characters, spaces, dashes and underscores</p>
+        <label for="name-input">Display Name: </label>
+        <input type="text" name="name-input" id="name-input-field">
+        <input type="button" value="Save Changes" onclick="postName();">
+        <p id="name-feedback"></p>
       </div>
   </body>
 </html>

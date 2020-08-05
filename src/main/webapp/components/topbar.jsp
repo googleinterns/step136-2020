@@ -24,6 +24,7 @@
         </div>
         <div class="dropdown-content">
           <a href="UserPage.jsp" id="user-page-anchor"></a>
+          <a href="UserSettings.jsp">Settings</a>
           <a href="#" onclick="signOut()">Sign out</a>
         </div>
       </div>

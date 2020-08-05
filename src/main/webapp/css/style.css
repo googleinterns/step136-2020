@@ -10,6 +10,17 @@ body {
   width: 80%;
 }
 
+#settings-content {
+  background-color: #B6E6F9;
+  border-radius: 10px;
+  font-family: Arial;
+  font-size: medium;
+  margin: auto;
+  max-width: 1000px;
+  padding: 50px;
+  width: 70%;
+}
+
 .center {
   text-align: center;
 }
