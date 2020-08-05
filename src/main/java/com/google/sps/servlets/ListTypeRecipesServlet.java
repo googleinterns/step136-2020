@@ -35,7 +35,7 @@ public class ListTypeRecipesServlet extends HttpServlet {
     try {
       user = new User(idToken);
     } catch (IllegalArgumentException e) {
-       response.sendRedirect("/pages/MainPage.jsp");
+      response.sendRedirect("/pages/MainPage.jsp");
       return;
     }
     String loggedInAuthorID = user.getId();
