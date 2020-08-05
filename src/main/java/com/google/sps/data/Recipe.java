@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+import com.google.sps.util.Users;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class Recipe {
   private ArrayList<String> tags;
   private boolean published;
   private String authorID;
+  private String authorName;
   private String description;
   private String imageBlobKey;
   private String name;
@@ -35,6 +37,7 @@ public class Recipe {
     this.id = id;
     this.name = name;
     this.authorID = authorID;
+    this.authorName = Users.getAuthorName(authorID);
     this.imageBlobKey = imageBlobKey;
     this.tags = tags;
     this.description = description;
