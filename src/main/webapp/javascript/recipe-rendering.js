@@ -195,11 +195,6 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
-function setIconsForTemplate() {
-  
-}
-
-
 function setIcons() {
   if (document.URL.includes("RecipePageTemplate")) {
     const recipeID = (new URL(document.location)).searchParams.get("id");
