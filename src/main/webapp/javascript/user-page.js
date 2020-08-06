@@ -264,6 +264,14 @@ function closeShoppingList() {
 function addShoppingList() {
   fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
     listDiv = document.getElementById("shopping-list");
-    addAsList(shoppingList, listDiv, "Shopping List", false);
+    if (Object.keys(shoppingList).length > 0) {
+      addAsList(shoppingList, listDiv, "Shopping List", false);
+    } else {
+      message = document.createElement("p");
+      message.innerText = "Add to your Planner to start a Shopping List!";
+      message.style.textAlign = "center";
+      message.style.fontSize = "large";
+      listDiv.appendChild(message);
+    }
   })
 }
