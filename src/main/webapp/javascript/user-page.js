@@ -255,8 +255,14 @@ function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
 
+function closeShoppingList() {
+  closeModal("shopping-list-modal");
+  
+}
+
 function addShoppingList() {
   fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
-    console.log(shoppingList);
+    listDiv = document.getElementById("shopping-list-modal");
+    addAsList(shoppingList, listDiv, "Shopping List");
   })
 }

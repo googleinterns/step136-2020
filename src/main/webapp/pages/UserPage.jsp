@@ -16,8 +16,12 @@
       <div>
         <div id="header">
           <h2>Planner</h2>
+          <button type="button" onClick="openModal('shopping-list-modal'); addShoppingList();">Shopping List</button>
         </div>
         <div class="recipes-container" id="planner-recipes">
+        </div>
+        <div class=modal id="shopping-list-modal">
+          <span onclick="closeModal('shopping-list-modal')" class="close">&times;</span>
         </div>
       </div>
       <!-- Cookbook content -->
