@@ -263,6 +263,7 @@ function closeShoppingList() {
   element.appendChild(closer);
 }
 
+// Fetches List of ingredients from planner and writes them inside the shopping list modal.
 function addShoppingList() {
   fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
     listDiv = document.getElementById("shopping-list-modal");
