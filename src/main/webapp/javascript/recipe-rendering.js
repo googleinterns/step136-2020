@@ -96,15 +96,18 @@ async function fillRecipeTemplate() {
   let descriptionSection = document.getElementById("description");
   let ingredientSection = document.getElementById("ingredients");
   let stepsSection = document.getElementById("steps");
+  let buttonsSection = document.getElementById("add-to-list-buttons");
 
-  const id = recipeInfo["id"];
   const name = recipeInfo["name"];
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
-  addToPlannerButton.addEventListener('click', () => manageList("add", id, name, "planner"));
+  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button add-to-planner-btn fas fa-plus"});
+  addToPlannerButton.addEventListener('click', () => manageList("add", recipeId, name, "planner"));
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
-  addToCookbookButton.addEventListener('click', () => manageList("add", id, name, "cookbook"));
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button add-to-cookbook-btn fas fa-plus"});
+  addToCookbookButton.addEventListener('click', () => manageList("add", recipeId, name, "cookbook"));
+
+  let elementsToAddToButtonsSection = [ addToPlannerButton, addToCookbookButton];
+  elementsToAddToButtonsSection.forEach(elem => buttonsSection.appendChild(elem));
 
   addRecipeInfo(recipeInfo, detailsSection);
   imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
@@ -192,6 +195,10 @@ createImage = (name, blobkey) => {
   return imageElement;
 }
 
+function setIconsForTemplate() {
+  
+}
+
 
 function setIcons() {
   const recipeCards = document.getElementsByClassName("recipe-card");
@@ -266,22 +273,37 @@ function manageList(action, id, name, type) {
           params.append("type", type);
           fetch("/manage-list", {method: "POST", body: params});
           // finds the button that was clicked using the recipe id
-          let recipeCards = document.getElementsByClassName("recipe-card");
-          for (let i = 0; i < recipeCards.length; i++) {
-            let recipeID = recipeCards[i].getElementsByClassName("recipe-id")[0].innerText;
-            let button = recipeCards[i].getElementsByClassName("add-to-" + type + "-btn")[0];
-            if (recipeID == id) {
-              // makes the icon a checkmark
-              button.classList.remove("fa-plus");
-              button.classList.add("fa-check");
-              break;
+          if (document.URL.includes("RecipePageTemplate")) {
+            const button = document.getElementsByClassName("add-to-" + type + "-btn")[0];
+            button.classList.remove("fa-plus");
+            button.classList.add("fa-check");
+            console.log(button.classList);
+          } else {
+            changeIconInRecipeCard(id, type);
+            if (document.URL.includes("UserPage")) {
+              location.reload();
             }
-          }
-          if (document.URL.includes("UserPage")) {
-            location.reload();
           }
         }
       }
     });
   });
+}
+
+/** 
+ * Finds the recipe card with the same id as the parameter and changes the 
+ * icon to a checkmark
+ */ 
+function changeIconInRecipeCard(id, type) {
+  let recipeCards = document.getElementsByClassName("recipe-card");
+  for (let i = 0; i < recipeCards.length; i++) {
+    let recipeID = recipeCards[i].getElementsByClassName("recipe-id")[0].innerText;
+    let button = recipeCards[i].getElementsByClassName("add-to-" + type + "-btn")[0];
+    if (recipeID == id) {
+      // makes the icon a checkmark
+      button.classList.remove("fa-plus");
+      button.classList.add("fa-check");
+      break;
+    }
+  }
 }

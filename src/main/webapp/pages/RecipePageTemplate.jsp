@@ -19,6 +19,8 @@
         <div id="image-container">
           <!--The div to hold the image retrieved from the Datastore-->
         </div>
+        <div id="add-to-list-buttons">
+        </div>
         <div id="description">
           <!--The text for the description-->
         </div>
