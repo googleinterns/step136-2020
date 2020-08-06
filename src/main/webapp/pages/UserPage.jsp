@@ -38,7 +38,7 @@
       <div>
         <div id="header">
           <h2>Uploads</h2>
-          <button type="button" onClick="openModal('new-recipe-modal')">Add Recipe</button>
+          <button type="button" onClick="openModal('new-recipe-modal')">Create Recipe</button>
         </div>
         <div class="recipes-container" id="user-recipes">
         </div>
