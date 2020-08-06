@@ -20,8 +20,10 @@
         </div>
         <div class="recipes-container" id="planner-recipes">
         </div>
-        <div class=modal id="shopping-list-modal">
+        <div class="modal" id="shopping-list-modal">
           <span onclick="closeShoppingList();" class="close" id="shopping-closer">&times;</span>
+          <div id="shopping-list" class="recipe-form">
+          </div>
         </div>
       </div>
       <!-- Cookbook content -->

@@ -257,16 +257,13 @@ function closeModal(id) {
 
 function closeShoppingList() {
   closeModal("shopping-list-modal");
-  element = document.getElementById("shopping-list-modal");
-  closer = document.getElementById("shopping-closer");
-  element.innerHTML = "";
-  element.appendChild(closer);
+  document.getElementById("shopping-list").innerHTML = "";
 }
 
-// Fetches List of ingredients from planner and writes them inside the shopping list modal.
+// Fetches list of ingredients from planner and writes them inside the shopping list modal.
 function addShoppingList() {
   fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
-    listDiv = document.getElementById("shopping-list-modal");
+    listDiv = document.getElementById("shopping-list");
     addAsList(shoppingList, listDiv, "Shopping List", false);
   })
 }
