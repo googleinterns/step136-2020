@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.data.User;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/shopping-list")
-public class ShoppinListServlet extends HttpServlet {
+public class ShoppingListServlet extends HttpServlet {
 
   @Override
   @SuppressWarnings("unchecked") // Compiler cannot verify cast to ArrayList
@@ -36,7 +37,7 @@ public class ShoppinListServlet extends HttpServlet {
         ingredients.forEach(ingredient -> shoppingList.add(ingredient));
 
       } catch(EntityNotFoundException e) {
-        System.out.prinln("Ignoring invalid key");
+        System.out.println("Ignoring invalid key");
       }
     });
 

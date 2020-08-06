@@ -254,3 +254,9 @@ function fetchBlobstoreUrl(id) {
 function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
+
+function addShoppingList() {
+  fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
+    console.log(shoppingList);
+  })
+}
