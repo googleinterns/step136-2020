@@ -21,7 +21,7 @@
         <div class="recipes-container" id="planner-recipes">
         </div>
         <div class=modal id="shopping-list-modal">
-          <span onclick="closeModal('shopping-list-modal')" class="close">&times;</span>
+          <span onclick="closeShoppingList();" class="close" id="shopping-closer">&times;</span>
         </div>
       </div>
       <!-- Cookbook content -->

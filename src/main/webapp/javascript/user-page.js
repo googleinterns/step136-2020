@@ -257,12 +257,15 @@ function closeModal(id) {
 
 function closeShoppingList() {
   closeModal("shopping-list-modal");
-  
+  element = document.getElementById("shopping-list-modal");
+  closer = document.getElementById("shopping-closer");
+  element.innerHTML = "";
+  element.appendChild(closer);
 }
 
 function addShoppingList() {
   fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
     listDiv = document.getElementById("shopping-list-modal");
-    addAsList(shoppingList, listDiv, "Shopping List");
+    addAsList(shoppingList, listDiv, "Shopping List", false);
   })
 }
