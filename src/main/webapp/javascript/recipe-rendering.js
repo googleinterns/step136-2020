@@ -125,14 +125,20 @@ addRecipeInfo = (recipeObj, infoDiv) => {
  * Creates the HTML for some part of the recipe which needs to shown as a list
  * (ingredients, steps, etc.) and adds it to the given div.
  * Takes a list and div (not div name) being used.
+ * You may specify ordered or unordered, default is ordered.
  */
-addAsList = (listObj, listDiv, listName) => {
+addAsList = (listObj, listDiv, listName, ordered) => {
+  listType = "ol";
+  if (ordered != null && ordered == false) {
+    listType = "ul";
+  }
+
   // Constructs the base of how all item created in the function will be 
   // named for CSS
   let cssRef = listName.toLowerCase() + "-list";
 
   // Creates the title for the list, and the list element
-  let listForDiv = createElement("ol", "", {"id": cssRef})
+  let listForDiv = createElement(listType, "", {"id": cssRef})
   let listTitle = createElement("h2", listName, {"id": cssRef + "-title"});
   
   // Goes through all the objects in listObj and adds them as items to listForDiv
