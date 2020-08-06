@@ -139,7 +139,7 @@ addAsList = (listObj, listDiv, listName, ordered) => {
 
   // Creates the title for the list, and the list element
   let listForDiv = createElement(listType, "", {"id": cssRef})
-  let listTitle = createElement("h2", listName, {"id": cssRef + "-title"});
+  let listTitle = createElement("h2", listName, {"id": cssRef + "-title", "class": "list-header"});
   
   // Goes through all the objects in listObj and adds them as items to listForDiv
   listObj.forEach(item => listForDiv.appendChild(
