@@ -201,16 +201,25 @@ function setIconsForTemplate() {
 
 
 function setIcons() {
-  const recipeCards = document.getElementsByClassName("recipe-card");
-  for (let i = 0; i < recipeCards.length; i++) {
-    const recipeCard = recipeCards[i];
-    const recipeID = recipeCard.getElementsByClassName("recipe-id")[0].innerText;
-    const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
-    const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
+  if (document.URL.includes("RecipePageTemplate")) {
+    const recipeID = (new URL(document.location)).searchParams.get("id");
+    const addToPlannerButton = document.getElementsByClassName("add-to-planner-btn");
+    const addToCookbookButton = document.getElementsByClassName("add-to-cookbook-btn")[0];
     
     setIcon(addToPlannerButton, recipeID, "planner");
     setIcon(addToCookbookButton, recipeID, "cookbook");
-  }       
+  } else {
+    const recipeCards = document.getElementsByClassName("recipe-card");
+    for (let i = 0; i < recipeCards.length; i++) {
+      const recipeCard = recipeCards[i];
+      const recipeID = recipeCard.getElementsByClassName("recipe-id")[0].innerText;
+      const addToPlannerButton = recipeCard.getElementsByClassName("add-to-planner-btn")[0];
+      const addToCookbookButton = recipeCard.getElementsByClassName("add-to-cookbook-btn")[0];
+    
+      setIcon(addToPlannerButton, recipeID, "planner");
+      setIcon(addToCookbookButton, recipeID, "cookbook");
+    }  
+  }
 }
 
 /**
