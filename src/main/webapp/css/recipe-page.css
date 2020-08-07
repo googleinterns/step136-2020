@@ -13,10 +13,33 @@
   position:relative;
 }
 
+#image-container {
+  width: 50%;
+}
+
+.recipe-image {
+  max-height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
 #description {
   font-size: 20px;
   margin: 0px 15px 5px 10px;
   text-align: justify;
+}
+
+#add-to-list-buttons {
+  display: flex;
+  padding-left: 10px;
+}
+
+.add-to-planner-btn {
+  left: 73%;
+}
+
+.add-to-cookbook-btn {
+  left: 91%;
 }
 
 #recipe-info {
@@ -28,6 +51,7 @@
 
 #recipe-name {
   font-size: 40px;
+  margin: 30px 0 15px;
   position: relative;
   left: 10px;
 }

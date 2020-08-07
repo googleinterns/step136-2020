@@ -18,6 +18,9 @@
           <div id="details">
             <!--Information about the reicipe, such as name, author, likes, tags, etc.-->
           </div>
+          <div id="add-to-list-buttons">
+          </div> 
+          <br>
           <div id="image-description">
             <!--Used to adjust the flex styling of the elements in this div-->
             <div id="image-container">
@@ -25,8 +28,6 @@
             </div>
             <div id="description">
               <!--The text for the description-->
-            </div>
-            <div id="add-to-list-buttons">
             </div>
           </div>
           <div id="ingredients">

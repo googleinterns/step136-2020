@@ -21,8 +21,7 @@
   /* border-radius: 10px; */
 }
 
-.card-button {
-  -ms-transform: translate(-50%, -50%);
+.add-to-list {
   background-color: #555;
   border-color: white;
   border-radius: 5px;
@@ -31,8 +30,12 @@
   color: white;
   cursor: pointer;
   padding: 5px;
-  position: absolute;
   text-align: center;
+}
+
+.card-button {
+  -ms-transform: translate(-50%, -50%);
+  position: absolute;
   transform: translate(-50%, -50%);
 }
 

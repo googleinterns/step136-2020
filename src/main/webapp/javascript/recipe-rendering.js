@@ -37,22 +37,22 @@ createRecipeCard = (divID, recipeInfo) => {
   const id = recipeInfo["id"];
   const name = recipeInfo["name"];
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
+  const addToPlannerButton = createElement("button", " Planner", {"class": "add-to-list card-button action-button bottom more-left add-to-planner-btn fas fa-plus"});
   addToPlannerButton.addEventListener('click', () => manageList("add", id, name, "planner"));
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "add-to-list card-button action-button bottom more-right add-to-cookbook-btn fas fa-plus"});
   addToCookbookButton.addEventListener('click', () => manageList("add", id, name, "cookbook"));
 
-  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
+  const removeFromPlannerButton = createElement("button", " Planner ", {"class": "add-to-list card-button action-button bottom more-left fa fa-remove remove-from-planner-btn"});
   removeFromPlannerButton.addEventListener('click', () => manageList("remove", id, name, "planner"));
   removeFromPlannerButton.style.display = "none";
 
-  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "card-button action-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
+  const removeFromToCookbookButton = createElement("button", " Cookbook ", {"class": "add-to-list card-button action-button bottom more-right fa fa-remove remove-from-cookbook-btn"});
   removeFromToCookbookButton.addEventListener('click', () => manageList("remove", id, name, "cookbook"));
   removeFromToCookbookButton.style.display = "none";
 
   let elementsToAddToImageDiv = [ 
-    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]), 
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey", "recipe-card-image"]), 
     addToPlannerButton, addToCookbookButton, removeFromPlannerButton, removeFromToCookbookButton,
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
@@ -101,17 +101,17 @@ async function fillRecipeTemplate() {
 
   const name = recipeInfo["name"];
 
-  const addToPlannerButton = createElement("button", " Planner", {"class": "card-button action-button add-to-planner-btn fas fa-plus"});
+  const addToPlannerButton = createElement("button", " Planner", {"class": "add-to-list add-to-planner-btn fas fa-plus"});
   addToPlannerButton.addEventListener('click', () => manageList("add", recipeId, name, "planner"));
 
-  const addToCookbookButton = createElement("button", " Cookbook", {"class": "card-button action-button add-to-cookbook-btn fas fa-plus"});
+  const addToCookbookButton = createElement("button", " Cookbook", {"class": "add-to-list add-to-cookbook-btn fas fa-plus"});
   addToCookbookButton.addEventListener('click', () => manageList("add", recipeId, name, "cookbook"));
 
   let elementsToAddToButtonsSection = [ addToPlannerButton, addToCookbookButton];
   elementsToAddToButtonsSection.forEach(elem => buttonsSection.appendChild(elem));
 
   addRecipeInfo(recipeInfo, detailsSection);
-  imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
+  imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"], "recipe-image"));
   descriptionSection.appendChild(createElement(
       "p", recipeInfo["description"], {"id": "description-text"}));
   addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients", false);
@@ -193,10 +193,10 @@ createElement = (htmlTag, object = "", tagOptions = {}) => {
  * Takes two objects which represent the name and the blobkey
  * Returns the reference to the constructed image element. 
  */
-createImage = (name, blobkey) => {
+createImage = (name, blobkey, classes) => {
   let imageElement = document.createElement('img');
   imageElement.alt = name + " image";
-  imageElement.className = "recipe-card-image";
+  imageElement.className =  classes;
   imageElement.src = "/serve?blobkey="+blobkey;
   return imageElement;
 }
