@@ -76,6 +76,7 @@ createRecipeCard = (divID, recipeInfo) => {
  */
 function redirectRecipePage(id) {
   window.location.assign("/pages/RecipePageTemplate.jsp?id=" + id.toString());
+  
 }
 
 /**
@@ -113,8 +114,8 @@ async function fillRecipeTemplate() {
   imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
   descriptionSection.appendChild(createElement(
       "p", recipeInfo["description"], {"id": "description-text"}));
-  addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients");
-  addAsList(recipeInfo["steps"], stepsSection, "Steps");
+  addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients", false);
+  addAsList(recipeInfo["steps"], stepsSection, "Steps", true);
 }
 
 /**
@@ -138,14 +139,19 @@ addRecipeInfo = (recipeObj, infoDiv) => {
  * (ingredients, steps, etc.) and adds it to the given div.
  * Takes a list and div (not div name) being used.
  */
-addAsList = (listObj, listDiv, listName) => {
+addAsList = (listObj, listDiv, listName, ordered) => {
+  let listType = "ol";
+  if (ordered !== null && ordered === false) {
+    listType = "ul";
+  }
+
   // Constructs the base of how all item created in the function will be 
   // named for CSS
   let cssRef = listName.toLowerCase() + "-list";
 
   // Creates the title for the list, and the list element
-  let listForDiv = createElement("ol", "", {"id": cssRef})
-  let listTitle = createElement("h2", listName, {"id": cssRef + "-title"});
+  let listForDiv = createElement(listType, "", {"id": cssRef})
+  let listTitle = createElement("h2", listName, {"id": cssRef + "-title", "class": "list-header"});
   
   // Goes through all the objects in listObj and adds them as items to listForDiv
   listObj.forEach(item => listForDiv.appendChild(
