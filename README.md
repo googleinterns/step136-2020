@@ -1,3 +1,3 @@
-# STEP Capstone Project
+# Simpler Meals
 
-This repo contains our Capstone project.
+Meals made simpler.
