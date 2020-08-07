@@ -1,0 +1,33 @@
+.list-header {
+  border-bottom: 5px solid #5386A2;
+  border-radius: 5px;
+  left: 10px;
+  position: relative;
+  width: min-content;
+}
+
+#image-description {
+  align-items: flex-start;
+  display: flex;
+  left: 10px;
+  position:relative;
+}
+
+#description {
+  font-size: 20px;
+  margin: 0 15px 5px 10px;
+  text-align: justify;
+}
+
+#recipe-info {
+  background-color: #ffffff;
+  border-color: #195e83ab;
+  border-radius: 10px;
+  border-style: solid;
+}
+
+#recipe-name {
+  font-size: 40px;
+  left: 10px;
+  position: relative;
+}
