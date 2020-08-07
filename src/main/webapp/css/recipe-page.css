@@ -15,7 +15,7 @@
 
 #description {
   font-size: 20px;
-  margin: 0px 15px 5px 10px;
+  margin: 0 15px 5px 10px;
   text-align: justify;
 }
 
@@ -28,6 +28,6 @@
 
 #recipe-name {
   font-size: 40px;
-  position: relative;
   left: 10px;
+  position: relative;
 }
