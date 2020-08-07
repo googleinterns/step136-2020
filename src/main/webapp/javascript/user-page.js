@@ -254,3 +254,24 @@ function fetchBlobstoreUrl(id) {
 function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
+
+function closeShoppingList() {
+  closeModal("shopping-list-modal");
+  document.getElementById("shopping-list").innerHTML = "";
+}
+
+// Fetches list of ingredients from planner and writes them inside the shopping list modal.
+function addShoppingList() {
+  fetch("/shopping-list?idToken=" + getIdToken()).then(response => response.json()).then(shoppingList => {
+    listDiv = document.getElementById("shopping-list");
+    if (Object.keys(shoppingList).length > 0) {
+      addAsList(shoppingList, listDiv, "Shopping List", false);
+    } else {
+      message = document.createElement("p");
+      message.innerText = "Add to your Planner to start a Shopping List!";
+      message.style.textAlign = "center";
+      message.style.fontSize = "large";
+      listDiv.appendChild(message);
+    }
+  })
+}
