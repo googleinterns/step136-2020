@@ -76,7 +76,6 @@ createRecipeCard = (divID, recipeInfo) => {
  */
 function redirectRecipePage(id) {
   window.location.assign("/pages/RecipePageTemplate.jsp?id=" + id.toString());
-  
 }
 
 /**
