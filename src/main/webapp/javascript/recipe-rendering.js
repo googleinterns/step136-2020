@@ -101,8 +101,8 @@ async function fillRecipeTemplate() {
   imageSection.appendChild(createImage(recipeInfo["name"], recipeInfo["imageBlobKey"]));
   descriptionSection.appendChild(createElement(
       "p", recipeInfo["description"], {"id": "description-text"}));
-  addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients");
-  addAsList(recipeInfo["steps"], stepsSection, "Steps");
+  addAsList(recipeInfo["ingredients"], ingredientSection, "Ingredients", false);
+  addAsList(recipeInfo["steps"], stepsSection, "Steps", true);
 }
 
 /**
@@ -128,8 +128,8 @@ addRecipeInfo = (recipeObj, infoDiv) => {
  * You may specify ordered or unordered, default is ordered.
  */
 addAsList = (listObj, listDiv, listName, ordered) => {
-  listType = "ol";
-  if (ordered != null && ordered == false) {
+  let listType = "ol";
+  if (ordered !== null && ordered === false) {
     listType = "ul";
   }
 
