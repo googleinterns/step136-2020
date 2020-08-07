@@ -52,7 +52,7 @@ createRecipeCard = (divID, recipeInfo) => {
   removeFromToCookbookButton.style.display = "none";
 
   let elementsToAddToImageDiv = [ 
-    createImage(recipeInfo["name"], recipeInfo["imageBlobKey", "recipe-card-image"]), 
+    createImage(recipeInfo["name"], recipeInfo["imageBlobKey"], "recipe-card-image"), 
     addToPlannerButton, addToCookbookButton, removeFromPlannerButton, removeFromToCookbookButton,
   ];
   elementsToAddToImageDiv.forEach(elem => imageDiv.appendChild(elem));
